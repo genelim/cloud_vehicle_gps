@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/genelim/could_vehicle_gps.git"
+    "url": "git+https://github.com/genelim/cloud_vehicle_gps.git"
   },
   "keywords": [
     "cloud",
@@ -17,6 +17,7 @@
   "author": "Gene Lim",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/genelim/could_vehicle_gps/issues"
-  }
+    "url": "https://github.com/genelim/cloud_vehicle_gps/issues"
+  },
+  "homepage": "https://github.com/genelim/cloud_vehicle_gps#readme"
 }

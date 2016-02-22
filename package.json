@@ -19,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/genelim/cloud_vehicle_gps/issues"
   },
-  "homepage": "https://github.com/genelim/cloud_vehicle_gps#readme"
+  "homepage": "https://github.com/genelim/cloud_vehicle_gps#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.4"
+  }
 }

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta  http-equiv="content-type" content="text/html;" charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/libs/materialize/dist/css/materialize.min.css"></link>
+        <link rel="stylesheet" href="/libs/components-font-awesome/css/font-awesome.min.css"></link>
+        <link rel="stylesheet" href="/assets/css/style.css">
+        <title>Could Vehicle</title>
+        <base href="/">
+    </head>
+    <body ng-app="app">
+        <div class="navbar-fixed">
+            <nav style=' height: 44px; line-height: 44px;' class="blue-grey darken-3 adjust-sidenav">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo">Logo</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="/">Tess</a></li>
+                        <li><a href="/">Test</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <div ui-view></div>
+
+        <script src="libs/angular/angular.min.js"></script>
+        <script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="libs/jquery/dist/jquery.min.js"></script>
+        <script src="libs/materialize/dist/js/materialize.min.js"></script>
+    	<script src="app/app.module.js"></script>
+        <script src="app/app.config.js"></script>
+        <script src="app/home/home.js"></script>
+        <script src="app/admin/home.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
+    </body>
+</html>

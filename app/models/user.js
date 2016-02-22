@@ -1,7 +1,7 @@
 //Database schema for user details
 module.exports = function (connection) {
-  	var mongoose = require('mongoose'),
-        bcrypt = require('bcrypt-nodejs');
+  	var mongoose    = require('mongoose'),
+        bcrypt      = require('bcrypt-nodejs');
     
     var contact = new mongoose.Schema({
         telephone       : Number,
@@ -14,7 +14,7 @@ module.exports = function (connection) {
         postcode: String,
         city: String,
         state: String,        
-        country: String,        
+        country: String 
     });
     
   	var user = new mongoose.Schema({

@@ -3,11 +3,94 @@
         <div class="nav-wrapper">
             <a href="/dashboard" class="brand-logo">Logo</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/">Tess</a></li>
-                <li><a href="/">Test</a></li>
+                <li><a href="">Vehicle tracking</a></li>
+                <li><a class="dropdown-button" href="#settingdown">Setting</a></li>
+                <li><a class="dropdown-button" href="#reportdown">Report</a></li>
+                <li><a href="/">Logout</a></li>
             </ul>
         </div>
     </nav>
 </div>
 
-Dashboard
+Dashboard (car list)
+<div class="row">
+    <div class="col s12 m12 l12">
+        <table>
+            <thead class="center">
+            <tr><th data-field="">Select</th>
+                <th data-field="plate_number">Plate No</th>
+                <th data-field="driver_name">Driver Name</th>
+                <th data-field="group_name">Group Name</th>
+                <th data-field="millage">Today Millage</th>
+                <th data-field="speed">Speed</th>
+                <th data-field="fuel">Fuel</th>
+                <th data-field="Ignition">Ignition</th>
+                <th data-field="current_location">Current Location</th></tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="checkbox" class="active" id="user_checkbox" /><label for="user_checkbox"></label></td>
+                <td><i class="fa fa-truck" style="padding-right:2%"></i>PLK 4581</td>
+                <td>Gene Lim</td>
+                <td>KDU Group</td>
+                <td>250km</td>
+                <td>80km/h</td>
+                <td>485/48%</td>
+                <td>ON</td>
+                <td>SPICE Arena, Bayan Lepas, Pulau Pinang</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" id="user_checkbox" /><label for="user_checkbox"></label></td>
+                <td><i class="fa fa-car" style="padding-right:2%"></i>PHN 1229</td>
+                <td>Dennis Lee</td>
+                <td>Penang Group</td>
+                <td>0km</td>
+                <td>0km/h</td>
+                <td>670/67%</td>
+                <td>OFF</td>
+                <td>67, Lorong Kinta, 10400, Georgetown, Pulau Pinang</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="page-footer" style="width:100%;background-color:darkslategrey">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <table>
+                <tr>
+                    <td style="color:white">Plate NO: <b style="color:yellow">PLK 4581</b></td>
+                    <td style="color:white">System NO: <b style="color:yellow">0123456789</b></td>
+                    <td style="color:white">Ignition: <b style="color:yellow">ON</b></td>
+                    <td style="color:white">Today Millage: <b style="color:yellow">250km</b></td>
+                    <td style="color:white">Speed: <b style="color:yellow">80km/h</b></td>
+                    <td style="color:white">Fuel: <b style="color:yellow">485L/48%</b></td>
+                </tr>
+                <tr>
+                    <td style="color:white">Level value:27.466V</td>
+                    <td style="color:white">Teperature: <b style="color:yellow">80℃</b></td>
+                    <td style="color:white">Location: <b style="color:yellow">SPICE Arena, Bayan Leaps, Pulau Pinang</b></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</footer>
+
+<!--
+    All downdown-content needed to initialize
+    $(".dropdown-button").dropdown();
+-->
+<ul id="reportdown" class="dropdown-content">
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+</ul>
+
+<ul id="settingdown" class="dropdown-content">
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">three</a></li>
+</ul>

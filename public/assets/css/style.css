@@ -5,4 +5,66 @@
 
 .admin_side_nav{
 	margin-top: 108px;
+    height: calc(100% - 108px);
+}
+
+section::-webkit-scrollbar 
+{
+   width: 8px;
+}
+section::-webkit-scrollbar-track 
+{
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   border-radius:10px;
+}
+section::-webkit-scrollbar-thumb
+{
+   background-color: #BAE5F3;
+   border-radius:10px;
+}
+
+nav::-webkit-scrollbar 
+{
+   width: 8px;
+}
+nav::-webkit-scrollbar-track 
+{
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   border-radius:10px;
+}
+nav::-webkit-scrollbar-thumb
+{
+   background-color: #BAE5F3;
+   border-radius:10px;
+}
+
+
+html::-webkit-scrollbar 
+{
+   width: 8px;
+}
+html::-webkit-scrollbar-track 
+{
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   border-radius:10px;
+}
+html::-webkit-scrollbar-thumb
+{
+   background-color: #BAE5F3;
+   border-radius:10px;
+}
+
+ul::-webkit-scrollbar 
+{
+   width: 8px;
+}
+ul::-webkit-scrollbar-track 
+{
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   border-radius:10px;
+}
+ul::-webkit-scrollbar-thumb
+{
+   background-color: #BAE5F3;
+   border-radius:10px;
 }

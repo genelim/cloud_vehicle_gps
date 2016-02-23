@@ -28,11 +28,12 @@ function config($urlRouterProvider,$stateProvider,$locationProvider) {
         url:'/vehicle_tracking',
         templateUrl: 'app/dashboard/vehicle_tracking.html',
     })
+
     .state('dashboard.settings', {
         url:'/settings',
         templateUrl: 'app/setting/home.html',
         controller: 'SettingsController',
-        controllerAs: 'vm',
+        controllerAs: 'vm'
     })
     .state('dashboard.settings.message_to_device', {
         url:'/message_to_device',
@@ -106,15 +107,91 @@ function config($urlRouterProvider,$stateProvider,$locationProvider) {
         templateUrl: "app/setting/bay_information.html"
     })
 
-
-
-
-
-
-
     .state('dashboard.reports', {
         url:'/reports',
         templateUrl: 'app/report/home.html',
+        controller: 'ReportsController',
+        controllerAs: 'vm',
+    })
+    .state('dashboard.reports.history_playback', {
+        url:'/history_playback',
+        templateUrl: "app/report/history_playback.html"
+    })
+    .state('dashboard.reports.gprs_flow', {
+        url:'/gprs_flow',
+        templateUrl: "app/report/gprs_flow.html"
+    })
+    .state('dashboard.reports.operation_log', {
+        url:'/operation_log',
+        templateUrl: "app/report/operation_log.html"
+    })
+    .state('dashboard.reports.find_photo', {
+        url:'/find_photo',
+        templateUrl: "app/report/find_photo.html"
+    })
+    .state('dashboard.reports.alarm_records', {
+        url:'/alarm_records',
+        templateUrl: "app/report/alarm_records.html"
+    })
+    .state('dashboard.reports.alarm_frequency', {
+        url:'/alarm_frequency',
+        templateUrl: "app/report/alarm_frequency.html"
+    })
+    .state('dashboard.reports.driving_records', {
+        url:'/driving_records',
+        templateUrl: "app/report/driving_records.html"
+    })
+    .state('dashboard.reports.vehicle_mileage', {
+        url:'/vehicle_mileage',
+        templateUrl: "app/report/vehicle_mileage.html"
+    })
+    .state('dashboard.reports.fuel_consumption', {
+        url:'/fuel_consumption',
+        templateUrl: "app/report/fuel_consumption.html"
+    })
+    .state('dashboard.reports.parking', {
+        url:'/parking',
+        templateUrl: "app/report/parking.html"
+    })
+    .state('dashboard.reports.status', {
+        url:'/status',
+        templateUrl: "app/report/status.html"
+    })
+    .state('dashboard.reports.geo_fence_alarm', {
+        url:'/geo_fence_alarm',
+        templateUrl: "app/report/geo_fence_alarm.html"
+    })
+    .state('dashboard.reports.geo_fence_statistic', {
+        url:'/geo_fence_statistic',
+        templateUrl: "app/report/geo_fence_statistic.html"
+    })
+    .state('dashboard.reports.temperature_graph', {
+        url:'/temperature_graph',
+        templateUrl: "app/report/temperature_graph.html"
+    })
+    .state('dashboard.reports.temperature_report', {
+        url:'/temperature_report',
+        templateUrl: "app/report/temperature_report.html"
+    })
+    .state('dashboard.reports.trip_event', {
+        url:'/trip_event',
+        templateUrl: "app/report/trip_event.html"
+    })
+    .state('dashboard.reports.running_trip', {
+        url:'/running_trip',
+        templateUrl: "app/report/running_trip.html"
+    })
+    .state('dashboard.reports.rf_data', {
+        url:'/rf_data',
+        templateUrl: "app/report/rf_data.html"
+    })
+    .state('dashboard.reports.idle', {
+        url:'/idle',
+        templateUrl: "app/report/idle.html"
+    })
+    .state('dashboard.reports.fuel_management', {
+        url:'/fuel_management',
+        templateUrl: "app/report/fuel_management.html"
     })
 
     $locationProvider.html5Mode({

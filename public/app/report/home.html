@@ -1,0 +1,34 @@
+<div class="admin">
+    <ul id="slide-out" class="side-nav fixed admin_side_nav">
+        <li><a ui-sref=".history_playback">History Playback</a></li>
+        <li><a ui-sref=".gprs_flow">Check GPRS Flow</a></li>
+        <li><a ui-sref=".operation_log">Check Operation Log</a></li>
+        <li><a ui-sref=".find_photo">Find Photo</a></li>
+        <li><a ui-sref=".alarm_records">Alarm Records</a></li>
+        <li><a ui-sref=".alarm_frequency">Alarm Frequency</a></li>
+        <li><a ui-sref=".driving_records">Driving Records</a></li>
+        <li><a ui-sref=".vehicle_mileage">Vehicle Mileage</a></li>
+        <li><a ui-sref=".fuel_consumption">Fuel Consumption</a></li>
+        <li><a ui-sref=".parking">Parking</a></li>
+        <li><a ui-sref=".status">Status</a></li>
+        <li><a class="dropdown-button"  data-activates="geofence">GEO Fence</a></li>
+        <li><a ui-sref=".trip_event">Trip Event</a></li>
+        <li><a ui-sref=".running_trip">Running Trip</a></li>
+        <li><a class="dropdown-button"  data-activates="temperature">Temperature</a></li>
+        <li><a ui-sref=".rf_data">RF Data</a></li>
+        <li><a ui-sref=".idle">Idle</a></li>
+        <li><a ui-sref=".fuel_management">Fuel Management</a></li>
+    </ul>
+    <div ui-view></div>
+</div>
+
+<ul id="temperature" class="dropdown-content">
+    <li><a ui-sref=".temperature_graph">Temperature Graph</a></li>
+    <li><a ui-sref=".temperature_report">Temperature Report</a></li>
+</ul>
+
+<ul id="geofence" class="dropdown-content">
+    <li><a ui-sref=".geo_fence_alarm">GEO-Fence Alarm</a></li>
+    <li><a ui-sref=".geo_fence_statistic">GEO-Fence Statistic</a></li>
+</ul>
+

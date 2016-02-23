@@ -1,0 +1,30 @@
+<div class="admin">
+    <ul id="slide-out" class="side-nav fixed admin_side_nav">
+        <li><a ui-sref=".message_to_device">Message to Device</a></li>
+        <li><a ui-sref=".peripheral_settings">Peripheral</a></li>
+        <li><a ui-sref=".interval">Interval</a></li>
+        <li><a ui-sref=".timezone">Timezone</a></li>
+        <li><a ui-sref=".speed_threshold">Set Speed Threshold</a></li>
+        <li><a class="dropdown-button" data-activates="alarm">Alarm</a></li>
+        <li><a ui-sref=".fatugue_driving_time">Fatigue driving time</a></li>
+        <li><a ui-sref=".autophotograph">Autophotograph</a></li>
+        <li><a class="dropdown-button"  data-activates="sms">SMS</a></li>
+        <li><a ui-sref=".geo_fence">Geo Fence</a></li>
+        <li><a ui-sref=".bay_information">Bay Information</a></li>
+    </ul>
+    <div ui-view></div>
+</div>
+
+<ul id="alarm" class="dropdown-content">
+    <li><a ui-sref=".parking">Parking Alarm</a></li>
+    <li><a ui-sref=".idle">Idle Alarm</a></li>
+    <li><a ui-sref=".temperature">Temperature Alarm</a></li>
+    <li><a ui-sref=".yaw_setting">YAW Alarm setting</a></li>
+    <li><a ui-sref=".yaw_management">YAW Alarm management</a></li>
+</ul>
+
+<ul id="sms" class="dropdown-content">
+    <li><a ui-sref=".sms_altering">SMS Altering</a></li>
+    <li><a ui-sref=".sms_service_number">Set SMS Service Number</a></li>
+</ul>
+

@@ -10,7 +10,22 @@
         <base href="/">
     </head>
     <body ng-app="app">
-        
+        <ul id="user_setting" class="dropdown-content">
+            <li><a href="">Edit Profile</a></li>
+            <li><a href="">Change Password</a></li>
+        </ul>
+        <div class="navbar-fixed" style="z-index: 999;">
+            <nav class="white">
+                <div class="nav-wrapper container">
+                    <a href="/dashboard" class="brand-logo blue-text darken-2">Logo</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">Gene Lim <i class="fa fa-arrow-down right"></i></a></li>
+                        <li><a href="" class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Lock"><i class="fa fa-lock"></i></a></li>
+                        <li><a href="/" class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Logout"><i class="fa fa-sign-out"></i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
         <div ui-view></div>
 
         <script src="libs/angular/angular.min.js"></script>
@@ -20,6 +35,8 @@
     	<script src="app/app.module.js"></script>
         <script src="app/app.config.js"></script>
         <script src="app/home/home.js"></script>
+        <script src="app/setting/home.js"></script>
+        <script src="assets/js/script.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
     </body>
 </html>

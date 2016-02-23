@@ -68,3 +68,32 @@ ul::-webkit-scrollbar-thumb
    background-color: #BAE5F3;
    border-radius:10px;
 }
+
+.headerrow{
+	font-size:250%;
+	position:relative;
+	top:-25px;
+}
+
+.portlet-title {
+	padding: 0;
+	min-height: 48px;
+}
+
+.truckdropdown{
+	position: relative;
+	top: -25px;
+	left: 15px;
+}
+
+.resize {
+	resize: none;
+	height: 400px;
+	width: 100%;
+}
+
+.alarmswitch{
+	font-size:120%;
+	padding-bottom:5%;
+>>>>>>> Stashed changes
+}

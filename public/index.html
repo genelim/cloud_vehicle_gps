@@ -11,8 +11,8 @@
     </head>
     <body ng-app="app" ng-controller="NavigationController as vm">
         <ul id="user_setting" class="dropdown-content">
-            <li><a href="">Edit Profile</a></li>
-            <li><a href="">Change Password</a></li>
+            <li><a ui-sref="dashboard.user_profile">Edit Profile</a></li>
+            <li><a ui-sref="dashboard.user_change_password">Change Password</a></li>
         </ul>
         <div class="navbar-fixed" style="z-index: 999;">
             <nav class="white">

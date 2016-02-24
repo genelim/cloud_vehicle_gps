@@ -100,6 +100,8 @@ ul::-webkit-scrollbar-thumb
 	font-size:250%;
 	position:relative;
 	top:-25px;
+    text-align: center;
+    font-weight: bold;
 }
 
 .portlet-title {

@@ -9,12 +9,6 @@ exports.get_user = function (req, res) {
 };
 
 exports.save_user = function (req, res) {
-	// req.login(req.user, function(err){
-	// 	if(err){
-	// 		res.json({response: 'Server Error'})
-	// 	}
-        // res.json(req.user);
-	// })
     User.findOne({ 'username' :  req.body.username }, function(err, user) {
         if (err)
             res.json({response: 'Server Error'});
@@ -41,7 +35,6 @@ exports.save_user = function (req, res) {
 };
 
 exports.login_user = function (req, res) {
-    console.log(req.user)
 	res.json(req.user)
 };
 

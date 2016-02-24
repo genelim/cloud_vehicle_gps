@@ -229,24 +229,17 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     .state('admin', {
         url:'/admin',
         templateUrl: "app/admin/home.html",
-        // resolve: {
-        //     loggedin : function($rootScope, $state, $timeout){    
-        //         console.log($rootScope.user)        
-        //         if($rootScope.user){
-        //             if($rootScope.user.response.role.indexOf(1) > -1){
-        //                 console.log('dd')
-        //                 return true;
-        //             }
-        //         }else{
-        //             $state.go('home');
-        //         }
-        //     }
-        // }
     })
     .state('admin.users', {
         url:'/users',
         templateUrl: "app/admin/users.html",
         controller: 'AdminUserController',
+        controllerAs: 'vm'
+    })
+    .state('admin.location', {
+        url:'/location',
+        templateUrl: "app/admin/location.html",
+        controller: 'AdminLocationController',
         controllerAs: 'vm'
     })
 

@@ -1,0 +1,16 @@
+<div id="map" style="width: calc(100% - 240px); height: 100%; position:absolute"></div> 
+
+<div id="add_marker_modal" class="modal bottom-sheet">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="name" type="text" ng-model="vm.marker.name">
+                <label for="name">Name</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="vm.add_marker()">Add</a>
+    </div>
+</div>

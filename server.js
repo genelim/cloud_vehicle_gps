@@ -5,6 +5,7 @@ var express = require('express'),
 	cookieParser = require('cookie-parser'),
 	session = require('express-session'),
     vehicle = require('./app/routes/vehicle'),
+    location = require('./app/routes/location'),
     user = require('./app/routes/user'),
     port = process.env.PORT || 90;
 
@@ -26,6 +27,9 @@ app.post('/api/user_login', passport.authenticate('local-login'), user.login_use
 app.post('/api/user_register', user.save_user);
 app.get('/api/loggedin', user.check_login);
 app.post('/api/logout', user.user_logout);
+
+app.get('/api/location', location.get);
+app.post('/api/location', location.add);
 
 app.all('/*', function(req, res, next) {
     res.sendFile('/public/index.html', { root: __dirname });

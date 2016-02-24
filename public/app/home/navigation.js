@@ -17,6 +17,7 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
     function logout(){
     	$http.post('/api/logout').success(function(result){
     		if(result === 'OK'){
+                $('.tooltipped').tooltip('remove');
     			$state.go('home');
                 $rootScope.user = null;
     		}else{

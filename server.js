@@ -23,7 +23,7 @@ app.get('/api/vehicle', vehicle.get_vehicle);
 
 app.get('/api/user', user.get_user);
 app.post('/api/user_login', passport.authenticate('local-login'), user.login_user);
-app.post('/api/user_register', passport.authenticate('local-register'), user.save_user);
+app.post('/api/user_register', user.save_user);
 app.get('/api/loggedin', user.check_login);
 app.post('/api/logout', user.user_logout);
 

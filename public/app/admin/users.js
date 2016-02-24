@@ -13,6 +13,8 @@ function AdminUserController($http, User){
     angular.element(document).ready(function () {
         $('.modal-trigger').leanModal();
         get_users();
+        $('.dropdown-button').dropdown();
+        $('.tooltipped').tooltip({delay: 50});
     });
     
     function register(){

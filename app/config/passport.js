@@ -36,37 +36,37 @@ module.exports = function(passport) {
     }));
 
     //User registration authentication
-    passport.use('local-register', new LocalStrategy({
-        usernameField : 'username',
-        passwordField : 'password',
-        passReqToCallback : true
-    },
-    function(req, username, password, done) {
-        process.nextTick(function() {
+    // passport.use('local-register', new LocalStrategy({
+    //     usernameField : 'username',
+    //     passwordField : 'password',
+    //     passReqToCallback : true
+    // },
+    // function(req, username, password, done) {
+    //     process.nextTick(function() {
 
-	        User.findOne({ 'username' :  username }, function(err, user) {
-	            if (err)
-	                return done(null, {response: 'Server Error'});
+	//         User.findOne({ 'username' :  username }, function(err, user) {
+	//             if (err)
+	//                 return done(null, {response: 'Server Error'});
 
-                //Email taken
-	            if (user) {
-	                return done(null, {response: 'The username is already taken!'});
-	            } else {
-	                var new_user = new User();
-                    new_user.email    = req.body.email;
-	                new_user.username = username;
-	                new_user.password = new_user.generateHash(password);
-	                new_user.role.push(req.body.role);
-	                new_user.note = req.body.note;
+    //             //Email taken
+	//             if (user) {
+	//                 return done(null, {response: 'The username is already taken!'});
+	//             } else {
+	//                 var new_user = new User();
+    //                 new_user.email    = req.body.email;
+	//                 new_user.username = username;
+	//                 new_user.password = new_user.generateHash(password);
+	//                 new_user.role.push(req.body.role);
+	//                 new_user.note = req.body.note;
                     
-	                new_user.save(function(err, new_user) {
-	                    if (err)
-                            return done(null, {response: 'Server Error'}); 
+	//                 new_user.save(function(err, new_user) {
+	//                     if (err)
+    //                         return done(null, {response: 'Server Error'}); 
                             
-                        return done(null, {response: new_user});
-	                });
-	            }
-	        });  
-        });
-    }));
+    //                     return done(null, {response: new_user});
+	//                 });
+	//             }
+	//         });  
+    //     });
+    // }));
 };

@@ -29,7 +29,13 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         controller: 'DashboardController',
         controllerAs: 'vm',
         resolve: {
-            // loggedin : check_login
+            loggedin : function($rootScope, $state){                
+                if($rootScope.user){
+                    return true;
+                }else{
+                    $state.go('home');
+                }
+            }
         }
     })
     .state('dashboard.home', {

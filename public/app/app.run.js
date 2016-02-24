@@ -7,7 +7,7 @@ runBlock.$inject = ['$rootScope', 'Auth'];
 function runBlock($rootScope, Auth){ 
     $rootScope.user = null; 
     Auth.then(function(data){
-                console.log('3')
+                console.log(data)
 
         if(data === '0'){
             $rootScope.user = null;

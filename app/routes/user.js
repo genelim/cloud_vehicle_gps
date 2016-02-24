@@ -21,3 +21,12 @@ exports.login_user = function (req, res) {
     console.log(req.user)
 	res.json(req.user)
 };
+
+exports.check_login = function (req, res) {
+    res.send(req.isAuthenticated() ? req.user : '0');
+};
+
+exports.user_logout = function(req, res){
+	req.logOut();
+	res.sendStatus(200);
+};

@@ -9,7 +9,7 @@
         <title>Could Vehicle</title>
         <base href="/">
     </head>
-    <body ng-app="app">
+    <body ng-app="app" ng-controller="NavigationController as vm">
         <ul id="user_setting" class="dropdown-content">
             <li><a href="">Edit Profile</a></li>
             <li><a href="">Change Password</a></li>
@@ -18,10 +18,11 @@
             <nav class="white">
                 <div class="nav-wrapper container">
                     <a href="/dashboard" class="brand-logo blue-text darken-2">Logo</a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">Gene Lim <i class="fa fa-arrow-down right"></i></a></li>
+                    <ul class="right hide-on-med-and-down" ng-if="user">
+                        <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">{{user.response.username}}<i class="fa fa-arrow-down right"></i></a></li>
+                        <li ng-if="user.response.role.indexOf(1) > -1"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
                         <li><a href="" class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Lock"><i class="fa fa-lock"></i></a></li>
-                        <li><a href="/" class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Logout"><i class="fa fa-sign-out"></i></a></li>
+                        <li><a class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Logout" ng-click="vm.logout()"><i class="fa fa-sign-out"></i></a></li>
                     </ul>
                 </div>
             </nav>
@@ -35,11 +36,14 @@
         <script src="libs/materialize/dist/js/materialize.min.js"></script>
     	<script src="app/app.module.js"></script>
         <script src="app/app.config.js"></script>
+        <script src="app/app.run.js"></script>
         <script src="app/home/home.js"></script>
+        <script src="app/home/navigation.js"></script>
         <script src="app/setting/home.js"></script>
         <script src="app/report/home.js"></script>
         <script src="app/admin/users.js"></script>
         <script src="app/shared/user.js"></script>
+        <script src="app/shared/authentication.js"></script>
         <script src="assets/js/script.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
     </body>

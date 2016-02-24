@@ -18,7 +18,10 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         url:'/',
         templateUrl: 'app/home/home.html',
         controller: 'HomeController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+            loggedin : check_login
+        }
     })
     .state('dashboard', {
         url:'/dashboard',
@@ -212,4 +215,13 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     $locationProvider.html5Mode({
         enabled: true
     });
+}
+
+function check_login(Auth, $state, $rootScope){
+    Auth.then(function(data){
+        if(data !== '0'){
+            $rootScope.user = data.response;
+            $state.go('dashboard')
+        }
+    })
 }

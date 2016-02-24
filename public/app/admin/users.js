@@ -8,6 +8,7 @@ function AdminUserController($http){
     var vm = this;
     vm.user = null;
     vm.register = register;
+    vm.users = [];
     
     angular.element(document).ready(function () {
         $('.modal-trigger').leanModal();
@@ -15,8 +16,8 @@ function AdminUserController($http){
     
     function register(){
         console.log(vm.user)
-        $http.post('/api/user_register', vm.user, function(user){
-            console.log(user)
+        $http.post('/api/user_register', vm.user, function(users){
+            vm.users = users
         })
     }
 }

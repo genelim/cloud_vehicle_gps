@@ -21,7 +21,6 @@ module.exports = function(passport) {
         passReqToCallback : true //allow request to callback
     },
     function(req, username, password, done) { 
-
         //Search the database if the email existed
         User.findOne({ 'username' :  username }, function(err, user) {
             

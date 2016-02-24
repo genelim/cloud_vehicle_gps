@@ -3,15 +3,15 @@
         <div class="card-content">
             <div class="row">
                 <div class="input-field">
-                    <input id="username" type="text">
-                    <label for="username">Username:</label>
+                    <input id="username" type="text" ng-model="vm.user.username">
+                    <label for="username">Username</label>
                 </div>
                 <div class="input-field">
-                    <input id="password" type="password">
-                    <label for="password">Password:</label>
+                    <input id="password" type="password" ng-model="vm.user.password">
+                    <label for="password">Password</label>
                 </div>
                 <div class="col l6 m6 s12 push-l3 push-m3 center">
-                    <a class="btn waves-light" href="/dashboard">Login</a>
+                    <a class="btn waves-light" ng-click="vm.login()">Login</a>
                 </div>
             </div>
         </div>

@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('AdminUserController', AdminUserController);
 
-AdminUserController.$inject = ['User_Authentication'];
+AdminUserController.$inject = ['$http'];
 
-function AdminUserController(User_Authentication){ 
+function AdminUserController($http){ 
     var vm = this;
     vm.user = null;
     vm.register = register;
@@ -15,7 +15,7 @@ function AdminUserController(User_Authentication){
     
     function register(){
         console.log(vm.user)
-        User_Authentication.save(vm.user, function(user){
+        $http.post('/api/user_register', vm.user, function(user){
             console.log(user)
         })
     }

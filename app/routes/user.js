@@ -16,3 +16,8 @@ exports.save_user = function (req, res) {
         res.json(req.user);
 	})
 };
+
+exports.login_user = function (req, res) {
+    console.log(req.user)
+	res.json(req.user)
+};

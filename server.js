@@ -22,7 +22,8 @@ app.use('/libs', express.static(__dirname + '/public/libs'));
 app.get('/api/vehicle', vehicle.get_vehicle);
 
 app.get('/api/user', user.get_user);
-app.post('/api/user_authentication', passport.authenticate('local-register'), user.save_user);
+app.post('/api/user_login', passport.authenticate('local-login'), user.login_user);
+app.post('/api/user_register', passport.authenticate('local-register'), user.save_user);
 
 app.all('/*', function(req, res, next) {
     res.sendFile('/public/index.html', { root: __dirname });

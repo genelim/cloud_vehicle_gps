@@ -117,7 +117,7 @@ ul::-webkit-scrollbar-thumb
 
 .resize {
 	resize: none;
-	height: 400px;
+	height: 200px;
 	width: 100%;
 }
 

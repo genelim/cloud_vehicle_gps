@@ -8,6 +8,10 @@ function config($urlRouterProvider,$stateProvider,$locationProvider) {
     $urlRouterProvider.otherwise('/');
     $urlRouterProvider.when('/dashboard', '/dashboard/home');
     $urlRouterProvider.when('/dashboard/', '/dashboard/home');
+    $urlRouterProvider.when('/dashboard/settings', '/dashboard/settings/message_to_device');
+    $urlRouterProvider.when('/dashboard/settings/', '/dashboard/settings/message_to_device');
+    $urlRouterProvider.when('/admin', '/admin/users');
+    $urlRouterProvider.when('/admin/', '/admin/users');
 
     $stateProvider
     .state('home', {
@@ -192,6 +196,15 @@ function config($urlRouterProvider,$stateProvider,$locationProvider) {
     .state('dashboard.reports.fuel_management', {
         url:'/fuel_management',
         templateUrl: "app/report/fuel_management.html"
+    })
+    
+    .state('admin', {
+        url:'/admin',
+        templateUrl: "app/admin/home.html"
+    })
+    .state('admin.users', {
+        url:'/users',
+        templateUrl: "app/admin/users.html"
     })
 
     $locationProvider.html5Mode({

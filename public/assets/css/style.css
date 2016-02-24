@@ -1,12 +1,35 @@
 
-.admin {
-  	padding-left: 240px;
+.controls {
+  	padding-left: 240px !important;
 }
 
-.admin_side_nav{
+.controls_side_nav{
 	margin-top: 108px;
     height: calc(100% - 108px);
 }
+
+
+.admin {
+    padding-left: 240px;
+}
+
+.admin_side_nav{
+    margin-top:64px;
+    background-color: #35384C;
+}
+
+.admin_side_nav li a{
+    color: #DCDCDC !important;
+}
+
+.admin_side_nav li:hover{
+    background-color: transparent;
+}
+
+.admin_side_nav li a:hover{
+    color: #FFF !important;
+}
+
 
 section::-webkit-scrollbar 
 {

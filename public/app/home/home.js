@@ -8,7 +8,9 @@ function HomeController($http, $state, $rootScope, Auth){
     var vm = this;
     vm.login = login;
     vm.user = null;
-    
+    if($rootScope.user){
+        $state.go('dashboard');
+    }
     angular.element(document).ready(function () {
         $('.modal-trigger').leanModal();
     });

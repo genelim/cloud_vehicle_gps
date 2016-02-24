@@ -2,13 +2,19 @@ angular
     .module('app')
     .controller('AdminUserController', AdminUserController);
 
-AdminUserController.$inject = ['$http', 'User'];
+AdminUserController.$inject = ['$http', 'User', '$rootScope', '$state'];
 
-function AdminUserController($http, User){ 
+function AdminUserController($http, User, $rootScope, $state){ 
     var vm = this;
     vm.user = null;
     vm.register = register;
     vm.users = [];
+    
+    if(!$rootScope.user){
+        $state.go('home');
+    }else if($rootScope.user.response.role.indexOf(1) !== 0){
+        $state.go('dashboard');
+    }
     
     angular.element(document).ready(function () {
         $('.modal-trigger').leanModal();

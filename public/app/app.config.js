@@ -19,24 +19,30 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         templateUrl: 'app/home/home.html',
         controller: 'HomeController',
         controllerAs: 'vm',
-        resolve: {
-            // loggedin : check_logout
-        }
+        // resolve: {
+        //     loggedin : function($rootScope, $state){                
+        //         if($rootScope.user){
+        //             return true;
+        //         }else{
+        //             $state.go('dashboard');
+        //         }
+        //     }
+        // }
     })
     .state('dashboard', {
         url:'/dashboard',
         templateUrl: 'app/dashboard/dashboard.html',
         controller: 'DashboardController',
         controllerAs: 'vm',
-        resolve: {
-            loggedin : function($rootScope, $state){                
-                if($rootScope.user){
-                    return true;
-                }else{
-                    $state.go('home');
-                }
-            }
-        }
+        // resolve: {
+        //     loggedin : function($rootScope, $state){                
+        //         if($rootScope.user){
+        //             return true;
+        //         }else{
+        //             $state.go('home');
+        //         }
+        //     }
+        // }
     })
     .state('dashboard.home', {
         url:'/home',
@@ -223,9 +229,19 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     .state('admin', {
         url:'/admin',
         templateUrl: "app/admin/home.html",
-        resolve : {
-            // loggedin : check_login
-        }
+        // resolve: {
+        //     loggedin : function($rootScope, $state, $timeout){    
+        //         console.log($rootScope.user)        
+        //         if($rootScope.user){
+        //             if($rootScope.user.response.role.indexOf(1) > -1){
+        //                 console.log('dd')
+        //                 return true;
+        //             }
+        //         }else{
+        //             $state.go('home');
+        //         }
+        //     }
+        // }
     })
     .state('admin.users', {
         url:'/users',
@@ -237,20 +253,4 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     $locationProvider.html5Mode({
         enabled: true
     });
-}
-
-function check_login($state, $rootScope){
-    console.log($rootScope.user)
-    if($rootScope.user){
-        return true;
-    }else{
-        console.log('d')
-        $state.go('home')
-    }
-}
-
-function check_logout($state, $rootScope){
-    if($rootScope.user === null){
-        return true;
-    }
 }

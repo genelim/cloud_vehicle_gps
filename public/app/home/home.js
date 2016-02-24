@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('HomeController', HomeController);
 
-HomeController.$inject = ['$http', '$state', '$rootScope'];
+HomeController.$inject = ['$http', '$state', '$rootScope', 'Auth'];
 
-function HomeController($http, $state, $rootScope){ 
+function HomeController($http, $state, $rootScope, Auth){ 
     var vm = this;
     vm.login = login;
     vm.user = null;
@@ -22,6 +22,7 @@ function HomeController($http, $state, $rootScope){
                 Materialize.toast('Welcome '+user.response.username, 2000);
                 $rootScope.user = user;
                 $state.go('dashboard');
+                $('.dropdown-button').dropdown();
             }
         })
     }

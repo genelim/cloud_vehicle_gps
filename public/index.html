@@ -17,7 +17,7 @@
         <div class="navbar-fixed" style="z-index: 999;">
             <nav class="white">
                 <div class="nav-wrapper container">
-                    <a href="/dashboard" class="brand-logo blue-text darken-2">Logo</a>
+                    <a href="/dashboard" class="brand-logo blue-text darken-2" ng-class="{'center' : !user }">Logo</a>
                     <ul class="right hide-on-med-and-down" ng-if="user">
                         <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">{{user.response.username}}<i class="fa fa-arrow-down right"></i></a></li>
                         <li ng-if="user.response.role.indexOf(1) > -1"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
@@ -39,6 +39,7 @@
         <script src="app/app.run.js"></script>
         <script src="app/home/home.js"></script>
         <script src="app/home/navigation.js"></script>
+        <script src="app/dashboard/dashboard.js"></script>
         <script src="app/setting/home.js"></script>
         <script src="app/report/home.js"></script>
         <script src="app/admin/users.js"></script>

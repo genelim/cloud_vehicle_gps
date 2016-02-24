@@ -20,12 +20,17 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         controller: 'HomeController',
         controllerAs: 'vm',
         resolve: {
-            loggedin : check_login
+            // loggedin : check_logout
         }
     })
     .state('dashboard', {
         url:'/dashboard',
         templateUrl: 'app/dashboard/dashboard.html',
+        controller: 'DashboardController',
+        controllerAs: 'vm',
+        resolve: {
+            // loggedin : check_login
+        }
     })
     .state('dashboard.home', {
         url:'/home',
@@ -203,7 +208,10 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     
     .state('admin', {
         url:'/admin',
-        templateUrl: "app/admin/home.html"
+        templateUrl: "app/admin/home.html",
+        resolve : {
+            // loggedin : check_login
+        }
     })
     .state('admin.users', {
         url:'/users',
@@ -217,11 +225,18 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     });
 }
 
-function check_login(Auth, $state, $rootScope){
-    Auth.then(function(data){
-        if(data !== '0'){
-            $rootScope.user = data.response;
-            $state.go('dashboard')
-        }
-    })
+function check_login($state, $rootScope){
+    console.log($rootScope.user)
+    if($rootScope.user){
+        return true;
+    }else{
+        console.log('d')
+        $state.go('home')
+    }
+}
+
+function check_logout($state, $rootScope){
+    if($rootScope.user === null){
+        return true;
+    }
 }

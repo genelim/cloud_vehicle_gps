@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('AdminUserController', AdminUserController);
 
-AdminUserController.$inject = ['$http'];
+AdminUserController.$inject = ['$http', 'User'];
 
-function AdminUserController($http){ 
+function AdminUserController($http, User){ 
     var vm = this;
     vm.user = null;
     vm.register = register;
@@ -12,12 +12,23 @@ function AdminUserController($http){
     
     angular.element(document).ready(function () {
         $('.modal-trigger').leanModal();
+        get_users();
     });
     
     function register(){
         console.log(vm.user)
-        $http.post('/api/user_register', vm.user, function(users){
-            vm.users = users
+        $http.post('/api/user_register', vm.user)
+        .success(function(users){
+            Materialize.toast('User Added!', 2000);
+            get_users();
+            $('#user_registration_modal').closeModal();
+        })
+    }
+    
+    function get_users(){
+        User.query(function(result){
+            vm.users = result;
+            console.log(result)
         })
     }
 }

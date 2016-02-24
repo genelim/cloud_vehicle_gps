@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('AdminUserController', AdminUserController);
 
-AdminUserController.$inject = ['User'];
+AdminUserController.$inject = ['User_Authentication'];
 
-function AdminUserController(User){ 
+function AdminUserController(User_Authentication){ 
     var vm = this;
     vm.user = null;
     vm.register = register;
@@ -15,7 +15,7 @@ function AdminUserController(User){
     
     function register(){
         console.log(vm.user)
-        User.save(vm.user, function(user){
+        User_Authentication.save(vm.user, function(user){
             console.log(user)
         })
     }

@@ -9,5 +9,10 @@ exports.get_user = function (req, res) {
 };
 
 exports.save_user = function (req, res) {
-	console.log(req.body)
+	req.login(req.user, function(err){
+		if(err){
+			res.json({response: 'Server Error'})
+		}
+        res.json(req.user);
+	})
 };

@@ -1,9 +1,9 @@
 angular
 	.module('app')
-	.service('User', User);
+	.service('User_Authentication', User_Authentication);
 
-User.$inject = ['$resource'];
+User_Authentication.$inject = ['$resource'];
 
-function User($resource) {
-	return $resource('/api/user/:id');
+function User_Authentication($resource) {
+	return $resource('/api/user_authentication/:id');
 }

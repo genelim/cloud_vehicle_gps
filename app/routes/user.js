@@ -7,3 +7,7 @@ exports.get_user = function (req, res) {
         res.json(user);
     })
 };
+
+exports.save_user = function (req, res) {
+	console.log(req.body)
+};

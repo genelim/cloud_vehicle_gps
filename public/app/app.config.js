@@ -1,10 +1,10 @@
 angular
     .module('app')
-    .config(config);
+    .config(Configuration);
 
-config.$inject = ['$urlRouterProvider','$stateProvider','$locationProvider'];
+Configuration.$inject = ['$urlRouterProvider','$stateProvider','$locationProvider'];
 
-function config($urlRouterProvider,$stateProvider,$locationProvider) {
+function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     $urlRouterProvider.otherwise('/');
     $urlRouterProvider.when('/dashboard', '/dashboard/home');
     $urlRouterProvider.when('/dashboard/', '/dashboard/home');
@@ -204,7 +204,9 @@ function config($urlRouterProvider,$stateProvider,$locationProvider) {
     })
     .state('admin.users', {
         url:'/users',
-        templateUrl: "app/admin/users.html"
+        templateUrl: "app/admin/users.html",
+        controller: 'AdminUserController',
+        controllerAs: 'vm'
     })
 
     $locationProvider.html5Mode({

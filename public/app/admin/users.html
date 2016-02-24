@@ -1,1 +1,51 @@
-Hello
+<button class="btn modal-trigger waves-light" href="#user_registration_modal">
+    <i class="fa fa-plus"></i>
+</button>
+
+<!-- Modal Structure -->
+<div id="user_registration_modal" class="modal">
+    <div class="modal-content">
+        <div>
+            <div class="center">
+                <p class="flow-text">Create a new account</p>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-username" type="text" ng-model="vm.user.username">
+                    <label for="new-username">Your username</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-email" type="text" ng-model="vm.user.email">
+                    <label for="new-your-email">Your email address</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-password" type="password" ng-model="vm.user.password">
+                    <label for="new-your-password">Pick a password</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-password" type="password" ng-model="vm.user.confirm_password">
+                    <label for="new-your-password">Confirm your a password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <select class="browser-default" ng-model="vm.user.role">
+                        <option value="" disabled selected>Choose a role</option>
+                        <option value="1">Administrator</option>
+                        <option value="2">Cooperate User</option>
+                        <option value="3">General User</option>
+                    </select>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="note" type="password" ng-model="vm.user.note">
+                    <label for="note">Note</label>
+                </div>
+            </div>
+            <div class="row center">
+                <button class="btn" ng-click="vm.register()">Create Account</button>
+            </div>
+        </div>
+    </div>
+</div>

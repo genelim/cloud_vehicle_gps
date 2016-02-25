@@ -145,3 +145,23 @@ ul::-webkit-scrollbar-thumb
     margin: 0;
     color: rgba(0,0,0,.65);
 }
+
+.geofencehead{
+    text-align: center;
+    background-color: #37474f;
+    color: yellow;
+}
+
+.geofencebd{
+    border: 1px black solid;
+}
+
+.mainborder{
+    border:1px black solid;
+}
+
+.subborder{
+    border:1px black solid;
+    border-left:none;
+}
+

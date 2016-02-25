@@ -1,1 +1,71 @@
-operation log
+<p class="headerrow">Operation Log Query</p>
+<div class="row">
+    <div class="col s12 m12 l12 mainborder">
+        <div class="col s12 m12 l12">
+            <div class="input-field col s12 m12 l2">
+                <input id="username" type="text" placeholder="Username:">,
+            </div>
+            <div class="col s12 m12 l2">
+                Operation Type:<select>
+                <option value="alloperation">All Operation</option>
+                <option value="closeoil">Close Oil</option>
+                <option value="oilrecovery">Oil Recovery</option>
+                <option value="samplingtimesetting">Sampling Time Setting</option>
+                <option value="mileagereset">Mileage Reset</option>
+            </select>
+            </div>
+            <div class="col s12 m12 l2">
+                Plate NO:<select>
+                <option value="ABC1234">ABC1234</option>
+                <option value="DEF5678">DEF5678</option>
+                <option value="GHI2345">GHI2345</option>
+            </select>
+            </div>
+            <div class="col s12 m12 l2">
+                Execution Time:<input id=time type="month">
+            </div>
+            <div class="col s12 m12 l2">
+                To:<input id="month" type="month">
+            </div>
+            <div class="col s12 m12 l2">
+                <a class="btn">Search</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m12 l12" style="border:1px black solid;border-top:none">
+        <table>
+            <thead>
+            <tr>
+                <td>Username</td>
+                <td>IP</td>
+                <td>Plate NO</td>
+                <td>Execution Time</td>
+                <td>Operation Type</td>
+                <td>Operation Content</td>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col s12 m12 l12">
+        <table>
+            <td style="text-align: right; vertical-align: middle;" id="tdPage">
+                <a id="Pager1_btnFirst" class="aspNetDisabled btnPage">Home</a>
+                <a id="Pager1_btnPrevious" class="aspNetDisabled btnPage">Previous</a>
+                <a style="margin-right: 10px; margin-left: 5px;">
+                    <span id="Pager1_lblCurrentPage">1</span>/0</a>
+                <a id="Pager1_btnNext" class="aspNetDisabled btnPage">Next</a>
+                <a id="Pager1_btnLast" class="aspNetDisabled btnPage">Last</a><span style="margin-left: 15px; margin-right: 15px;"> Total page:
+                            <span id="Pager1_lblPageCount">0</span>
+                            ，<span id="Pager1_lblItemCount">0</span> items，</span>Redirect to<input name="Pager1$tbPageIndex" type="text" id="Pager1_tbPageIndex" style="width:25px;">
+                <input type="submit" name="Pager1$btnRedirect" value="GO" onclick="return CheckPageIndex();" id="Pager1_btnRedirect">
+                &nbsp;&nbsp;
+            </td>
+        </table>
+    </div>
+
+</div>

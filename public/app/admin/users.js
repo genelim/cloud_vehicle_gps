@@ -10,11 +10,11 @@ function AdminUserController($http, User, $rootScope, $state){
     vm.register = register;
     vm.users = [];
     
-    if(!$rootScope.user){
-        $state.go('home');
-    }else if($rootScope.user.response.role.indexOf(1) !== 0){
-        $state.go('dashboard');
-    }
+    // if(!$rootScope.user){
+    //     $state.go('home');
+    // }else if($rootScope.user.response.role.indexOf(1) !== 0){
+    //     $state.go('dashboard');
+    // }
     
     angular.element(document).ready(function () {
         $('.modal-trigger').leanModal();

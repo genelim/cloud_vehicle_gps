@@ -9,9 +9,9 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
     vm.logout = logout;
   
     angular.element(document).ready(function(){
-        if(!$rootScope.user){
-            $state.go('home')
-        }
+        // if(!$rootScope.user){
+        //     $state.go('home')
+        // }
     })
     
     function logout(){

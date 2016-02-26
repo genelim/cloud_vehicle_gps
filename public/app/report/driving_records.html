@@ -1,1 +1,97 @@
-driving record
+<p class="headerrow">Driving records</p>
+<div class="row">
+    <div class="col s12 m12 l10">
+        <div class="col s12 m12 l3">
+            <p>Fleet & Number Plate:</p>
+            <select class="browser-default col s12 m12 l12">
+                <optgroup label="SHSJB">
+                    <option value="volvo">AGX 4139</option>
+                    <option value="saab">ABP 1932</option>
+                </optgroup>
+                <optgroup label="SHSKL">
+                    <option value="mercedes">BAC 2932</option>
+                    <option value="audi">BEY 3416</option>
+                </optgroup>
+                <optgroup label="BH PORT KLANG">
+                    <option value="mercedes">BLV 503</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="col s12 m12 l4">
+            <div class="col s12 m12 l12">
+                <div class="col s12 m12 l2">
+                    From:
+                </div>
+                <div class="col s12 m12 l6">
+                    <input id="from" type="month">
+                </div>
+            </div>
+
+            <div class="col s12 m12 l12" style="margin-top:2%">
+                <div class="col s12 m12 l2">
+                    To:
+                </div>
+                <div class="col s12 m12 l6">
+                    <input id="to" type="month">
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m12 l3">
+            <div class="col s12 m12 l12">
+                <input type="checkbox" id="test1"/><label for="test1"></label>Only ignition ON record
+            </div>
+            <div class="col s12 m12 l12">
+                Statistics interval:<input type="text" style="width:50%">Minute
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m12 l2">
+        <a class="btn">Statistics</a>
+        <a class="btn buttonspace">Export</a>
+    </div>
+
+    <div class="col s12 m12 l12">
+        <p class="col s12 m12 l12">Statistical Time</p>
+        <p class="col s12 m12 l4">Total time:</p>
+        <p class="col s12 m12 l4">Travel time:</p>
+        <p class="col s12 m12 l4">Tabulation time:</p>
+        <p class="col s12 m12 l4">Plate NO:</p>
+        <p class="col s12 m12 l4">Total mileage(km):</p>
+        <p class="col s12 m12 l4">Average speed:</p>
+
+        <table>
+            <thead>
+            <tr>
+                <td>Date</td>
+                <td>Time</td>
+                <td>Oil(L)</td>
+                <td>Temperature(℃)</td>
+                <td>Weight(Tons)</td>
+                <td>Speed</td>
+                <td>ACC</td>
+                <td>Mileage(Km)</td>
+                <td>Address</td>
+            </tr>
+            </thead>
+        </table>
+
+        <div class="col s12 m12 l12">
+            <table>
+                <td style="text-align: right; vertical-align: middle;" id="tdPage">
+                    <a id="Pager1_btnFirst" class="aspNetDisabled btnPage">Home</a>
+                    <a id="Pager1_btnPrevious" class="aspNetDisabled btnPage">Previous</a>
+                    <a style="margin-right: 10px; margin-left: 5px;">
+                        <span id="Pager1_lblCurrentPage">1</span>/0</a>
+                    <a id="Pager1_btnNext" class="aspNetDisabled btnPage">Next</a>
+                    <a id="Pager1_btnLast" class="aspNetDisabled btnPage">Last</a><span style="margin-left: 15px; margin-right: 15px;"> Total page:
+                            <span id="Pager1_lblPageCount">0</span>
+                            ，<span id="Pager1_lblItemCount">0</span> items，</span>Redirect to<input name="Pager1$tbPageIndex" type="text" id="Pager1_tbPageIndex" style="width:25px;">
+                    <input type="submit" name="Pager1$btnRedirect" value="GO" onclick="return CheckPageIndex();" id="Pager1_btnRedirect">
+                    &nbsp;&nbsp;
+                </td>
+            </table>
+        </div>
+    </div>
+</div>

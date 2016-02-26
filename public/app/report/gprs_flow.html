@@ -1,45 +1,51 @@
 <p class="headerrow">GPRS Flow</p>
 <div class="row">
-    <div class="col s12 m12 l12" style="border:1px black solid">
-        <div class="col s12 m12 l3">
-            Period:<input type="month" >.
-        </div>
+    <div class="col s12 m12 l12">
+        <div class="col s12 m12 l9">
+            <div class="col s12 m12 l3">
+                <p>Fleet & Number Plate:</p>
+                <select class="browser-default col s12 m12 l12">
+                    <optgroup label="SHSJB">
+                        <option value="volvo">AGX 4139</option>
+                        <option value="saab">ABP 1932</option>
+                    </optgroup>
+                    <optgroup label="SHSKL">
+                        <option value="mercedes">BAC 2932</option>
+                        <option value="audi">BEY 3416</option>
+                    </optgroup>
+                    <optgroup label="BH PORT KLANG">
+                        <option value="mercedes">BLV 503</option>
+                    </optgroup>
+                </select>
+            </div>
 
-        <div class="col s12 m12 l3">
-            Fleet:<form class="col s12 m12 l12">
-            <select>All Vehicle
-                <optgroup label="BH PORT KLANG">
-                    <option value="blv503">BLV 503</option>
-                </optgroup>
-                <optgroup label="SHSJB">
-                    <option value="agx4139">AGX 4139</option>
-                </optgroup>
-                <optgroup label="SHSKL">
-                    <option value="bey3416">BEY 3416</option>
-                </optgroup>
-            </select>
-        </form>,
-        </div>
+            <div class="col s12 m12 l5">
+                <div class="col s12 m12 l12">
+                    <div class="col s12 m12 l2">
+                        From:
+                    </div>
+                    <div class="col s12 m12 l6">
+                        <input id="from" type="month">
+                    </div>
+                </div>
 
-        <div class="col s12 m12 l3">
-            Plate NO:<form class="col s12 m12 l12">
-            <select>All Vehicle
-                <optgroup label="BH PORT KLANG">
-                    <option value="blv503">BLV 503</option>
-                </optgroup>
-                <optgroup label="SHSJB">
-                    <option value="agx4139">AGX 4139</option>
-                </optgroup>
-                <optgroup label="SHSKL">
-                    <option value="bey3416">BEY 3416</option>
-                </optgroup>
-            </select>
-        </form>
+                <div class="col s12 m12 l12" style="margin-top:2%">
+                    <div class="col s12 m12 l2">
+                        To:
+                    </div>
+                    <div class="col s12 m12 l6">
+                        <input id="to" type="month">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 m12 l2">
+                <a class="btn">Search</a>
+            </div>
         </div>
-        <a class="btn">Search</a>
     </div>
 
-    <div class="col s12 m12 l12" style="border:1px black solid;border-top:none">
+    <div class="col s12 m12 l12">
         <table>
             <thead>
             <tr>

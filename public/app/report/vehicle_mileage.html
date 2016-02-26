@@ -1,1 +1,80 @@
-vehicle mileage
+<p class="headerrow">Vehicle Mileage Report</p>
+<div class="row">
+    <div class="col s12 m12 l10">
+        <div class="col s12 m12 l3">
+            <p>Fleet & Number Plate:</p>
+            <select class="browser-default col s12 m12 l12">
+                <optgroup label="SHSJB">
+                    <option value="volvo">AGX 4139</option>
+                    <option value="saab">ABP 1932</option>
+                </optgroup>
+                <optgroup label="SHSKL">
+                    <option value="mercedes">BAC 2932</option>
+                    <option value="audi">BEY 3416</option>
+                </optgroup>
+                <optgroup label="BH PORT KLANG">
+                    <option value="mercedes">BLV 503</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="col s12 m12 l4">
+            <div class="col s12 m12 l12">
+                <div class="col s12 m12 l2">
+                    From:
+                </div>
+                <div class="col s12 m12 l6">
+                    <input id="from" type="month">
+                </div>
+            </div>
+
+            <div class="col s12 m12 l12" style="margin-top:2%">
+                <div class="col s12 m12 l2">
+                    To:
+                </div>
+                <div class="col s12 m12 l6">
+                    <input id="to" type="month">
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m12 l3">
+            Mileage Type:<select>
+            <option>Tracker Mileage</option>
+            <option>Map Mileage</option>
+        </select>
+        </div>
+
+        <div class="col s12 m12 l2">
+            Statistical method:<select>
+            <option>Statistic for all</option>
+            <option>Daily Statistic</option>
+        </select>
+        </div>
+    </div>
+    <div class="col s12 m12 l2">
+        <a class="btn">Statistics</a>
+        <a class="btn buttonspace">Export</a>
+    </div>
+
+    <div class="col s12 m12 l12 menuseperator">
+        <p class="col s12 m12 l6 left">Statistical time:</p>
+        <p class="col s12 m12 l6 right">Tabulation time:(Current time)</p>
+        <table>
+            <thead>
+            <tr>
+                <td>Fleet></td>
+                <td>Plate NO</td>
+                <td>Journey time</td>
+                <td>Total mileage(km)</td>
+                <td>Average speed(km/h)</td>
+                <td>Estimate fuel comsumption(L)</td>
+                <td>Maximum Speed</td>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>

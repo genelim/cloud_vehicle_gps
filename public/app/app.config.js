@@ -10,6 +10,8 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     $urlRouterProvider.when('/dashboard/', '/dashboard/home');
     $urlRouterProvider.when('/dashboard/settings', '/dashboard/settings/message_to_device');
     $urlRouterProvider.when('/dashboard/settings/', '/dashboard/settings/message_to_device');
+    $urlRouterProvider.when('/dashboard/reports', '/dashboard/reports/history_playback');
+    $urlRouterProvider.when('/dashboard/reports/', '/dashboard/reports/history_playback');
     $urlRouterProvider.when('/admin', '/admin/users');
     $urlRouterProvider.when('/admin/', '/admin/users');
 

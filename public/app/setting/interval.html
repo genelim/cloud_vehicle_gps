@@ -1,19 +1,18 @@
 <div class="container center">
-    <b class="headerrow">Interval Setting</b>
+    <p class="headerrow">Interval Setting</p>
     <div class="row">
-        <div class="input-field col s12 m12 l6">
-            <div class="col s12 m12 l6">Acc on mode:<p>(1-65535)</p></div>
-            <div class="col s12 m12 l3 center">
-                <input value="30" type="number" min="0" maxlength="5" class="center">
+        <div class="input-field col s12 m12 l6 push-l3">
+            <div class="col s12 m12 l12">Acc on mode:<p>(1 to 65535 seconds)</p></div>
+            <div class="col s12 m12 l12">
+                <div class="input-field col s6">
+                    <input id="from_interval" value="30" type="number" min="0" maxlength="5" class="center">
+                    <label for="from_interval" class="active">From</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="to_interval" value="60" type="number" min="0" maxlength="5" class="center">
+                    <label for="to_interval" class="active">To</label>
+                </div>
             </div>
-            <div class="col s12 m12 l3">Second</div>
-        </div>
-        <div class="input-field col s12 m12 l6">
-            <div class="col s12 m12 l6">Acc on mode:<p>(1-65535)</div>
-            <div class="col s12 m12 l3">
-                <input value="60" type="number" min="0" maxlength="5" class="center">
-            </div>
-            <div class="col s12 m12 l3">Second</div>
         </div>
         <div class="input-field col s12 m12 l4 offset-l4">
             <input id="password" type="text">

@@ -99,7 +99,6 @@ ul::-webkit-scrollbar-thumb
 .headerrow{
 	font-size:250%;
 	position:relative;
-	top:-25px;
     text-align: center;
     font-weight: bold;
 }
@@ -124,6 +123,10 @@ ul::-webkit-scrollbar-thumb
 .alarmswitch{
 	font-size:120%;
 	padding-bottom:5%;
+}
+
+.switch_label{
+    padding-left:1em;
 }
 
 .btn-group{

@@ -12,7 +12,21 @@
         <li><a ui-sref=".geo_fence">Geo Fence</a></li>
         <li><a ui-sref=".bay_information">Bay Information</a></li>
     </ul>
-    <ul><li class="dropdown-button btn truckdropdown" data-activates="truck">Select Truck</li></ul>
+    <div class="row center">
+        <select class="browser-default col l6 push-l3"></default-browser>">
+            <optgroup label="SHSJB">
+                <option value="volvo">AGX 4139</option>
+                <option value="saab">ABP 1932</option>
+            </optgroup>
+            <optgroup label="SHSKL">
+                <option value="mercedes">BAC 2932</option>
+                <option value="audi">BEY 3416</option>
+            </optgroup>
+            <optgroup label="BH PORT KLANG">
+                <option value="mercedes">BLV 503</option>
+            </optgroup>
+        </select>
+    </div>
     <div ui-view></div>
 </div>
 

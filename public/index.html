@@ -11,8 +11,8 @@
     </head>
     <body ng-app="app" ng-controller="NavigationController as vm">
         <ul id="user_setting" class="dropdown-content">
-            <li><a ui-sref="dashboard.user_profile">Profile</a></li>
-            <li><a ui-sref="dashboard.user_change_password">Password</a></li>
+            <li><a href="#profile" class="modal-trigger">Profile</a></li>
+            <li><a href="" >Password</a></li>
         </ul>
         <div class="navbar-fixed" style="z-index: 999;">
             <nav class="white">
@@ -28,6 +28,40 @@
             </nav>
         </div>
         <div ui-view></div>
+        
+        <!-- Modal Structure -->
+        <div id="profile" class="modal">
+            <div class="modal-content">
+                <div>
+                    <div class="center">
+                        <p class="flow-text">Profile Information</p>
+                    </div>
+                    <div class="row">
+                        <div class="col l6 s12 input-field">
+                            <input id="new-username" type="text" ng-model="user.response.username">
+                            <label for="new-username" class="active">Your username</label>
+                        </div>
+                        <div class="col l6 s12 input-field">
+                            <input id="new-your-email" type="text" ng-model="user.response.email">
+                            <label for="new-your-email">Your email address</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col l6 s12 input-field">
+                            <input id="new-your-email" type="text" ng-model="user.response.role[0]">
+                            <label for="new-your-email">Your role</label>
+                        </div>
+                        <div class="col l6 s12 input-field">
+                            <input id="note" type="password" ng-model="vm.user.note">
+                            <label for="note">Note</label>
+                        </div>
+                    </div>
+                    <div class="row center">
+                        <button class="btn" ng-click="vm.profile_update()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script src="libs/angular/angular.min.js"></script>
         <script src="libs/angular-resource/angular-resource.min.js"></script>

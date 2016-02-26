@@ -10,6 +10,7 @@ function DashboardController($rootScope, $state){
     }
     angular.element(document).ready(function () {
         $('.dropdown-button').dropdown();
+        $('.modal-trigger').leanModal();
         $('.tooltipped').tooltip({delay: 50});
     });   
 }

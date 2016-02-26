@@ -12,7 +12,7 @@ var express = require('express'),
 require('./app/config/passport')(passport);
     
 app.use(bodyParser.json()); 
-app.use(session({secret: 'this is cloudtruck', saveUninitialized: true, resave: true}));
+app.use(session({secret: 'this is cloudtruck', cookie: { maxAge: 180000 }, rolling: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 

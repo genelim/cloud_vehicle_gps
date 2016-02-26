@@ -18,31 +18,13 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         url:'/',
         templateUrl: 'app/home/home.html',
         controller: 'HomeController',
-        controllerAs: 'vm',
-        // resolve: {
-        //     loggedin : function($rootScope, $state){                
-        //         if($rootScope.user){
-        //             return true;
-        //         }else{
-        //             $state.go('dashboard');
-        //         }
-        //     }
-        // }
+        controllerAs: 'vm'
     })
     .state('dashboard', {
         url:'/dashboard',
         templateUrl: 'app/dashboard/dashboard.html',
         controller: 'DashboardController',
-        controllerAs: 'vm',
-        // resolve: {
-        //     loggedin : function($rootScope, $state){                
-        //         if($rootScope.user){
-        //             return true;
-        //         }else{
-        //             $state.go('home');
-        //         }
-        //     }
-        // }
+        controllerAs: 'vm'
     })
     .state('dashboard.home', {
         url:'/home',
@@ -229,6 +211,8 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     .state('admin', {
         url:'/admin',
         templateUrl: "app/admin/home.html",
+        controller: 'AdminController',
+        controllerAs: 'vm'
     })
     .state('admin.users', {
         url:'/users',

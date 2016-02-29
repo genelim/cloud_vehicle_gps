@@ -12,5 +12,7 @@ function DashboardController($rootScope, $state){
         $('.dropdown-button').dropdown();
         $('.modal-trigger').leanModal();
         $('.tooltipped').tooltip({delay: 50});
+        $('ul.tabs').tabs();
+        
     });   
 }

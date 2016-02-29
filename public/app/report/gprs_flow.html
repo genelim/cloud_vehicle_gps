@@ -63,20 +63,17 @@
         </table>
     </div>
 
-    <div class="col s12 m12 l12">
-        <table>
-            <td style="text-align: right; vertical-align: middle;" id="tdPage">
-                <a id="Pager1_btnFirst" class="aspNetDisabled btnPage">Home</a>
-                <a id="Pager1_btnPrevious" class="aspNetDisabled btnPage">Previous</a>
-                <a style="margin-right: 10px; margin-left: 5px;">
-                    <span id="Pager1_lblCurrentPage">1</span>/0</a>
-                <a id="Pager1_btnNext" class="aspNetDisabled btnPage">Next</a>
-                <a id="Pager1_btnLast" class="aspNetDisabled btnPage">Last</a><span style="margin-left: 15px; margin-right: 15px;"> Total page:
-                            <span id="Pager1_lblPageCount">0</span>
-                            ，<span id="Pager1_lblItemCount">0</span> items，</span>Redirect to<input name="Pager1$tbPageIndex" type="text" id="Pager1_tbPageIndex" style="width:25px;">
-                <input type="submit" name="Pager1$btnRedirect" value="GO" onclick="return CheckPageIndex();" id="Pager1_btnRedirect">
-                &nbsp;&nbsp;
-            </td>
-        </table>
+    <div class="center" style="padding-top:1%">
+        <div class="col s12 m12 l12">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="fa fa-arrow-left"></i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="fa fa-arrow-right"></i></a></li>
+            </ul>
+        </div>
     </div>
 </div>

@@ -31,6 +31,8 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     .state('dashboard.home', {
         url:'/home',
         templateUrl: 'app/dashboard/home.html',
+        controller: 'DashboardHomeController',
+        controllerAs: 'vm'
     })
     .state('dashboard.vehicle_tracking', {
         url:'/vehicle_tracking',

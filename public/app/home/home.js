@@ -9,6 +9,7 @@ function HomeController($http, $state, $rootScope, Auth){
     vm.login = login;
     vm.forget_password_modal = forget_password_modal;
     vm.user = null;
+    
     if($rootScope.user){
         $state.go('dashboard');
     }    
@@ -28,6 +29,6 @@ function HomeController($http, $state, $rootScope, Auth){
     }
 
     function forget_password_modal(){
-        $('#resetpassword').openModal();
+         $('#resetpassword').openModal();
     }
 }

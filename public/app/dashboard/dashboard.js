@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$rootScope', '$state'];
+DashboardController.$inject = ['$rootScope', '$state', '$scope'];
 
-function DashboardController($rootScope, $state){ 
+function DashboardController($rootScope, $state, $scope){ 
     if(!$rootScope.user){
         $state.go('home');
     }
@@ -12,7 +12,8 @@ function DashboardController($rootScope, $state){
         $('.dropdown-button').dropdown();
         $('.modal-trigger').leanModal();
         $('.tooltipped').tooltip({delay: 50});
-        $('ul.tabs').tabs();
-        
     });   
+    $scope.$on('$viewContentLoaded', function(){
+        $('ul.tabs').tabs();
+    });
 }

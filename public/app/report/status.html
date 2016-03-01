@@ -1,1 +1,71 @@
-status
+<p class="headerrow">Status Report</p>
+<div class="row">
+    <div class="col s12 m12 l10">
+        <div class="col s12 m12 l3">
+            <p>Fleet & Number Plate:</p>
+            <select class="browser-default col s12 m12 l12">
+                <optgroup label="SHSJB">
+                    <option value="volvo">AGX 4139</option>
+                    <option value="saab">ABP 1932</option>
+                </optgroup>
+                <optgroup label="SHSKL">
+                    <option value="mercedes">BAC 2932</option>
+                    <option value="audi">BEY 3416</option>
+                </optgroup>
+                <optgroup label="BH PORT KLANG">
+                    <option value="mercedes">BLV 503</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="col s12 m12 l4">
+            <div class="col s12 m12 l12">
+                <div class="col s12 m12 l2">
+                    From:
+                </div>
+                <div class="col s12 m12 l6">
+                    <input id="from" type="month">
+                </div>
+            </div>
+
+            <div class="col s12 m12 l12" style="margin-top:2%">
+                <div class="col s12 m12 l2">
+                    To:
+                </div>
+                <div class="col s12 m12 l6">
+                    <input id="to" type="month">
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m12 l3">
+            <p>Time Spent >=<input type="text" id="timespent" style="width:50px">Minute</p>
+        </div>
+
+        <div class="col s12 m12 l2">
+            <a class="btn">Statistics</a>
+            <a class="btn buttonspace">Export</a>
+        </div>
+    </div>
+
+    <div class="col s12 m12 l12">
+        <table>
+            <thead>
+                <tr>
+                    <td><b>PLATE NO</b></td>
+                    <td><b>STATUS</b></td>
+                    <td><b>START TIME</b></td>
+                    <td><b>END TIME</b></td>
+                    <td><b>TIME SPAN</b></td>
+                    <td><b>MILEAGE(KM)</b></td>
+                    <td><b>CHANGED ADDRESS</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

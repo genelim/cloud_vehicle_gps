@@ -1,34 +1,32 @@
-<p>Profile Information</p>
-			    	<div class="row">
-					    <div class="col m5 s12">
-					      	<label>Country</label>
-					      	<select class="browser-default" name="country">
-						        <option value="0" selected disabled>Country</option>
-						        <option value="244">Aaland Islands</option>
-						        <option value="1">Afghanistan</option>
-						        <option value="2">Albania</option>
-					      	</select>
-					    </div>
-					    <div class="col m4 s12">
-					      	<div class="input-field">
-						        <input id="input_city" value="Georgetown" type="text" name="city">
-						        <label for="input_city">City</label>
-					      	</div>
-					    </div>
-					    <div class="col m3 s12">
-					      	<div class="input-field">
-						        <input id="input_postcode" value="12345" type="text" name="post_code">
-						        <label for="input_postcode">Post code</label>
-					      	</div>
-					    </div>
-				    </div>
-					<div class="input-field">
-			    		<input id="input_address" value="12-1-1, Mary Town"  type="text" name="address">
-			    		<label for="input_address">Address</label>
-		  			</div>
-		 
-			  		<div class="input-field">
-			    		<textarea id="textarea_additional" class="materialize-textarea" name="additional">Note: handle with care</textarea>
-			    		<label for="textarea_additional">Additional info</label>
-			  		</div>
-			</div>
+<div id="profile" class="modal">
+    <div class="modal-content">
+        <div>
+            <div class="center">
+                <p class="flow-text">Profile Information</p>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-username" type="text" ng-model="user.response.username">
+                    <label for="new-username" class="active">Your username</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-email" type="text" ng-model="user.response.email">
+                    <label for="new-your-email" class="active">Your email address</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-role" type="text" ng-model="user.response.role[0]">
+                    <label for="new-your-role" class="active">Your role</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="note" type="password" ng-model="vm.user.note">
+                    <label for="note" class="active">Note</label>
+                </div>
+            </div>
+            <div class="row center">
+                <button class="btn" ng-click="vm.profile_update()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

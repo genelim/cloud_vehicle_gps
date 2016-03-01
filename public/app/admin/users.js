@@ -8,10 +8,11 @@ function AdminUserController($http, User, $rootScope, $state){
     var vm = this;
     vm.user = null;
     vm.register = register;
+    vm.add_modal = add_modal;
     vm.users = [];
     
     angular.element(document).ready(function () {
-        $('.modal-trigger').leanModal();
+        // $('.modal-trigger').leanModal();
         get_users();
         $('.dropdown-button').dropdown();
         $('.tooltipped').tooltip({delay: 50});
@@ -32,5 +33,9 @@ function AdminUserController($http, User, $rootScope, $state){
             vm.users = result;
             console.log(result)
         })
+    }
+
+    function add_modal(){
+        $('#user_registration_modal').openModal();
     }
 }

@@ -9,11 +9,11 @@ function DashboardController($rootScope, $state, $scope){
         $state.go('home');
     }
     angular.element(document).ready(function () {
-        $('.dropdown-button').dropdown();
-        $('.modal-trigger').leanModal();
         $('.tooltipped').tooltip({delay: 50});
+        $('.dropdown-button').dropdown();
     });   
     $scope.$on('$viewContentLoaded', function(){
         $('ul.tabs').tabs();
+        $('.dropdown-button').dropdown();
     });
 }

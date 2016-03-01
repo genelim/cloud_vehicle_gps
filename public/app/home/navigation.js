@@ -13,6 +13,9 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
             $state.go('home')
         }
     })
+    angular.element(document).ready(function () {
+        $('.modal-trigger').leanModal();
+    });
     
     function logout(){
     	$http.post('/api/logout').success(function(result){

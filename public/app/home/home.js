@@ -10,10 +10,7 @@ function HomeController($http, $state, $rootScope, Auth){
     vm.user = null;
     if($rootScope.user){
         $state.go('dashboard');
-    }
-    angular.element(document).ready(function () {
-        $('.modal-trigger').leanModal();
-    });
+    }    
     
     function login(){
         $http.post('/api/user_login', vm.user)

@@ -10,3 +10,7 @@ function SettingsController(){
         $(".dropdown-button").dropdown();
     });
 }
+
+angular.element(document).ready(function () {
+    $('.modal-trigger').leanModal();
+});

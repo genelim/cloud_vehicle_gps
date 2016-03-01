@@ -1,1 +1,76 @@
-idle
+<p class="headerrow">Idling Report</p>
+<div class="row">
+    <div class="col s12 m12 l10">
+        <div class="col s12 m12 l3">
+            <p>Fleet & Number Plate: <input type="text" id="platenumber" placeholder="ABC1234"></p>
+        </div>
+
+        <div class="col s12 m12 l4">
+            <div class="col s12 m12 l12">
+                <div class="col s12 m12 l2">
+                    From:
+                </div>
+                <div class="col s12 m12 l6">
+                    <input id="from" type="month">
+                </div>
+            </div>
+
+            <div class="col s12 m12 l12" style="margin-top:2%">
+                <div class="col s12 m12 l2">
+                    To:
+                </div>
+                <div class="col s12 m12 l6">
+                    <input id="to" type="month">
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m12 l3">
+            <p>Idling Time >= <input type="number" id="idle" style="width:50px">Minute</p>
+        </div>
+
+        <div class="col s12 m12 l2">
+            <a class="btn">Statistics</a>
+            <a class="btn buttonspace">Export</a>
+        </div>
+    </div>
+
+    <div class="col s12 m12 l12">
+        <p class="col s12 m12 l5">Statistical Time: <b>01-03-2016 00:00:00</b></p>
+        <p class="col s12 m12 l4">Tabulation Time: <b>01-03-2016 Current Time</b></p>
+        <div class="col s12 m12 l6">
+            <div class="col s12 m12 l12">
+                <p class="col s12 m12 l3">Vehicle Name:</p>
+                <p class="col s12 m12 l4"><b>INOKOM BIG ABC 1234</b></p>
+            </div>
+            <div class="col s12 m12 l12">
+                <p class="col s12 m12 l3">Driver Name:</p>
+                <p class="col s12 m12 l4"><b>GENE LIM</b></p>
+            </div>
+        </div>
+        <div class="col s12 m12 l6">
+            <div class="col s12 m12 l12">
+                <p class="col s12 m12 l3">Driver Contact 1:</p>
+                <p class="col s12 m12 l4"><b>0123456789</b></p>
+            </div>
+            <div class="col s12 m12 l12">
+                <p class="col s12 m12 l3">Driver Contact 2:</p>
+                <p class="col s12 m12 l4"><b>041234567</b></p>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td><b>INDEX</b></td>
+                    <td><b>START DATE TIME</b></td>
+                    <td><b>END DATE TIME</b></td>
+                    <td><b>DURATION OF IDLE</b></td>
+                    <td><b>IDLING(LITRE)</b></td>
+                    <td><b>RM</b></td>
+                    <td><b>POI ADDRESS</b></td>
+                    <td><b>LOCATION</b></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>

@@ -101,7 +101,7 @@ ul::-webkit-scrollbar-thumb
 }
 
 .headerrow{
-	font-size:250%;
+	font-size:180%;
 	position:relative;
     text-align: center;
     font-weight: bold;
@@ -174,11 +174,8 @@ ul::-webkit-scrollbar-thumb
 
 .buttonspace{
     margin-top:5%;
-<<<<<<< Updated upstream
 }
 
 .menuseperator{
     margin-top:2%;
-=======
->>>>>>> Stashed changes
 }

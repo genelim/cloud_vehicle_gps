@@ -13,20 +13,8 @@
         <li><a ui-sref=".bay_information">Bay Information</a></li>
     </ul>
 
-    <div class="row">
-        <select class="browser-default col l6 push-l3">
-            <optgroup label="SHSJB">
-                <option value="volvo">AGX 4139</option>
-                <option value="saab">ABP 1932</option>
-            </optgroup>
-            <optgroup label="SHSKL">
-                <option value="mercedes">BAC 2932</option>
-                <option value="audi">BEY 3416</option>
-            </optgroup>
-            <optgroup label="BH PORT KLANG">
-                <option value="mercedes">BLV 503</option>
-            </optgroup>
-        </select>
+    <div class="row" style="margin-top:-20px;margin-bottom:-20px">
+        <p>Fleet & Number Plate: <input type="text" id="platenumber" placeholder="ABC1234" style="width:100px"></p>
     </div>
     <div class="divider"></div>
     <div ui-view></div>
@@ -43,10 +31,4 @@
 <ul id="sms" class="dropdown-content">
     <li><a ui-sref=".sms_altering">SMS Altering</a></li>
     <li><a ui-sref=".sms_service_number">Set SMS Service Number</a></li>
-</ul>
-
-<ul id="truck" class="dropdown-content">
-    <li>PHM1234</li>
-    <li>PHM5678</li>
-    <li>PHM2345</li>
 </ul>

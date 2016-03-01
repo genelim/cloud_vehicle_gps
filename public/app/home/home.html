@@ -10,8 +10,13 @@
                     <input id="password" type="password" ng-model="vm.user.password">
                     <label for="password">Password</label>
                 </div>
-                <div class="col l6 m6 s12 push-l3 push-m3 center">
-                    <a class="btn waves-light" ng-click="vm.login()">Login</a>
+                <div class="col s12 m12 l12 center">
+                    <div class="col s12 m5 l5 modal-trigger">
+                        <a class="btn waves-light" ng-click="vm.forget_password_modal()">Reset</a>
+                    </div>
+                    <div class="col s12 m5 l5 push-l2">
+                        <a class="btn waves-light" ng-click="vm.login()">Login</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ HomeController.$inject = ['$http', '$state', '$rootScope', 'Auth'];
 function HomeController($http, $state, $rootScope, Auth){ 
     var vm = this;
     vm.login = login;
+    vm.forget_password_modal = forget_password_modal;
     vm.user = null;
     if($rootScope.user){
         $state.go('dashboard');
@@ -25,6 +26,8 @@ function HomeController($http, $state, $rootScope, Auth){
             }
         })
     }
-    
-    
+
+    function forget_password_modal(){
+        $('#resetpassword').openModal();
+    }
 }

@@ -14,6 +14,7 @@ function DashboardHomeController($rootScope, $http){
     vm.marker = null;
 
     angular.element(document).ready(function () {
+        $('ul.tabs').tabs();
         var startPos;
         var geoSuccess = function(position) {
             startPos = position;

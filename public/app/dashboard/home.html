@@ -1,5 +1,8 @@
 <div class=row">
-    <div class="col s12 m12 l12" style="margin-top: -20px;">
+    <div class="col s12 m12 l4" style="margin-top: -20px;">
+        <p class="input-field container">
+            <i class="fa fa-search"></i><input type="text" id="fleet" placeholder="FLEET">
+        </p>
         <div class="col s12 m12 l6">
             <ul class="tabs">
                 <li class="tab col s6 m6 l6"><a class="active" href="#carlist"><i class="fa fa-truck"></i>Vehicle List</a></li>
@@ -9,9 +12,6 @@
     </div>
 
     <div class="col s12 m12 l12" id="carlist">
-        <p class="input-field col s12 m12 l6">
-            <i class="fa fa-search"></i><input type="text" id="fleet" placeholder="FLEET">
-        </p>
         <table>
             <thead>
                 <tr>
@@ -24,6 +24,7 @@
                     <td><b>TODAY MILLEAGE</b></td>
                     <td><b>IGNITION</b></td>
                     <td><b>LOCATION</b></td>
+                    <td><b><a class="dropdown-button" href="sorting"><i class="fa fa-cogs fa-2x" style="cursor:pointer"></i></a></b></td>
                 </tr>
             </thead>
             <tbody>
@@ -39,8 +40,8 @@
                     <td>SPICE Arena, Bayan Lepas, Pulau Pinang</td>
                 </tr>
                 <tr>
-                    <td>Abc Fleep</td>
-                    <td>DE F5678</td>
+                    <td>Abc Fleet</td>
+                    <td>DEF 5678</td>
                     <td>DENNIS LEE</td>
                     <td>SHSPG</td>
                     <td>76km/h</td>
@@ -56,11 +57,6 @@
     <div class="col s12 m12 l12" id="carmapping">
         <div class="row">
             <div class="col s12 m12 l4" >
-                <select class="browser-default col s12 m12 l12">
-                    <option>SHSJB</option>
-                    <option>SHSKL</option>
-                    <option>BH PORT KLANG</option>
-                </select>
                 <table>
                     <thead>
                     <tr>
@@ -80,7 +76,7 @@
                         <td>800</td>
                     </tr>
                     <tr>
-                        <td>Abc Fleep</td>
+                        <td>Abc Fleet</td>
                         <td>DE F5678</td>
                         <td>DENNIS LEE</td>
                         <td>76km/h</td>
@@ -96,3 +92,5 @@
         </div>
     </div>
 </div>
+
+<div class="dropdown-content" id="sorting"></div>

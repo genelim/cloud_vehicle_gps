@@ -5,8 +5,8 @@
         </p>
         <div class="col s12 m12 l6">
             <ul class="tabs">
-                <li class="tab col s6 m6 l6"><a class="active" href="#carlist"><i class="fa fa-truck"></i>Vehicle List</a></li>
-                <li class="tab col s6 m6 l6"><a href="#carmapping">Map</a></li>
+                <li class="tab col s6 m6 l6"><a href="#carlist"><i class="fa fa-truck"></i>Vehicle List</a></li>
+                <li class="tab col s6 m6 l6"><a ng-click="vm.map_initialize()" href="#carmapping">Map</a></li>
             </ul>
         </div>
     </div>
@@ -84,7 +84,7 @@
             </div>
 
             <div class="col s12 m12 l8" style="height: calc(100vh - 176px);">
-                <div id="map"></div>
+                <div id="map_home"></div>
             </div>
         </div>
     </div>

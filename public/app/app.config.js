@@ -37,6 +37,8 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     .state('dashboard.vehicle_tracking', {
         url:'/vehicle_tracking',
         templateUrl: 'app/dashboard/vehicle_tracking.html',
+        controller: 'DashboardVehicleTrackingController',
+        controllerAs: 'vm'
     })
     // .state('dashboard.user_profile', {
     //     url:'/user_profile',

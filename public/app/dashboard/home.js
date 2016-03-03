@@ -10,7 +10,8 @@ function DashboardHomeController($rootScope, $http){
     vm.lng = 0;
     vm.user_setting_modal = user_setting_modal;
     vm.update_setting = update_setting;
-    var map = new google.maps.Map(document.getElementById("map"));
+    vm.map_initialize = map_initialize;
+    var map = new google.maps.Map(document.getElementById("map_home"));
 
     vm.marker = null;
 
@@ -42,6 +43,10 @@ function DashboardHomeController($rootScope, $http){
         }
         get_marker()
     });
+
+    function map_initialize(){
+        setTimeout(function(){ google.maps.event.trigger(map, "resize") }, 100);
+    }
 
     function get_marker(){
         $http.get('/api/location')

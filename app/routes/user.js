@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     db = mongoose.createConnection('mongodb://127.0.0.1/cloud_vehicle'),
     User = require('../models/user.js')(db);
 
-exports.get_user = function (req, res) {
+exports.get_users = function (req, res) {
 	User.find().exec(function(err,user){
         res.json(user);
     })
@@ -64,7 +64,6 @@ exports.get_user = function(req, res){
         if(err){
             res.json({response:'Server Error'});
         }else{
-            console.log(user)
             res.json({response:user});
         }
     })

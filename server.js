@@ -12,7 +12,7 @@ var express = require('express'),
 require('./app/config/passport')(passport);
     
 app.use(bodyParser.json()); 
-app.use(session({secret: 'this is cloudtruck', cookie: { maxAge: 180000 }, saveUninitialized: true, resave: true}));
+app.use(session({secret: 'this is cloudtruck', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -27,6 +27,8 @@ app.post('/api/user_login', passport.authenticate('local-login'), user.login_use
 app.post('/api/user_register', user.save_user);
 app.get('/api/loggedin', user.check_login);
 app.post('/api/logout', user.user_logout);
+app.put('/api/user_settings', user.update_setting);
+app.post('/api/get_user', user.get_user);
 
 app.get('/api/location', location.get);
 app.post('/api/location', location.add);

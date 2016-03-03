@@ -15,40 +15,37 @@
         <table>
             <thead>
                 <tr>
-                    <td><b>FLEET</b></td>
-                    <td><b>PLATE NO</b></td>
-                    <td><b>DRIVER NAME</b></td>
-                    <td><b>GROUP NAME</b></td>
-                    <td><b>SPEED</b></td>
-                    <td><b>FUEL</b></td>
-                    <td><b>TODAY MILLEAGE</b></td>
-                    <td><b>IGNITION</b></td>
-                    <td><b>LOCATION</b></td>
-                    <td><b><a class="dropdown-button" href="sorting"><i class="fa fa-cogs fa-2x" style="cursor:pointer"></i></a></b></td>
+                    <td ng-if="user.response.settings.plate_number"><b>PLATE NO</b></td>
+                    <td ng-if="user.response.settings.driver_name"><b>DRIVER NAME</b></td>
+                    <td ng-if="user.response.settings.group_name"><b>GROUP NAME</b></td>
+                    <td ng-if="user.response.settings.speed"><b>SPEED</b></td>
+                    <td ng-if="user.response.settings.fuel"><b>FUEL</b></td>
+                    <td ng-if="user.response.settings.total_mileage"><b>TODAY MILLEAGE</b></td>
+                    <td ng-if="user.response.settings.ignition"><b>IGNITION</b></td>
+                    <td ng-if="user.response.settings.location"><b>LOCATION</b></td>
+                    <td><b><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x" style="cursor:pointer"></i></a></b></td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Abc Fleet</td>
-                    <td>ABC 1234</td>
-                    <td>GENE LIM</td>
-                    <td>SHSPG</td>
-                    <td>80 km/h</td>
-                    <td>800</td>
-                    <td>75.6km</td>
-                    <td>ON</td>
-                    <td>SPICE Arena, Bayan Lepas, Pulau Pinang</td>
+                    <td ng-if="user.response.settings.plate_number">ABC 1234</td>
+                    <td ng-if="user.response.settings.driver_name">GENE LIM</td>
+                    <td ng-if="user.response.settings.group_name">SHSPG</td>
+                    <td ng-if="user.response.settings.speed">80 km/h</td>
+                    <td ng-if="user.response.settings.fuel">800</td>
+                    <td ng-if="user.response.settings.total_mileage">75.6km</td>
+                    <td ng-if="user.response.settings.ignition">ON</td>
+                    <td ng-if="user.response.settings.location">SPICE Arena, Bayan Lepas, Pulau Pinang</td>
                 </tr>
-                <tr>
-                    <td>Abc Fleet</td>
-                    <td>DEF 5678</td>
-                    <td>DENNIS LEE</td>
-                    <td>SHSPG</td>
-                    <td>76km/h</td>
-                    <td>840</td>
-                    <td>58km</td>
-                    <td>ON</td>
-                    <td>Macalister Rd,10400 Georgetown, Pulau Pinang</td>
+                 <tr>
+                    <td ng-if="user.response.settings.plate_number">ABC 1234</td>
+                    <td ng-if="user.response.settings.driver_name">GENE LIM</td>
+                    <td ng-if="user.response.settings.group_name">SHSPG</td>
+                    <td ng-if="user.response.settings.speed">80 km/h</td>
+                    <td ng-if="user.response.settings.fuel">800</td>
+                    <td ng-if="user.response.settings.total_mileage">75.6km</td>
+                    <td ng-if="user.response.settings.ignition">ON</td>
+                    <td ng-if="user.response.settings.location">SPICE Arena, Bayan Lepas, Pulau Pinang</td>
                 </tr>
             </tbody>
         </table>
@@ -93,4 +90,123 @@
     </div>
 </div>
 
-<div class="dropdown-content" id="sorting"></div>
+<div id="user_setting_modal" class="modal">
+    <div class="modal-content">
+        <h4 style="text-align:center;">View Setting</h4>
+        <div class="row">
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.plate_number">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Plate Number</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.driver_name">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Drive Name</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.group_name">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Group Name</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.time">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Time</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.speed">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Speed</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.fuel">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Fuel</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.total_mileage">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Today Mileage</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.ignition">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Ignition</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.location">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Location</span>
+                </div>
+            </div>
+            <div class="col s12 m12 l5 push-l1">
+                <div class="switch alarmswitch">
+                    <label>
+                        Off
+                        <input type="checkbox" ng-model="user.response.settings.start_time">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                    <span class="switch_label">Starting Time</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="" class=" modal-action waves-effect waves-green btn-flat" ng-click="vm.update_setting()">Update</a>
+    </div>
+</div>

@@ -8,7 +8,8 @@ function DashboardHomeController($rootScope, $http){
     var vm = this;
     vm.lat = 0;
     vm.lng = 0;
-    vm.add_marker = add_marker;
+    vm.user_setting_modal = user_setting_modal;
+    vm.update_setting = update_setting;
     var map = new google.maps.Map(document.getElementById("map"));
 
     vm.marker = null;
@@ -78,27 +79,18 @@ function DashboardHomeController($rootScope, $http){
                     console.log(callback)
                 }
             );
+    }    
+
+    function user_setting_modal(){
+        $('#user_setting_modal').openModal();
     }
 
-    function add_marker(){
-        var data = {marker : vm.marker, user : $rootScope.user};
-        console.log(data)
-        $http.post('/api/location',data)
-            .then(
-                function(callback){
-                    // success callback
-                    if(callback.data.response === 'Server Error' || callback.data.response === 'Location Existed'){
-                        Materialize.toast(callback.data.response, 2000);
-                    }else{
-                        Materialize.toast('Location Added', 2000);
-                    }
-                    get_marker();
-                },
-                function(callback){
-                    // failure callback
-                    Materialize.toast('Server Error', 2000);
-                    console.log(callback)
-                }
-            );
+
+    function update_setting(){
+        $http.put('/api/user_settings', $rootScope.user.response)
+        .success(function(result){
+            $rootScope.user = result;
+            $('#user_setting_modal').closeModal();
+        })
     }
 }

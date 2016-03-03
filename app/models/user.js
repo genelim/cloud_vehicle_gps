@@ -1,6 +1,7 @@
 //Database schema for user details
 module.exports = function (connection) {
   	var mongoose    = require('mongoose'),
+        Schema = mongoose.Schema,
         bcrypt      = require('bcrypt-nodejs');
     
     var contact = new mongoose.Schema({
@@ -16,6 +17,19 @@ module.exports = function (connection) {
         state: String,        
         country: String 
     });
+
+    var page_settings = new mongoose.Schema({
+            plate_number    : Boolean,
+            driver_name     : Boolean,
+            group_name      : Boolean,
+            time            : Boolean,
+            speed           : Boolean,
+            fuel            : Boolean,
+            total_mileage   : Boolean,
+            ignition        : Boolean,
+            location        : Boolean,
+            start_time      : Boolean
+    });
     
   	var user = new mongoose.Schema({
         username         : String,
@@ -30,6 +44,7 @@ module.exports = function (connection) {
         note             : String,
         role             : [Number],
 		updated_date     : Date, 
+        settings         : page_settings,
 		created_date     : { type : Date, default: Date.now },
         status           : { type : Boolean, default: false }
 	});

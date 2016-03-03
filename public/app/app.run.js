@@ -12,8 +12,10 @@ function runBlock($rootScope, Auth){
         }else{
             if(data.response === 'Invalid email or password!' || data.response === 'Server Error')
             $rootScope.user = null;
-            else
-            $rootScope.user = data;
+            else{
+                $rootScope.user = data;
+                console.log(data)
+            }
         }
     })
 

@@ -1,8 +1,5 @@
 <div class=row">
     <div class="col s12 m12 l4" style="margin-top: -20px;">
-        <p class="input-field container">
-            <i class="fa fa-search"></i><input type="text" id="fleet" placeholder="FLEET">
-        </p>
         <div class="col s12 m12 l6">
             <ul class="tabs">
                 <li class="tab col s6 m6 l6"><a href="#carlist"><i class="fa fa-truck"></i>Vehicle List</a></li>
@@ -11,7 +8,12 @@
         </div>
     </div>
 
-    <div class="col s12 m12 l12" id="carlist">
+    <div id="carlist">
+        <div class="center">
+            <input type="text" id="fleet" style="width:10%" placeholder="FLEET">
+            <a class="btn">Search</a><b><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x" style="margin-left:1%"></i></a></b>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -23,7 +25,6 @@
                     <td ng-if="user.response.settings.total_mileage"><b>TODAY MILLEAGE</b></td>
                     <td ng-if="user.response.settings.ignition"><b>IGNITION</b></td>
                     <td ng-if="user.response.settings.location"><b>LOCATION</b></td>
-                    <td><b><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x" style="cursor:pointer"></i></a></b></td>
                 </tr>
             </thead>
             <tbody>
@@ -67,14 +68,14 @@
                     <tbody>
                     <tr>
                         <td>Abc Fleet</td>
-                        <td>ABC 1234</td>
+                        <td><a href="#">ABC 1234</a></td>
                         <td>GENE LIM</td>
                         <td>80 km/h</td>
                         <td>800</td>
                     </tr>
                     <tr>
                         <td>Abc Fleet</td>
-                        <td>DE F5678</td>
+                        <td><a href="#">DEF 5678</a></td>
                         <td>DENNIS LEE</td>
                         <td>76km/h</td>
                         <td>840</td>

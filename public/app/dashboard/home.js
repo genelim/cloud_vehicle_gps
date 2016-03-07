@@ -98,4 +98,5 @@ function DashboardHomeController($rootScope, $http){
             $('#user_setting_modal').closeModal();
         })
     }
+
 }

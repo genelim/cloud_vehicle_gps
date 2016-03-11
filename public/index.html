@@ -23,7 +23,7 @@
                     </a>
                     <a href="/dashboard" class="brand-logo blue-text darken-2" ng-class="{'center' : !user }"></a>
                     <ul class="right hide-on-med-and-down" ng-if="user">
-                        <li><a class="dropdown-button blue-text" ><i class="fa fa-globe"></i></a></li> <!--notification button-->
+                        <li><a class="dropdown-button blue-text" ><i class="fa fa-bell"></i><span class="new badge">4</span></a></li> <!--notification button-->
                         <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">{{user.response.username}}<i class="fa fa-arrow-down right"></i></a></li>
                         <li ng-if="user.response.role.indexOf(1) > -1 && !admin_page"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
                         <li ng-if="user.response.role.indexOf(1) > -1 && admin_page"><a href="/" class="blue-text">Return Home<i class="fa fa-arrow-right right"></i></a></li>

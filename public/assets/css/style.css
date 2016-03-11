@@ -1,3 +1,11 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.nav-wrapper .brand-logo img {
+    height: 64px;
+}
+
 #map_home {
     width: 100%; 
     height: 100%;
@@ -178,4 +186,31 @@ ul::-webkit-scrollbar-thumb
 
 .menuseperator{
     margin-top:2%;
+}
+
+.form-controls{
+    border-bottom: none !important;
+    color: #616d7d;
+    background: #38414c;
+    height: 26px !important;
+    line-height: 26px !important;
+    margin: 0px !important;
+    border-radius: 2px !important;
+    padding: 5px !important;
+}
+
+.form-controls:focus{
+    background:white !important; 
+    border-bottom:none !important;
+    box-shadow: 0 0px 0 0 #26a69a !important;
+}
+
+.search { position: relative; }
+.search input { text-indent: 30px;}
+.search .fa-search { 
+    position: absolute;
+    top: 15px;
+    left: 7px;
+    font-size: 15px;
+    color: #616d7d;
 }

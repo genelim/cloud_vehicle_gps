@@ -9,7 +9,7 @@
         <title>Could Vehicle</title>
         <base href="/">
     </head>
-    <body ng-app="app" ng-controller="NavigationController as vm">
+    <body ng-app="app" ng-controller="NavigationController as vm"  ng-cloak>
         <ul id="user_setting" class="dropdown-content">
             <li><a href="#profile" class="modal-trigger">Profile</a></li>
             <li><a href="#password" class="modal-trigger" >Password</a></li>
@@ -18,11 +18,15 @@
         <div class="navbar-fixed" style="z-index: 999;">
             <nav class="white">
                 <div class="nav-wrapper container">
+                    <a href="#!" class="brand-logo">
+                        <img src="/assets/image/logo.png">
+                    </a>
                     <a href="/dashboard" class="brand-logo blue-text darken-2" ng-class="{'center' : !user }"></a>
                     <ul class="right hide-on-med-and-down" ng-if="user">
                         <li><a class="dropdown-button blue-text" ><i class="fa fa-globe"></i></a></li> <!--notification button-->
                         <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">{{user.response.username}}<i class="fa fa-arrow-down right"></i></a></li>
-                        <li ng-if="user.response.role.indexOf(1) > -1"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
+                        <li ng-if="user.response.role.indexOf(1) > -1 && !admin_page"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
+                        <li ng-if="user.response.role.indexOf(1) > -1 && admin_page"><a href="/" class="blue-text">Return Home<i class="fa fa-arrow-right right"></i></a></li>
                         <li><a href="" class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Lock"><i class="fa fa-lock"></i></a></li>
                         <li><a class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Logout" ng-click="vm.logout()"><i class="fa fa-sign-out"></i></a></li>
                     </ul>

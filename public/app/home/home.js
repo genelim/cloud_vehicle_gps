@@ -11,6 +11,7 @@ function HomeController($http, $state, $rootScope, Auth){
     vm.user = null;
     
     if($rootScope.user){
+        $rootScope.admin_page = false;
         $state.go('dashboard');
     }    
     

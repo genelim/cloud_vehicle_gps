@@ -2,15 +2,13 @@ angular
     .module('app')
     .controller('SettingsController', SettingsController);
 
-SettingsController.$inject = [];
+SettingsController.$inject = ['$rootScope'];
 
-function SettingsController(){ 
+function SettingsController($rootScope){ 
     var vm = this;
     angular.element(document).ready(function () {
+        $('.modal-trigger').leanModal();
         $(".dropdown-button").dropdown();
+        $rootScope.admin_page = false;
     });
 }
-
-angular.element(document).ready(function () {
-    $('.modal-trigger').leanModal();
-});

@@ -12,6 +12,7 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
         if(!$rootScope.user){
             $state.go('home')
         }
+        // $rootScope.admin_page = false;
     })
     
     function logout(){

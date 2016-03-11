@@ -6,6 +6,7 @@ runBlock.$inject = ['$rootScope', 'Auth'];
 
 function runBlock($rootScope, Auth){ 
     $rootScope.user = null; 
+    $rootScope.admin_page = false;
     Auth.then(function(data){
         if(data === '0'){
             $rootScope.user = null;

@@ -14,6 +14,7 @@ function DashboardHomeController($rootScope, $http){
     vm.map_initialize = map_initialize;
     vm.initialize = initialize;
     var map = new google.maps.Map(document.getElementById("map_home"));
+    vm.number_wheels = 10;
 
     vm.marker = null;
 

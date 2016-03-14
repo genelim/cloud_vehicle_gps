@@ -52,21 +52,93 @@
 
     <div class="col s12 m12 l12" id="carmapping">
         <div class="row">
-            <div class="col s12 m12 l4" >
-                <table>
-                    <thead>
-                    <tr><td style="font-size:150%"><i class="fa fa-truck" style="margin-right:2%"></i>Vehicle Information</td></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>FLEET: <b>SHSPG</b></td></tr>
-                        <tr><td>PLATE NO: <b>ABC 1234</b></td></tr>
-                        <tr><td>Driver NAME: <b>Gene Lim</b></td></tr>
-                        <tr><td>SPEED: <b>80 km/h</b></td></tr>
-                        <tr><td>ADDRESS: <b>SPICE Arena, Bayan Lepas, Malaysia</b></td></tr>
-                    </tbody>
-                </table>
+            <div class="col s12 m12 l4 flow-text" >
+                <h3 style="font-weight:300;">Vehicle Details</h2>
+                <div class="row" style="font-size:20px;">
+                    <div class="row">
+                        <div class="col s3">FLEET</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8"><b>SHSPG</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">PLATE NO</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8"><b>PLJ 8268</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">Driver NAME</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8"><b>Gene Lim</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">SPEED</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8"><b>80 km/h</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">ADDRESS</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8"><b>SPICE Arena, Bayan Lepas, Malaysia</b></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h3 style="font-weight:300;">Tyre Details</h2>
+                    <div class="col l4">
+                        <div class="row center" style="position:relative;">
+                            <div>23</div>
+                            <img src="/assets/image/tyre_green.png" style="height:64px"/>
+                        </div>
+                        <div class="row center" style="position:relative;">
+                            <div>24</div>
+                            <img src="/assets/image/tyre_green.png" style="height:64px"/>                            
+                        </div>
+                    </div>     
+                    <div class="col s4">
+                        <div class="row">
+                            <div class="col s6 center" style="position:relative;">
+                                <div>21</div>
+                                <img src="/assets/image/tyre_green.png" style="height:64px"/>
+                            </div>
+                            <div class="col s6 center" style="position:relative;">
+                                <div>23</div>
+                                <img src="/assets/image/tyre_green.png" style="height:64px"/>
+                            </div>                       
+                        </div>
+                        <div class="row">
+                            <div class="col s6 center" style="position:relative;">
+                                <div>18</div>
+                                <img src="/assets/image/tyre_blue.png" style="height:64px"/>
+                            </div>
+                            <div class="col s6 center" style="position:relative;">
+                                <div>23</div>
+                                <img src="/assets/image/tyre_green.png" style="height:64px"/>
+                            </div>                           
+                        </div>
+                    </div>     
+                    <div class="col s4" ng-if="vm.number_wheels === 10">
+                        <div class="row">
+                            <div class="col s6 center" style="position:relative;">
+                                <div>31</div>
+                                <img src="/assets/image/tyre_red.png" style="height:64px"/>
+                            </div>
+                            <div class="col s6 center" style="position:relative;">
+                                <div>13</div>
+                                <img src="/assets/image/tyre_blue.png" style="height:64px"/>
+                            </div>               
+                        </div>
+                        <div class="row">
+                            <div class="col s6 center" style="position:relative;">
+                                <div>23</div>
+                                <img src="/assets/image/tyre_green.png" style="height:64px"/>
+                            </div>
+                            <div class="col s6 center" style="position:relative;">
+                                <div>19</div>
+                                <img src="/assets/image/tyre_blue.png" style="height:64px"/>
+                            </div>                       
+                        </div>
+                    </div>                    
+                </div>
             </div>
-
             <div class="col s12 m12 l8" style="height: calc(100vh - 176px);">
                 <div id="map_home"></div>
             </div>

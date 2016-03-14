@@ -214,3 +214,19 @@ ul::-webkit-scrollbar-thumb
     font-size: 15px;
     color: #616d7d;
 }
+
+.psi{ 
+    color: #3A3A3A; 
+    font: bold 12px Helvetica, Sans-Serif; 
+    letter-spacing: -1px;  
+    background: rgb(234, 232, 232); /* fallback color */
+    background: rgba(234, 232, 232, 0.7);
+    padding: 4px; 
+    position:absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 32px;
+    top: 20px;
+}

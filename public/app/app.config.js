@@ -22,6 +22,12 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         controller: 'HomeController',
         controllerAs: 'vm'
     })
+    .state('reset_password', {
+        url:'/api/reset_password/:token',
+        templateUrl: 'app/home/reset_password.html',
+        controller: 'ResetPasswordController',
+        controllerAs: 'vm'
+    })
     .state('dashboard', {
         url:'/dashboard',
         templateUrl: 'app/dashboard/dashboard.html',

@@ -6,6 +6,7 @@ var express = require('express'),
 	session = require('express-session'),
     vehicle = require('./app/routes/vehicle'),
     location = require('./app/routes/location'),
+    reset_password = require('./app/routes/reset_password'),
     user = require('./app/routes/user'),
     port = process.env.PORT || 90;
 
@@ -32,6 +33,9 @@ app.post('/api/get_user', user.get_user);
 
 app.get('/api/location', location.get);
 app.post('/api/location', location.add);
+
+app.post('/api/reset_password', reset_password.send);
+
 
 app.all('/*', function(req, res, next) {
     res.sendFile('/public/index.html', { root: __dirname });

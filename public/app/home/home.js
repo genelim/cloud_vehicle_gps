@@ -8,6 +8,7 @@ function HomeController($http, $state, $rootScope, Auth){
     var vm = this;
     vm.login = login;
     vm.forget_password_modal = forget_password_modal;
+    vm.forget_password = forget_password;
     vm.user = null;
     
     if($rootScope.user){
@@ -31,5 +32,14 @@ function HomeController($http, $state, $rootScope, Auth){
 
     function forget_password_modal(){
          $('#resetpassword').openModal();
+    }
+    
+    function forget_password(username){
+        if(username){
+            $http.post('/api/reset_password', {username : username })
+            .success(function(value){
+                console.log(value);
+            })
+        }
     }
 }

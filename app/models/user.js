@@ -17,18 +17,23 @@ module.exports = function (connection) {
         state: String,        
         country: String 
     });
+    
+    var reset_password = new mongoose.Schema({
+        token       : String,
+        expiry_date : Date
+    });
 
     var page_settings = new mongoose.Schema({
-            plate_number    : Boolean,
-            driver_name     : Boolean,
-            group_name      : Boolean,
-            time            : Boolean,
-            speed           : Boolean,
-            fuel            : Boolean,
-            total_mileage   : Boolean,
-            ignition        : Boolean,
-            location        : Boolean,
-            start_time      : Boolean
+        plate_number    : Boolean,
+        driver_name     : Boolean,
+        group_name      : Boolean,
+        time            : Boolean,
+        speed           : Boolean,
+        fuel            : Boolean,
+        total_mileage   : Boolean,
+        ignition        : Boolean,
+        location        : Boolean,
+        start_time      : Boolean
     });
     
   	var user = new mongoose.Schema({
@@ -46,7 +51,8 @@ module.exports = function (connection) {
 		updated_date     : Date, 
         settings         : page_settings,
 		created_date     : { type : Date, default: Date.now },
-        status           : { type : Boolean, default: false }
+        status           : { type : Boolean, default: false },
+        reset_password   : reset_password 
 	});
 
     user.methods.generateHash = function(password) {

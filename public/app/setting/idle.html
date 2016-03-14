@@ -1,17 +1,17 @@
 <div class="container center">
     <p class="headerrow">Idling Alarm</p>
     <div class="row">
-        <div class="col s12 m12 l6 offset-l3">
-            <div class="col s12 m12 l6">
-                <p>Time Threshold:<br/>(0-65535)</p>
-            </div>
-            <div class="col s12 m12 l6 input-field">
-                <input id="idle" type="number" min="0" maxlength="5" value="0" class="center">
-                <label for="idle" class="active">Minute</label>
-            </div>
+        <div class="col s12 m12 l12">
+            <p>Time Threshold: (Minute)</p>
         </div>
-        <a class="btn">Send</a>
+        <div class="col s12 m12 l2 push-l5">
+            <input id="idle" type="number" min="0" maxlength="5" value="0" class="center">
+        </div>
+
+        <div class="col s12 m12 l12">
+            <a class="btn">Send</a>
+        </div>
     </div>
-    <i class="fa fa-exclamation-triangle"></i><p>Operation Tips:<br/>
+    <p><i class="fa fa-exclamation-triangle fa-2x" style="margin-right:2%"></i><b style="font-size:120%">Operation Tips:</b></p>
     When the parking time exceeds the time threshold set when the machine take the initiative, made a parking car alarm information. If set to 0 to not create parking alarm
 </div>

@@ -54,6 +54,7 @@ function AdminLocationController($http, $rootScope){
                     var marker = new google.maps.Marker({
                         position: LatLng,
                         map: map,
+                        icon: '/assets/image/tollstation.png',
                         title: callback.data.response[i].name
                     });
                     createInfoWindow(marker, 

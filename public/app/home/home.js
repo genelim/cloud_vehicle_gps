@@ -38,7 +38,10 @@ function HomeController($http, $state, $rootScope, Auth){
         if(username){
             $http.post('/api/reset_password', {username : username })
             .success(function(value){
-                console.log(value);
+                if(value.response === 'Message sent!'){
+                    $('#resetpassword').closeModal();
+                }
+                Materialize.toast(value, 2000);
             })
         }
     }

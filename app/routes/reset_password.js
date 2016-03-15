@@ -37,19 +37,54 @@ exports.send = function (req, res) {
                 from: '"CloudTruck 👥" <test@cloudtruck.com.my>', 
                 to: user.email, 
                 subject: 'Reset CloudTruck Password ✔', 
-                html: '<a href="http:localhost:90/api/reset_password/'+new_token+'">Click</a> to reset your password. This link expires in 1 day'
+                html: '<a href="http:localhost:90/reset_password/'+new_token+'">Click</a> to reset your password. This link expires in 1 hour'
             };
-            user.reset_password = {token : new_token, expiry_date : Date.now()+1 };
+            user.reset_password = {token : new_token, expiry_date : (Date.now() + 3600000)};
             user.save(function(error, update_user){
                 transporter.sendMail(mailOptions, function(error, info){
                     if(error){
-                        res.json({response:'Error in sending email. Contact your administrator.'});
+                        res.json({response:'Error in sending email. Contact your administrator.'})
                     }else{
-                        res.json({response:'Message sent!'});
+                        res.json({response:'Message sent!'})
                     }
                 });
             })
             
+        }
+    })
+}
+
+exports.check_token = function(req, res){
+    User.findOne({'reset_password.token' : req.params.token, 'reset_password.expiry_date' : {$gt : Date.now()} })
+    .exec(function(err, user){
+        if(err){
+            res.json({response: 'Server Error'})
+        }else if(!user){
+            res.json({response: 'Expired Link'})
+        }else if(user){
+            res.json({response: 'Available'})
+        }
+    })
+}
+
+exports.update_password = function(req, res){
+    User.findOne({'reset_password.token' : req.body.token, 'reset_password.expiry_date' : {$gt : Date.now()} })
+    .exec(function(err, user){
+        if(err){
+            res.json({response: 'Server Error'})
+        }else if(!user){
+            res.json({response: 'Expired Link'})
+        }else if(user){
+            user.password = user.generateHash(req.body.password.new_password);
+            user.reset_password = {};
+            
+            user.save(function(err, updated_user){
+                if(err){
+                    res.json({response: 'Server Error'})
+                }else{
+                    res.json({response: 'Updated!'})
+                }
+            })            
         }
     })
 }

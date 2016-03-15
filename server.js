@@ -35,6 +35,8 @@ app.get('/api/location', location.get);
 app.post('/api/location', location.add);
 
 app.post('/api/reset_password', reset_password.send);
+app.get('/api/reset_password/:token', reset_password.check_token);
+app.put('/api/reset_password', reset_password.update_password);
 
 
 app.all('/*', function(req, res, next) {

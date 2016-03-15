@@ -16,7 +16,6 @@ function runBlock($rootScope, Auth){
             $rootScope.user = null;
             else{
                 $rootScope.user = data;
-                console.log(data)
             }
         }
     })

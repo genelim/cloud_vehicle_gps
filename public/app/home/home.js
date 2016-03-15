@@ -10,6 +10,7 @@ function HomeController($http, $state, $rootScope, Auth){
     vm.forget_password_modal = forget_password_modal;
     vm.forget_password = forget_password;
     vm.user = null;
+    vm.load = false;
     
     if($rootScope.user){
         $rootScope.admin_page = false;
@@ -35,13 +36,15 @@ function HomeController($http, $state, $rootScope, Auth){
     }
     
     function forget_password(username){
+        vm.load = true;
         if(username){
             $http.post('/api/reset_password', {username : username })
             .success(function(value){
                 if(value.response === 'Message sent!'){
                     $('#resetpassword').closeModal();
                 }
-                Materialize.toast(value, 2000);
+                Materialize.toast(value.response, 2000);
+                vm.load = false;
             })
         }
     }

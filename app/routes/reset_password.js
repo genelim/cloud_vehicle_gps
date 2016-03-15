@@ -37,7 +37,8 @@ exports.send = function (req, res) {
                 from: '"CloudTruck 👥" <test@cloudtruck.com.my>', 
                 to: user.email, 
                 subject: 'Reset CloudTruck Password ✔', 
-                html: '<a href="http:localhost:90/reset_password/'+new_token+'">Click</a> to reset your password. This link expires in 1 hour'
+                text: 'Please follow this link to reset your password http:localhost:90/reset_password/'+new_token+' This link expires in 1 hour.',
+                html: 'Please follow this link to reset your password <a href="http:localhost:90/reset_password/'+new_token+'"> http:localhost:90/reset_password/'+new_token+'</a> <p> This link expires in 1 hour.</p>'
             };
             user.reset_password = {token : new_token, expiry_date : (Date.now() + 3600000)};
             user.save(function(error, update_user){

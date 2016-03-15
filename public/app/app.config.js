@@ -5,7 +5,7 @@ angular
 Configuration.$inject = ['$urlRouterProvider','$stateProvider','$locationProvider'];
 
 function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/dashboard/home');
     $urlRouterProvider.when('/dashboard', '/dashboard/home');
     $urlRouterProvider.when('/dashboard/', '/dashboard/home');
     $urlRouterProvider.when('/dashboard/settings', '/dashboard/settings/message_to_device');
@@ -45,16 +45,7 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         templateUrl: 'app/dashboard/vehicle_tracking.html',
         controller: 'DashboardVehicleTrackingController',
         controllerAs: 'vm'
-    })
-    // .state('dashboard.user_profile', {
-    //     url:'/user_profile',
-    //     templateUrl: 'app/dashboard/user_profile.html',
-    // })
-    // .state('dashboard.user_change_password', {
-    //     url:'/user_change_password',
-    //     templateUrl: 'app/dashboard/user_change_password.html',
-    // })
-    
+    })    
     .state('dashboard.settings', {
         url:'/settings',
         templateUrl: 'app/setting/home.html',

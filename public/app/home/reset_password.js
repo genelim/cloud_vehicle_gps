@@ -10,7 +10,6 @@ function ResetPasswordController($http, $stateParams, $rootScope){
     vm.reset_password = reset_password;
   
     angular.element(document).ready(function(){
-        $rootScope.user_type = 1;
         check_validity();
     })
     
@@ -21,6 +20,8 @@ function ResetPasswordController($http, $stateParams, $rootScope){
                 $http.get('/api/reset_password/'+$stateParams.token).then(function(result){
                     if(result.data.response === 'Available'){
                         vm.validated = 1;
+                        $rootScope.user_type = 1;
+                        
                     }else{
                         vm.validated = 2;
                     }
@@ -36,9 +37,9 @@ function ResetPasswordController($http, $stateParams, $rootScope){
         $http.put('/api/reset_password', data)
         .success(function(result){
             if(result.response !== 'Server Error' && result.response !== 'Expired Link'){
+                $rootScope.user_type = 0;
                 vm.validated = 3;
             }else{
-                $rootScope.user_type = 0;
                 vm.validated = 2;
             }
         })

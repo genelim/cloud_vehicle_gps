@@ -2,7 +2,7 @@ angular
     .module('app')
     .controller('ResetPasswordController', ResetPasswordController);
 
-ResetPasswordController.$inject = ['$http', '$stateParams', '$rootScope', ];
+ResetPasswordController.$inject = ['$http', '$stateParams', '$rootScope'];
 
 function ResetPasswordController($http, $stateParams, $rootScope){ 
     var vm = this;

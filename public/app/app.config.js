@@ -52,6 +52,12 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         controller: 'SettingsController',
         controllerAs: 'vm'
     })
+    .state('dashboard.toll', {
+        url:'/toll',
+        templateUrl: 'app/toll/toll.html',
+        controller: 'TollController',
+        controllerAs: 'vm'
+    })
     .state('dashboard.settings.message_to_device', {
         url:'/message_to_device',
         templateUrl: "app/setting/message_to_device.html"

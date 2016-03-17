@@ -9,9 +9,8 @@ function AdminLocationController($http, $rootScope){
     vm.lat = 0;
     vm.lng = 0; 
     vm.add_marker = add_marker;
-    var map = new google.maps.Map(document.getElementById("map"));
-    
     vm.marker = null;
+    var map = new google.maps.Map(document.getElementById("map"));
     
     angular.element(document).ready(function () {
         var startPos;
@@ -55,6 +54,7 @@ function AdminLocationController($http, $rootScope){
                     var marker = new google.maps.Marker({
                         position: LatLng,
                         map: map,
+                        icon: '/assets/image/tollstation.png',
                         title: callback.data.response[i].name
                     });
                     createInfoWindow(marker, 

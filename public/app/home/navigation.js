@@ -7,9 +7,9 @@ NavigationController.$inject = ['$http', '$state', 'Auth', '$scope', '$rootScope
 function NavigationController($http, $state, Auth, $scope, $rootScope){ 
     var vm = this;
     vm.logout = logout;
+    vm.open_modal = open_modal;
   
     angular.element(document).ready(function(){
-        console.log($rootScope.user_type)
         if(!$rootScope.user && $rootScope.user_type !== 0){
             $state.go('home')
         }
@@ -27,4 +27,8 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
     		}
     	})
     } 
+    
+    function open_modal(modal){
+        $('#'+modal).openModal();
+    }
 }

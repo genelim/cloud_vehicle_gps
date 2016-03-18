@@ -36,6 +36,8 @@ function AdminLocationController($http, $rootScope){
             $('#add_marker_modal').openModal();
             $('.lean-overlay').click(function(res){
                 mark.setMap(null);
+                console.log(vm.marker)
+                vm.marker = null;
             })
             $('#add_marker').click(function(){
                 mark.setMap(null);
@@ -106,6 +108,7 @@ function AdminLocationController($http, $rootScope){
                 }else{
                     Materialize.toast('Location Added', 2000);
                 }   
+                vm.marker = null;
                 get_marker(); 
             }, 
             function(callback){

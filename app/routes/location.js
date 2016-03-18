@@ -9,6 +9,7 @@ exports.add = function (req, res) {
     newLocation.longitude = req.body.marker.lng;
     newLocation.latitude = req.body.marker.lat;
     newLocation.name = req.body.marker.name;
+    newLocation.type_marker = req.body.marker.type_marker;
     newLocation.created_by = req.body.user.response._id;
     
     Location.findOne({latitude:req.body.marker.lat,longitude:req.body.marker.lng})

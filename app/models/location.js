@@ -6,6 +6,7 @@ module.exports = function (connection) {
 		longitude	  : Number,
 		latitude	  : Number,
 		name		  : String,
+		type_marker   : String,
 		created_by    : { type: Schema.Types.ObjectId, ref: 'User' }
     });
 

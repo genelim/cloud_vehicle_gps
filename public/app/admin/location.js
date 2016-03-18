@@ -37,6 +37,9 @@ function AdminLocationController($http, $rootScope){
             $('.lean-overlay').click(function(res){
                 mark.setMap(null);
             })
+            $('#add_marker').click(function(){
+                mark.setMap(null);
+            })
         }
         get_marker()    
     });
@@ -51,18 +54,26 @@ function AdminLocationController($http, $rootScope){
                                     lat: callback.data.response[i].latitude, 
                                     lng: callback.data.response[i].longitude
                                  };
-                    var marker = new google.maps.Marker({
-                        position: LatLng,
-                        map: map,
-                        icon: '/assets/image/tollstation.png',
-                        title: callback.data.response[i].name
-                    });
-                    createInfoWindow(marker, 
-                        'Name: '
-                        +callback.data.response[i].name 
-                        + ' Created By: ' 
-                        + callback.data.response[i].created_by.username
-                    );
+                    var icon = '';
+                    if(callback.data.response[i].type_marker === 'toll'){
+                        icon = '/assets/image/tollstation.png';
+                    }else{
+                        icon = '/assets/image/workcase.png'
+                    }
+                    if(callback.data.response[i].type_marker){
+                        var marker = new google.maps.Marker({
+                            position: LatLng,
+                            map: map,
+                            icon: icon,
+                            title: callback.data.response[i].name
+                        });
+                        createInfoWindow(marker, 
+                            'Name: '
+                            +callback.data.response[i].name 
+                            + ' Created By: ' 
+                            + callback.data.response[i].created_by.username
+                        );
+                    }
                 }
                 var infoWindow = new google.maps.InfoWindow();
                 function createInfoWindow(marker, popupContent) {
@@ -82,7 +93,10 @@ function AdminLocationController($http, $rootScope){
    
     function add_marker(){
         var data = {marker : vm.marker, user : $rootScope.user};
-        console.log(data)
+        if( angular.isUndefined(vm.marker) || !vm.marker.type_marker || !vm.marker.name){
+            Materialize.toast('Fields cannot be empty', 2000);
+            return;
+        }
         $http.post('/api/location',data)
             .then(
             function(callback){
@@ -91,7 +105,7 @@ function AdminLocationController($http, $rootScope){
                     Materialize.toast(callback.data.response, 2000);
                 }else{
                     Materialize.toast('Location Added', 2000);
-                }
+                }   
                 get_marker(); 
             }, 
             function(callback){

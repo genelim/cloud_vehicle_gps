@@ -1,18 +1,5 @@
 <div class="row">
-    <div class="col s12 m12 l4">
-        <form class="col s12 m12 l12">
-            <select>All Vehicle
-                <optgroup label="BH PORT KLANG">
-                    <option value="blv503">BLV 503</option>
-                </optgroup>
-                <optgroup label="SHSJB">
-                    <option value="agx4139">AGX 4139</option>
-                </optgroup>
-                <optgroup label="SHSKL">
-                    <option value="bey3416">BEY 3416</option>
-                </optgroup>
-            </select>
-        </form>
+    <div class="col s12 m12 l3">
         <div class="col s12 m12 l12" style="border:1px black solid;padding-bottom:2%">
             <p class="col s12 m12 l5">Plate NO:</p>
             <div class="col s12 m12 l7">
@@ -26,52 +13,48 @@
             <div class="col s12 m12 l7">
                 <input type="text" placeholder="2016-02-25" id="totime" onfocus="new WdatePicker()">
             </div>
-            <a class="btn col s12 m12 l5 left">Search</a>
-            <a class="btn col s12 m12 l5 right">Cancel</a>
+            <a class="btn col s12 m12 l4 push-l4">Search</a>
         </div>
 
         <div class="col s12 m12 l12 center mainborder" style="padding-top:5%;border-top:none">
-            <tr>
-                <td style="text-align: center; width: 40px;">
-                    <input type="button" disabled="" id="btnSespend" onclick="PlayClick(1)" style="height: 40px;" value="Pause">
-                </td>
-                <td style="text-align: center; width: 40px;">
-                    <input type="button" disabled="" id="btnPlay" onclick="PlayClick(2)" style="height: 40px;" value="Play">
-                </td>
-                <td style="text-align: center; width: 40px;">
-                    <input type="button" disabled="" id="btnStop" onclick="PlayClick(3)" style="height: 40px;" value="Stop">
-                </td>
-                <td style="text-align: center; width: 40px;">
-                    <input type="button" disabled="" id="btnExport" onclick="ExportList()" style="height: 40px;" value="Export">
-                </td>
-                <td style="text-align: center;">
-                    <table cellpadding="0" cellspacing="0">
-                        <tbody>
-                        <tr>
-                            <td style="text-align: right">
-                                Playback speed:
-                            </td>
-                            <td>
-                                <form action="#">
-                                    <p class="range-field">
-                                        <input type="range" id="test5" min="-5" max="5" />
-                                    </p>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </div>
-
-        <div class="col s12 m12 l12 mainborder"  style="border-top:none">
-            <tr>
-                <td colspan="2" style="text-align: left;">
-                    <p>Play back the track when Speed  &gt;=<input type="text" class="input" id="tbSpeedLimit" value="2" style="width:40px; margin-left:2%; margin-right:2%">Km/h,</p>
-                    <p>For inquiries or Play Progress : <a id="anow">0</a>/<a id="atotal">0</a>，<a id="aProgress">0%</a></p>
-                </td>
-            </tr>
+            <div class="col s12 m12 l12" style="margin-bottom:5%">
+                <div class="col s12 m6 l6">
+                    <a class="btn" id="btnPlay">Play</a>
+                </div>
+                <div class="col s12 m6 l6">
+                    <a class="btn" id="btnSespend">Pause</a>
+                </div>
+            </div>
+            <div class="col s12 m12 l12">
+                <div class="col s12 m6 l6">
+                    <a class="btn" id="btnStop">Stop</a>
+                </div>
+                <div class="col s12 m6 l6">
+                    <a class="btn" id="btnExport">Export</a>
+                </div>
+            </div>
+            <table>
+                <tr>
+                    <td style="text-align: center;">
+                        <table cellpadding="0" cellspacing="0">
+                            <tbody>
+                            <tr>
+                                <td style="text-align: right">
+                                    Playback speed:
+                                </td>
+                                <td>
+                                    <form action="#">
+                                        <p class="range-field">
+                                            <input type="range" id="test5" min="-5" max="5" />
+                                        </p>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div class="col s12 m12 l12 mainborder" style="border-top:none">
@@ -79,17 +62,15 @@
                 <thead>
                 <tr>
                     <th>Time</th>
-                    <th>Address</th>
                     <th>Speed</th>
-                    <th>Parking Duration</th>
+                    <th>Address</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>14:20</td>
-                    <td>SPICE ARENA, Bayan Lepas, Pulau Pinang</td>
                     <td>40km/h</td>
-                    <td>0:00</td>
+                    <td>SPICE ARENA, Bayan Lepas, Pulau Pinang</td>
                 </tr>
                 </tbody>
             </table>

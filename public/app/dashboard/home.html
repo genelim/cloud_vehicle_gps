@@ -10,17 +10,17 @@
 
     <div id="carlist">
         <table>
-            <thead>
+            <thead class="tablehead">
                 <tr>
-                    <td ng-if="user.response.settings.plate_number"><b>PLATE NO</b></td>
-                    <td ng-if="user.response.settings.driver_name"><b>DRIVER NAME</b></td>
-                    <td ng-if="user.response.settings.group_name"><b>GROUP NAME</b></td>
-                    <td ng-if="user.response.settings.speed"><b>SPEED</b></td>
-                    <td ng-if="user.response.settings.fuel"><b>FUEL</b></td>
-                    <td ng-if="user.response.settings.total_mileage"><b>TODAY MILLEAGE</b></td>
-                    <td ng-if="user.response.settings.ignition"><b>IGNITION</b></td>
-                    <td ng-if="user.response.settings.location"><b>LOCATION</b></td>
-                    <td ng-if="vm.current_tab === 'list'"><b><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x grey-text" style="margin-left:1%"></i></a></b></td>
+                    <td ng-if="user.response.settings.plate_number">PLATE NO</td>
+                    <td ng-if="user.response.settings.driver_name">DRIVER NAME</td>
+                    <td ng-if="user.response.settings.group_name">GROUP NAME</td>
+                    <td ng-if="user.response.settings.speed">SPEED</td>
+                    <td ng-if="user.response.settings.fuel">FUEL</td>
+                    <td ng-if="user.response.settings.total_mileage">TODAY MILLEAGE</td>
+                    <td ng-if="user.response.settings.ignition">IGNITION</td>
+                    <td ng-if="user.response.settings.location">LOCATION</td>
+                    <td ng-if="vm.current_tab === 'list'"><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x grey-text" style="margin-left:1%"></i></a></td>
                 </tr>
             </thead>
             <tbody>

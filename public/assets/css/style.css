@@ -211,3 +211,9 @@ ul::-webkit-scrollbar-thumb
     width: 32px;
     top: 20px;
 }
+
+.tablehead{
+    background-color:#96A0AC;
+    color:black;
+    font-weight:bold;
+}

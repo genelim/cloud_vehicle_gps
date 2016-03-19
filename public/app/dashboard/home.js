@@ -20,7 +20,7 @@ function DashboardHomeController($rootScope, $http){
 
     angular.element(document).ready(function () {
         $rootScope.admin_page = false;
-        var startPos;
+        // var startPos;
         var geoSuccess = function(position) {
             startPos = position;
             vm.lat = startPos.coords.latitude;
@@ -30,22 +30,22 @@ function DashboardHomeController($rootScope, $http){
             map.setCenter(latlng);
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
-        google.maps.event.addListener(map, 'click', function(event) {
-            placeMarker(event.latLng);
-        });
+        // google.maps.event.addListener(map, 'click', function(event) {
+        //     placeMarker(event.latLng);
+        // });
 
-        function placeMarker(location) {
-            var mark = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-            vm.marker = {lat : location.lat(), lng:location.lng()};
-            $('#add_marker_modal').openModal();
-            $('.lean-overlay').click(function(res){
-                mark.setMap(null);
-            })
-        }
-        get_marker()
+        // function placeMarker(location) {
+        //     var mark = new google.maps.Marker({
+        //         position: location,
+        //         map: map
+        //     });
+        //     vm.marker = {lat : location.lat(), lng:location.lng()};
+        //     $('#add_marker_modal').openModal();
+        //     $('.lean-overlay').click(function(res){
+        //         mark.setMap(null);
+        //     })
+        // }
+        // get_marker()
     });
 
     function map_initialize(){
@@ -57,43 +57,43 @@ function DashboardHomeController($rootScope, $http){
         vm.current_tab = 'list';
     }
 
-    function get_marker(){
-        $http.get('/api/location')
-            .then(
-                function(callback){
-                    // success callback
-                    for(var i = 0; i < callback.data.response.length; i++){
-                        var LatLng = {
-                            lat: callback.data.response[i].latitude,
-                            lng: callback.data.response[i].longitude
-                        };
-                        var marker = new google.maps.Marker({
-                            position: LatLng,
-                            map: map,
-                            title: callback.data.response[i].name
-                        });
-                        createInfoWindow(marker,
-                            'Name: '
-                            +callback.data.response[i].name
-                            + ' Created By: '
-                            + callback.data.response[i].created_by.username
-                        );
-                    }
-                    var infoWindow = new google.maps.InfoWindow();
-                    function createInfoWindow(marker, popupContent) {
-                        google.maps.event.addListener(marker, 'click', function () {
-                            infoWindow.setContent(popupContent);
-                            infoWindow.open(map, this);
-                        });
-                    }
-                },
-                function(callback){
-                    // failure callback
-                    Materialize.toast('Server Error', 2000);
-                    console.log(callback)
-                }
-            );
-    }    
+    // function get_marker(){
+    //     $http.get('/api/location')
+    //         .then(
+    //             function(callback){
+    //                 // success callback
+    //                 for(var i = 0; i < callback.data.response.length; i++){
+    //                     var LatLng = {
+    //                         lat: callback.data.response[i].latitude,
+    //                         lng: callback.data.response[i].longitude
+    //                     };
+    //                     var marker = new google.maps.Marker({
+    //                         position: LatLng,
+    //                         map: map,
+    //                         title: callback.data.response[i].name
+    //                     });
+    //                     createInfoWindow(marker,
+    //                         'Name: '
+    //                         +callback.data.response[i].name
+    //                         + ' Created By: '
+    //                         + callback.data.response[i].created_by.username
+    //                     );
+    //                 }
+    //                 var infoWindow = new google.maps.InfoWindow();
+    //                 function createInfoWindow(marker, popupContent) {
+    //                     google.maps.event.addListener(marker, 'click', function () {
+    //                         infoWindow.setContent(popupContent);
+    //                         infoWindow.open(map, this);
+    //                     });
+    //                 }
+    //             },
+    //             function(callback){
+    //                 // failure callback
+    //                 Materialize.toast('Server Error', 2000);
+    //                 console.log(callback)
+    //             }
+    //         );
+    // }    
 
     function user_setting_modal(){
         $('#user_setting_modal').openModal();

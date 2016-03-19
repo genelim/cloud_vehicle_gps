@@ -8,8 +8,8 @@
         </div>
     </div>
 
-    <div id="carlist">
-        <table>
+    <div id="carlist" class="container" style="margin-top:1em;">
+        <table class="highlight">
             <thead class="tablehead">
                 <tr>
                     <td ng-if="user.response.settings.plate_number">PLATE NO</td>
@@ -20,7 +20,7 @@
                     <td ng-if="user.response.settings.total_mileage">TODAY MILLEAGE</td>
                     <td ng-if="user.response.settings.ignition">IGNITION</td>
                     <td ng-if="user.response.settings.location">LOCATION</td>
-                    <td ng-if="vm.current_tab === 'list'"><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x grey-text" style="margin-left:1%"></i></a></td>
+                    <td ng-if="vm.current_tab === 'list'"><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x white-text" style="margin-left:1%"></i></a></td>
                 </tr>
             </thead>
             <tbody>
@@ -51,7 +51,7 @@
     </div>
 
     <div class="col s12 m12 l12" id="carmapping">
-        <div class="row">
+        <div class="row" style="margin-bottom: 0px; margin-top:15px;">
             <div class="col s12 m12 l4">
                 <h5>Vehicle Details</h5>
                 <div class="row" style="font-size:100%;">
@@ -140,7 +140,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s12 m12 l8" style="height: calc(100vh - 176px);">
+            <div class="col s12 m12 l8 card" style="margin: 0; padding: 0; height: calc(100vh - 171px);">
                 <div id="map_home"></div>
             </div>
         </div>

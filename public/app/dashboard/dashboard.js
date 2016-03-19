@@ -16,8 +16,8 @@ function DashboardController($rootScope, $state, $scope){
         $('ul.tabs').tabs();
         $('.dropdown-button').dropdown();
     });
-    $('li').click(function(){
-        $( this).siblings().css( "background-color", "transparent" );
-        $( this).css( "background-color", "#EE6E73" );
-    })
+        $('li.menu').click(function(){
+            $( this).siblings().css( "background-color", "transparent" );
+            $( this).css( "background-color", "#EE6E73" );
+        })
 }

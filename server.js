@@ -7,7 +7,6 @@ var express = require('express'),
     port = process.env.PORT || 90;
 
 require('./app/config/passport')(passport);
-require('./app/routes')(app); 
     
 app.use(bodyParser.json()); 
 app.use(session({secret: 'this is cloudtruck', saveUninitialized: true, resave: true}));
@@ -17,6 +16,9 @@ app.use(passport.session());
 app.use('/app', express.static(__dirname + '/public/app'));
 app.use('/assets', express.static(__dirname + '/public/assets'));
 app.use('/libs', express.static(__dirname + '/public/libs'));
+
+require('./app/routes')(app); 
+
 app.all('/*', function(req, res, next) {
     res.sendFile('/public/index.html', { root: __dirname });
 }); 

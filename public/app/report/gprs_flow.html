@@ -12,7 +12,7 @@
                         From:
                     </div>
                     <div class="col s12 m12 l6">
-                        <input id="from" type="month">
+                        <input id="from" type="month" ng-model="vm.date.a">
                     </div>
                 </div>
 
@@ -21,13 +21,13 @@
                         To:
                     </div>
                     <div class="col s12 m12 l6">
-                        <input id="to" type="month">
+                        <input id="to" type="month" ng-model="vm.date.b">
                     </div>
                 </div>
             </div>
 
             <div class="col s12 m12 l2">
-                <a class="btn">Search</a>
+                <a class="btn" ng-click="vm.test()">Search</a>
             </div>
         </div>
     </div>

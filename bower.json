@@ -1,30 +1,30 @@
 {
-    "name": "cloud_vehicle_gps",
-    "description": "Could Vehicle Live Tracking",
-    "main": "server.js",
-    "authors": [
-        "Gene Lim"
-    ],
-    "license": "ISC",
-    "keywords": [
-        "cloud",
-        "gps"
-    ],
-    "homepage": "https://github.com/genelim/cloud_vehicle_gps",
-    "moduleType": [],
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "public/libs",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "angular": "^1.5.0",
-        "angular-ui-router": "^0.2.18",
-        "components-font-awesome": "^4.5.0",
-        "Materialize": "materialize#^0.97.5",
-        "angular-resource": "^1.5.0"
-    }
+  "name": "cloud_vehicle_gps",
+  "description": "Could Vehicle Live Tracking",
+  "main": "server.js",
+  "authors": [
+    "Gene Lim"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "cloud",
+    "gps"
+  ],
+  "homepage": "https://github.com/genelim/cloud_vehicle_gps",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-ui-router": "^0.2.18",
+    "components-font-awesome": "^4.5.0",
+    "Materialize": "materialize#^0.97.5",
+    "angular-resource": "^1.5.0"
+  }
 }

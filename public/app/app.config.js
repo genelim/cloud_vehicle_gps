@@ -142,7 +142,9 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     })
     .state('dashboard.reports.gprs_flow', {
         url:'/gprs_flow',
-        templateUrl: "app/report/gprs_flow.html"
+        templateUrl: "app/report/gprs_flow.html",
+        controller: "GprsFlowController",
+        controllerAs: 'vm'
     })
     .state('dashboard.reports.operation_log', {
         url:'/operation_log',

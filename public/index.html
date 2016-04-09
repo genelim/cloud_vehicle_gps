@@ -15,6 +15,44 @@
             <li><a href="#password" ng-click="vm.open_modal('password')">Password</a></li>
             <li><a href="" >View</a></li>
         </ul>
+        <ul id="dropdown" class="dropdown-content collection dropdown-notification">
+            <li class="collection-item avatar row" style="padding-left: 20px; margin: 0;">
+                <div class="col l2">
+                    <i class="fa fa-bolt fa-2x" style="color:yellow;"></i>
+                </div>
+                <div class="col l10" style="margin-top: 10px;">
+                    <span class="title" style="display: inline;"><b>PLA 3682</b> is over speeding</span>
+                    <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> 1 hour ago</p>
+                </div>
+            </li>
+            <li class="collection-item avatar row"  style="padding-left: 20px; margin: 0;">
+                <div class="col l2">
+                    <i class="fa fa-hourglass-half fa-2x" style="color:#89F589;"></i>
+                </div>
+                <div class="col l10" style="margin-top: 10px;">
+                    <span class="title" style="display: inline;"><b>ABC 1234</b> is over idling</span>
+                    <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> 2 hours ago</p>
+                </div>
+            </li>
+            <li class="collection-item avatar row"  style="padding-left: 20px; margin: 0;">
+                <div class="col l2">
+                    <i class="fa fa-bell fa-2x" style="color:#51BAF7;"></i>
+                </div>
+                <div class="col l10" style="margin-top: 10px;">
+                    <span class="title" style="display: inline;"><b>DEF 2422</b> is over speeding</span>
+                    <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> 3 hours ago</p>
+                </div>
+            </li>
+            <li class="collection-item avatar row"  style="padding-left: 20px; margin: 0;">
+                <div class="col l2">
+                    <i class="fa fa-bell fa-2x" style="color:#51BAF7;"></i>
+                </div>
+                <div class="col l10" style="margin-top: 10px;">
+                    <span class="title" style="display: inline;"><b>DEF 2422</b> is over speeding</span>
+                    <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> 3 hours ago</p>
+                </div>
+            </li>
+        </ul>
         <div class="navbar-fixed" style="z-index: 999;" ng-if="user && user_type === 0">
             <nav class="white">
                 <div class="nav-wrapper container">
@@ -23,7 +61,7 @@
                     </a>
                     <a href="/dashboard" class="brand-logo blue-text darken-2" ng-class="{'center' : !user }"></a>
                     <ul class="right hide-on-med-and-down" ng-if="user">
-                        <li><a class="dropdown-button blue-text" ><i class="fa fa-bell"></i><span class="new badge">4</span></a></li> <!--notification button-->
+                        <li><a class="dropdown-button blue-text dropdown-test" href="#!" data-activates="dropdown" data-beloworigin="true"><i class="fa fa-bell"></i><span class="new badge">4</span></a></li> <!--notification button-->
                         <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">{{user.response.username}}<i class="fa fa-arrow-down right"></i></a></li>
                         <li ng-if="user.response.role.indexOf(1) > -1 && !admin_page"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
                         <li ng-if="user.response.role.indexOf(1) > -1 && admin_page"><a href="/" class="blue-text">Return Home<i class="fa fa-arrow-right right"></i></a></li>

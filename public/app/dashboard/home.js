@@ -30,22 +30,6 @@ function DashboardHomeController($rootScope, $http){
             map.setCenter(latlng);
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
-        // google.maps.event.addListener(map, 'click', function(event) {
-        //     placeMarker(event.latLng);
-        // });
-
-        // function placeMarker(location) {
-        //     var mark = new google.maps.Marker({
-        //         position: location,
-        //         map: map
-        //     });
-        //     vm.marker = {lat : location.lat(), lng:location.lng()};
-        //     $('#add_marker_modal').openModal();
-        //     $('.lean-overlay').click(function(res){
-        //         mark.setMap(null);
-        //     })
-        // }
-        // get_marker()
     });
 
     function map_initialize(){
@@ -56,45 +40,7 @@ function DashboardHomeController($rootScope, $http){
     function initialize(){
         vm.current_tab = 'list';
     }
-
-    // function get_marker(){
-    //     $http.get('/api/location')
-    //         .then(
-    //             function(callback){
-    //                 // success callback
-    //                 for(var i = 0; i < callback.data.response.length; i++){
-    //                     var LatLng = {
-    //                         lat: callback.data.response[i].latitude,
-    //                         lng: callback.data.response[i].longitude
-    //                     };
-    //                     var marker = new google.maps.Marker({
-    //                         position: LatLng,
-    //                         map: map,
-    //                         title: callback.data.response[i].name
-    //                     });
-    //                     createInfoWindow(marker,
-    //                         'Name: '
-    //                         +callback.data.response[i].name
-    //                         + ' Created By: '
-    //                         + callback.data.response[i].created_by.username
-    //                     );
-    //                 }
-    //                 var infoWindow = new google.maps.InfoWindow();
-    //                 function createInfoWindow(marker, popupContent) {
-    //                     google.maps.event.addListener(marker, 'click', function () {
-    //                         infoWindow.setContent(popupContent);
-    //                         infoWindow.open(map, this);
-    //                     });
-    //                 }
-    //             },
-    //             function(callback){
-    //                 // failure callback
-    //                 Materialize.toast('Server Error', 2000);
-    //                 console.log(callback)
-    //             }
-    //         );
-    // }    
-
+    
     function user_setting_modal(){
         $('#user_setting_modal').openModal();
     }
@@ -107,5 +53,30 @@ function DashboardHomeController($rootScope, $http){
             $('#user_setting_modal').closeModal();
         })
     }
-
+    
+    function gps_getpos(carid){
+        return $http.post('/api/gps_getpos', {'carid' : carid})
+    }
+    
+    gps_getpos(100111).then(function(result){
+        console.log(JSON.parse(result.data.response))
+    });
+    
+    function car_getall(username){
+        return $http.post('/api/car_getall', {'username' : username})
+    }
+    
+    car_getall('sa').then(function(result){
+        var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+        var date = new Date(result.data[0].joinTime);
+        console.log(date)
+    });
+    
+    // function user_getall(){
+    //     return $http.post('http://ctserver.dyndns.org:91/data.aspx?action=getalluser')
+    // }
+    
+    // user_getall().then(function(result){
+    //     console.log(result.data.response)
+    // });
 }

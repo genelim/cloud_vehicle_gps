@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+    request = require('request'),
     db = mongoose.createConnection('mongodb://127.0.0.1/cloud_vehicle'),
     User = require('../models/user.js')(db);
 
@@ -78,6 +79,16 @@ exports.update_setting = function(req, res){
             user.save(function(err,update){
                 res.json({response:update});
             })
+        }
+    })
+}
+
+exports.user_getall = function(req, res){
+    request.get({url : 'http://ctserver.dyndns.org:91/data.aspx?action=getalluser'}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
         }
     })
 }

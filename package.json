@@ -1,35 +1,36 @@
 {
-    "name": "cloud_vehicle_gps",
-    "version": "1.0.0",
-    "description": "Could Vehicle Live Tracking",
-    "main": "server.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/genelim/cloud_vehicle_gps.git"
-    },
-    "keywords": [
-        "cloud",
-        "gps"
-    ],
-    "author": "Gene Lim",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/genelim/cloud_vehicle_gps/issues"
-    },
-    "homepage": "https://github.com/genelim/cloud_vehicle_gps#readme",
-    "dependencies": {
-        "bcrypt-nodejs": "0.0.3",
-        "body-parser": "^1.15.0",
-        "cookie-parser": "^1.4.1",
-        "express": "^4.13.4",
-        "express-session": "^1.13.0",
-        "mongoose": "^4.4.4",
-        "nodemailer": "^2.3.0",
-        "passport": "^0.3.2",
-        "passport-local": "^1.0.0",
-        "xoauth2": "^1.1.0"
-    }
+  "name": "cloud_vehicle_gps",
+  "version": "1.0.0",
+  "description": "Could Vehicle Live Tracking",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/genelim/cloud_vehicle_gps.git"
+  },
+  "keywords": [
+    "cloud",
+    "gps"
+  ],
+  "author": "Gene Lim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/genelim/cloud_vehicle_gps/issues"
+  },
+  "homepage": "https://github.com/genelim/cloud_vehicle_gps#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.4",
+    "nodemailer": "^2.3.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.70.0",
+    "xoauth2": "^1.1.0"
+  }
 }

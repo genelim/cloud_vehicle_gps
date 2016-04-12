@@ -2,10 +2,11 @@ var vehicle = require('./routes/vehicle'),
     location = require('./routes/location'),
     reset_password = require('./routes/reset_password'),
     user = require('./routes/user'),
+    // vehicle = require('./routes/vehicle'),
     passport = require('passport');
 
 module.exports = function(app) {
-    app.get('/api/vehicle', vehicle.get_vehicle);
+    // app.get('/api/vehicle', vehicle.get_vehicle);
 
     app.get('/api/user', user.get_users);
     app.post('/api/user_login', passport.authenticate('local-login'), user.login_user);
@@ -21,4 +22,9 @@ module.exports = function(app) {
     app.post('/api/reset_password', reset_password.send);
     app.get('/api/reset_password/:token', reset_password.check_token);
     app.put('/api/reset_password', reset_password.update_password);
+    
+    //Server's API
+    app.post('/api/gps_getpos', vehicle.gps_getpos)
+    app.post('/api/car_getall', vehicle.car_getall)
+    app.post('/api/user_getall', user.user_getall)
 }

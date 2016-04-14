@@ -26,5 +26,8 @@ module.exports = function(app) {
     //Server's API
     app.post('/api/gps_getpos', vehicle.gps_getpos)
     app.post('/api/car_getall', vehicle.car_getall)
-    app.post('/api/user_getall', user.user_getall)
+    app.post('/api/user_getinfo', user.user_getinfo)
+    app.post('/api/user_getgroupcars', user.user_getgroupcars)
+    app.post('/api/login', user.login)
+    app.get('/api/tree_groupcars', vehicle.tree_groupcars)
 }

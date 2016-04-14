@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     request = require('request'),
+    request = request.defaults({jar: true}),
     db = mongoose.createConnection('mongodb://127.0.0.1/cloud_vehicle'),
     User = require('../models/user.js')(db);
 
@@ -83,8 +84,40 @@ exports.update_setting = function(req, res){
     })
 }
 
-exports.user_getall = function(req, res){
-    request.get({url : 'http://ctserver.dyndns.org:91/data.aspx?action=getalluser'}, function(err,httpResponse,body){ 
+exports.user_getinfo = function(req, res){
+    var postData = {
+        'username': req.body.username
+    };
+
+    request.post({url : 'http://ctserver.dyndns.org:91/data.aspx?action=getuserinfo', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+}
+
+exports.user_getgroupcars = function(req, res){
+    var postData = {
+        'username': req.body.username
+    };
+
+    request.post({url : 'http://ctserver.dyndns.org:91/data.aspx?action=usergetgroupcars', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+}
+
+exports.login = function(req, res){
+    var postData = {
+        'username': req.body.username,
+        'userpass': req.body.userpass
+    };
+    request.post({url : 'http://ctserver.dyndns.org:91/data.aspx?action=login', formData : postData}, function(err,httpResponse,body){ 
         if(err){
             res.json({response: "Server Error"})
         }else{

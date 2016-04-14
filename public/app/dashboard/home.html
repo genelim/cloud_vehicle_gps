@@ -8,8 +8,8 @@
         </div>
     </div>
 
-    <div id="carlist" class="container" style="margin-top:1em;">
-        <table class="highlight">
+    <div id="carlist" class="container" style="margin-top:1em; text-align: center;">
+        <table class="highlight" ng-if="vm.car_details_full">
             <thead class="tablehead">
                 <tr>
                     <td ng-if="user.response.settings.plate_number">PLATE NO</td>
@@ -24,30 +24,63 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td ng-if="user.response.settings.plate_number">ABC 1234</td>
-                    <td ng-if="user.response.settings.driver_name">GENE LIM</td>
-                    <td ng-if="user.response.settings.group_name">SHSPG</td>
-                    <td ng-if="user.response.settings.speed">80 km/h</td>
-                    <td ng-if="user.response.settings.fuel">800</td>
-                    <td ng-if="user.response.settings.total_mileage">75.6km</td>
-                    <td ng-if="user.response.settings.ignition">ON</td>
-                    <td ng-if="user.response.settings.location">SPICE Arena, Bayan Lepas, Pulau Pinang</td>
-                    <td></td>
-                </tr>
-                 <tr>
-                    <td ng-if="user.response.settings.plate_number">ABC 1234</td>
-                    <td ng-if="user.response.settings.driver_name">GENE LIM</td>
-                    <td ng-if="user.response.settings.group_name">SHSPG</td>
-                    <td ng-if="user.response.settings.speed">80 km/h</td>
-                    <td ng-if="user.response.settings.fuel">800</td>
-                    <td ng-if="user.response.settings.total_mileage">75.6km</td>
-                    <td ng-if="user.response.settings.ignition">ON</td>
-                    <td ng-if="user.response.settings.location">SPICE Arena, Bayan Lepas, Pulau Pinang</td>
+                <tr ng-repeat="car_detail in vm.car_details_full" ng-click="vm.view_specific_vehicle($index)">
+                    <td ng-if="user.response.settings.plate_number">{{car_detail.data[0].carNO}}</td>
+                    <td ng-if="user.response.settings.driver_name && car_detail.data[0].driver">{{car_detail.data[0].driver}}</td>
+                    <td ng-if="user.response.settings.driver_name && !car_detail.data[0].driver">No Name</td>
+                    <td ng-if="user.response.settings.group_name">{{car_detail.data[0].group}}</td>
+                    <td ng-if="user.response.settings.speed">{{car_detail.data[0].speed}}</td>
+                    <td ng-if="user.response.settings.fuel">{{car_detail.data[0].fuel}}</td>
+                    <td ng-if="user.response.settings.total_mileage">{{car_detail.data[0].mileage}}km</td>
+                    <td ng-if="user.response.settings.ignition && car_detail.data[0].status">{{car_detail.data[0].status}}</td>
+                    <td ng-if="user.response.settings.ignition && !car_detail.data[0].status">Not Indicated</td>
+                    <td ng-if="user.response.settings.location && car_detail.data[0].address">{{car_detail.data[0].address}}</td>
+                    <td ng-if="user.response.settings.location && !car_detail.data[0].address">No Address</td>
                     <td></td>
                 </tr>
             </tbody>
         </table>
+        <div class="preloader-wrapper medium active" ng-if="!vm.car_details_full">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="col s12 m12 l12" id="carmapping">
@@ -58,27 +91,27 @@
                     <div class="row">
                         <div class="col s3">FLEET</div>
                         <div class="col s1">:</div>
-                        <div class="col s8"><b>SHSPG</b></div>
+                        <div class="col s8"><b>{{vm.car_details_full[vm.index].data[0].group}}</b></div>
                     </div>
                     <div class="row">
                         <div class="col s3">PLATE NO</div>
                         <div class="col s1">:</div>
-                        <div class="col s8"><b>PLJ 8268</b></div>
+                        <div class="col s8"><b>{{vm.car_details_full[vm.index].data[0].carNO}}</b></div>
                     </div>
                     <div class="row">
                         <div class="col s3">DRIVER</div>
                         <div class="col s1">:</div>
-                        <div class="col s8"><b>Gene Lim</b></div>
+                        <div class="col s8"><b>{{vm.car_details_full[vm.index].data[0].driver}}</b></div>
                     </div>
                     <div class="row">
                         <div class="col s3">SPEED</div>
                         <div class="col s1">:</div>
-                        <div class="col s8"><b>80 km/h</b></div>
+                        <div class="col s8"><b>{{vm.car_details_full[vm.index].data[0].speed}} km/h</b></div>
                     </div>
                     <div class="row">
                         <div class="col s3">ADDRESS</div>
                         <div class="col s1">:</div>
-                        <div class="col s8"><b>SPICE Arena, Bayan Lepas, Malaysia</b></div>
+                        <div class="col s8"><b>{{vm.car_details_full[vm.index].data[0].address}}</b></div>
                     </div>
                 </div>
 

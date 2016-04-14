@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
-    request = require("request");
+    request = require("request"),
+    request = request.defaults({jar: true});
 
 exports.gps_getpos = function (req, res) {
 	var postData = {
@@ -21,6 +22,16 @@ exports.car_getall = function (req, res) {
     };
 
     request.post({url : 'http://ctserver.dyndns.org:91/data.aspx?action=getcarlistall', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+};
+
+exports.tree_groupcars = function (req, res) {
+    request.get({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=tree_groupcars'}, function(err,httpResponse,body){ 
         if(err){
             res.json({response: "Server Error"})
         }else{

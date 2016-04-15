@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col s12 m12 l10">
         <div class="col s12 m12 l3">
-            <p>Vehicle Number Plate: <input type="text" id="platenumber" placeholder="ABC1234"></p>
+            <p>Vehicle Number Plate: <input type="text" id="platenumber" ng-model="vm.plate_number"></p>
         </div>
 
         <div class="col s12 m12 l4">
@@ -11,7 +11,7 @@
                     From:
                 </div>
                 <div class="col s12 m12 l6">
-                    <input id="from" type="month">
+                    <input id="from" type="date" ng-model="vm.date.a">
                 </div>
             </div>
 
@@ -20,17 +20,17 @@
                     To:
                 </div>
                 <div class="col s12 m12 l6">
-                    <input id="to" type="month">
+                    <input id="to" type="date" ng-model="vm.date.b">
                 </div>
             </div>
         </div>
-
+<!--
         <div class="col s12 m12 l3">
             <p>Idling Time >= <input type="number" id="idle" style="width:50px">Minute</p>
-        </div>
+        </div>-->
 
         <div class="col s12 m12 l2">
-            <a class="btn">Statistics</a>
+            <a class="btn" ng-click="vm.get_idle()">Statistics</a>
             <a class="btn buttonspace">Export</a>
         </div>
     </div>
@@ -61,76 +61,22 @@
         <table>
             <thead class="tablehead">
                 <tr>
-                    <td>INDEX</td>
                     <td>START DATE TIME</td>
                     <td>END DATE TIME</td>
                     <td>DURATION OF IDLE</td>
                     <td>IDLING(LITRE)</td>
-                    <td>RM</td>
                     <td>POI ADDRESS</td>
                     <td>LOCATION</td>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td>00:00:00</td>
-                    <td>23:59:59</td>
-                    <td>23:59:59</td>
-                    <td>0</td>
+                <tr ng-repeat="idle in vm.idle">
+                    <td>{{idle.gpsTime  | date:'medium'}}</td>
+                    <td>{{idle.end_date | date:'medium'}}</td>
+                    <td>{{idle.total_hours | number : 2}} hours</td>
                     <td>0</td>
                     <td>1.0239431 & 1.29482139</td>
                     <td>SPICE ARENA, Bayan Lepas, Pulau Pinang</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>00:00:00</td>
-                    <td>23:59:59</td>
-                    <td>23:59:59</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>2.0423321 & 5.12421539</td>
-                    <td>Macalister Road, 10400 Georgetown, Pulau Pinang</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>00:00:00</td>
-                    <td>23:59:59</td>
-                    <td>23:59:59</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>1.0239431 & 1.29482139</td>
-                    <td>SPICE ARENA, Bayan Lepas, Pulau Pinang</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>00:00:00</td>
-                    <td>23:59:59</td>
-                    <td>23:59:59</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>2.0423321 & 5.12421539</td>
-                    <td>Macalister Road, 10400 Georgetown, Pulau Pinang</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>00:00:00</td>
-                    <td>23:59:59</td>
-                    <td>23:59:59</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>1.0239431 & 1.29482139</td>
-                    <td>SPICE ARENA, Bayan Lepas, Pulau Pinang</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>00:00:00</td>
-                    <td>23:59:59</td>
-                    <td>23:59:59</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>2.0423321 & 5.12421539</td>
-                    <td>Macalister Road, 10400 Georgetown, Pulau Pinang</td>
                 </tr>
             </tbody>
         </table>

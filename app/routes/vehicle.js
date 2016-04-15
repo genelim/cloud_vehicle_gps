@@ -39,3 +39,18 @@ exports.tree_groupcars = function (req, res) {
         }
     })
 };
+
+exports.gps_gethistorypos = function (req, res) {
+    var postData = {
+        'carid': req.body.plate_number,
+        'timestart': req.body.date.a,
+        'timeend': req.body.date.b
+    };
+    request.post({url : 'http://ctserver.dyndns.org:91/data.aspx?action=querygpshistorydata', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+};

@@ -212,7 +212,9 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     })
     .state('dashboard.reports.idle', {
         url:'/idle',
-        templateUrl: "app/report/idle.html"
+        templateUrl: "app/report/idle.html",
+        controller: 'IdleController',
+        controllerAs: 'vm'
     })
     .state('dashboard.reports.fuel_management', {
         url:'/fuel_management',

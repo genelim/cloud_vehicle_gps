@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('DashboardHomeController', DashboardHomeController);
 
-DashboardHomeController.$inject = ['$rootScope', '$http'];
+DashboardHomeController.$inject = ['$rootScope', '$http', 'API_Data'];
 
-function DashboardHomeController($rootScope, $http){
+function DashboardHomeController($rootScope, $http, API_Data){
     var vm = this;
     vm.lat = 0;
     vm.lng = 0;
@@ -59,31 +59,8 @@ function DashboardHomeController($rootScope, $http){
         })
     }
     
-    function gps_getpos(carid){
-        return $http.post('/api/gps_getpos', {'carid' : carid})
-    }
-    
-    function car_getall(username){
-        return $http.post('/api/car_getall', {'username' : username})
-    }
-    
-    function user_getinfo(username){
-        return $http.post('/api/user_getinfo', {'username' : username})
-    }
-    
-    function user_getallgroupcars(username){
-        return $http.post('/api/user_getgroupcars', {'username' : username})
-    }
-    
-    function user_login(username, userpass){
-        return $http.post('/api/login', {'username' : username, 'userpass' : userpass})
-    }
-    
-    function tree_groupcars(){
-        return $http.get('/api/tree_groupcars')
-    }
-    
-    user_login('sa','1234').then(function(result){
+    //hardcode login - will change later when login function is integrated
+    API_Data.user_login('sa','1234').then(function(result){
         var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
         vm.username = result.data.users[0].username;
         vm.total_user_vehicle = result.data.vechileinfos.length
@@ -94,7 +71,7 @@ function DashboardHomeController($rootScope, $http){
     
     
     function full_car_details(username){
-         user_getinfo(username).then(function(result){
+         API_Data.user_getinfo(username).then(function(result){
             var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
             
             //set user details
@@ -110,7 +87,7 @@ function DashboardHomeController($rootScope, $http){
             var requests = 0;
             for(var i = 0; i < vm.user_carids.length; i++){
                 requests++;
-                gps_getpos(vm.user_carids[i]).then(function(result){
+                API_Data.gps_getpos(vm.user_carids[i]).then(function(result){
                     requests--;
                     if(vm.car_details.length < vm.total_user_vehicle){
                         vm.car_details.push(JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1")))      
@@ -121,7 +98,7 @@ function DashboardHomeController($rootScope, $http){
             
             //add carNo and driver
             function more_car_details(){        
-                car_getall(username).then(function(result){
+                API_Data.car_getall(username).then(function(result){
                     var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     for(var i = 0; i < result.data.length; i++){
                         for(var j = 0; j < vm.car_details.length; j++){
@@ -154,7 +131,7 @@ function DashboardHomeController($rootScope, $http){
             
             //add group details
             function car_group_attribute(){
-                tree_groupcars().then(function(result){
+                API_Data.tree_groupcars().then(function(result){
                     var tree_groupcar = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     for(var i = 0; i < tree_groupcar[0].children.length; i++){
                         for(var j = 0; j < vm.car_details.length; j++){
@@ -164,12 +141,12 @@ function DashboardHomeController($rootScope, $http){
                         }
                     }
                     vm.car_details_full = vm.car_details;
-                    console.log(vm.car_details_full)
                 })
             }
         });
     }
     
+    //getting specific vehicle and data to view
     function view_specific_vehicle(index){
         $('ul.tabs').tabs('select_tab', 'carmapping');
         map_initialize()

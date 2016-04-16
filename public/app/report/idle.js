@@ -2,29 +2,54 @@ angular
     .module('app')
     .controller('IdleController', IdleController);
 
-IdleController.$inject = ['$http'];
+IdleController.$inject = ['$http','API_Data'];
 
-function IdleController($http){ 
+function IdleController($http,API_Data){ 
     var vm = this;
     vm.get_idle = get_idle;
     vm.date = null;
     vm.plate_number = null;
     vm.idle = [];
+    vm.carid = null;
+    vm.get_driver_details = get_driver_details;
+    vm.cars = null;
+    vm.export_data = export_data;
+    vm.search_active = false;
     
-   function get_idle(){
+    API_Data.car_getall('sa').then(function(result){
+        var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+        vm.cars = result;   
+    })
+    
+    function export_data(){
+        var blob = new Blob([document.getElementById('exportable').innerHTML], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+        });
+        saveAs(blob, "Report.xls");
+    }
+    
+    function get_idle(){
+        vm.search_active = true;
         vm.idle = [];
-        var data = {date : vm.date, plate_number : vm.plate_number}
-        $http.post('/api/gps_gethistorypos', data)
-        .success(function(result){
-            console.log(result)
-            var res = JSON.parse(result.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+        vm.carid = null;
+        for(var i = 0; i < vm.cars.data.length; i++){
+            if(vm.cars.data[i].carNO === vm.plate_number){
+                vm.carid = vm.cars.data[i].carID;
+            }
+        }
+        API_Data.gps_gethistorypos(vm.date, vm.carid)
+        .then(function(result){
+            var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
             for(var i = 0; i < res.data.length; i++){
                 res.data[i].gpsTime = new Date(res.data[i].gpsTime)
             }
-            // console.log(res)
+            
+            //start is to get the starting point of not moving
+            //true is not moving
+            //false is first move, so from the true to false is the hours of idle
             var start = true;
             for(var i = 0; i < res.data.length; i++){
-                if(res.data[i].speed === 0){
+                if(res.data[i].speed === 0 && res.data[i].status === 'ACC off'){
                     if(start == true){
                         vm.idle.push(res.data[i])   
                         start = false;
@@ -47,9 +72,44 @@ function IdleController($http){
                         vm.idle[i].total_hours =  Math.abs(vm.idle[i].end_date - vm.idle[i].gpsTime) / 36e5;
                     }
                 }
-            }            
+            }    
+            var requests = 0;
+            function car_address(i) {
+                if( i < vm.idle.length ) {
+                    requests++;
+                    $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.idle[i].la+','+vm.idle[i].lo+'&sensor=true')
+                    .success(function(map){
+                        requests--;
+                        if(map.status === 'ZERO_RESULTS'){
+                            vm.idle[i].address = '';
+                        }else{
+                            vm.idle[i].address = map.results[0].formatted_address;
+                        }
+                        car_address(i+1)
+                        if (requests == 0) vm.get_driver_details();
+                    })
+                }
+            }    
+            car_address(0)
+                 
         })
     }
+    
+    function get_driver_details(){
+        API_Data.car_getall('sa').then(function(result){
+            var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+            for(var a = 0; a < result.data.length; a++){
+                if(result.data[a].carID === vm.carid){
+                    vm.idle.driver = result.data[a].driver;
+                    vm.idle.driverTel = result.data[a].driverTel;
+                    vm.idle.driver2Tel = result.data[a].driver2Tel;
+                    vm.idle.carBrand = result.data[a].carBrand;
+                    vm.idle.carNO = result.data[a].carNO;
+                }
+            }        
+        })
+    }
+    
     function isOdd(num) {
         return num % 2;
     }

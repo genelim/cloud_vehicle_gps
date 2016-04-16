@@ -42,7 +42,7 @@ exports.tree_groupcars = function (req, res) {
 
 exports.gps_gethistorypos = function (req, res) {
     var postData = {
-        'carid': req.body.plate_number,
+        'carid': req.body.carid,
         'timestart': req.body.date.a,
         'timeend': req.body.date.b
     };

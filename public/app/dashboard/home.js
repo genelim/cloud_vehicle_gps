@@ -151,6 +151,5 @@ function DashboardHomeController($rootScope, $http, API_Data){
         $('ul.tabs').tabs('select_tab', 'carmapping');
         map_initialize()
         vm.index = index
-    }
-   
+    }   
 }

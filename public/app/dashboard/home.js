@@ -51,7 +51,8 @@ function DashboardHomeController($rootScope, $http, API_Data){
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
-                title: 'Hello World!'
+                icon: "/assets/image/car.png",
+                title:  vm.car_details_full[vm.index].data[0].carNO
             }); 
             map.setCenter(myLatLng);
         }, 100);

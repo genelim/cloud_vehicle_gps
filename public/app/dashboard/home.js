@@ -26,6 +26,12 @@ function DashboardHomeController($rootScope, $http, API_Data){
     
     angular.element(document).ready(function () {
         $rootScope.admin_page = false;
+        if($rootScope.user){
+            vm.username = $rootScope.user.userName;
+            console.log($rootScope.user)
+            vm.total_user_vehicle = $rootScope.user.carids.substring(0, $rootScope.user.carids.length-1).split(',').length;
+            full_car_details(vm.username);  
+        }
         // var startPos;
         var geoSuccess = function(position) {
             startPos = position;
@@ -37,9 +43,18 @@ function DashboardHomeController($rootScope, $http, API_Data){
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     });
-
+    
     function map_initialize(){
-        setTimeout(function(){ google.maps.event.trigger(map, "resize") }, 100);
+        setTimeout(function(){ 
+            google.maps.event.trigger(map, "resize");
+            var myLatLng = {lat: vm.car_details_full[vm.index].data[0].la, lng: vm.car_details_full[vm.index].data[0].lo};
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Hello World!'
+            }); 
+            map.setCenter(myLatLng);
+        }, 100);
         vm.current_tab = 'map';
     }
     
@@ -58,17 +73,6 @@ function DashboardHomeController($rootScope, $http, API_Data){
             $('#user_setting_modal').closeModal();
         })
     }
-    
-    //hardcode login - will change later when login function is integrated
-    API_Data.user_login('sa','1234').then(function(result){
-        var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-        vm.username = result.data.users[0].username;
-        vm.total_user_vehicle = result.data.vechileinfos.length
-        setInterval(function(){ 
-            full_car_details(vm.username);            
-        }, 3000);
-    })
-    
     
     function full_car_details(username){
          API_Data.user_getinfo(username).then(function(result){
@@ -97,7 +101,7 @@ function DashboardHomeController($rootScope, $http, API_Data){
             }
             
             //add carNo and driver
-            function more_car_details(){        
+            function more_car_details(){
                 API_Data.car_getall(username).then(function(result){
                     var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     for(var i = 0; i < result.data.length; i++){
@@ -108,20 +112,20 @@ function DashboardHomeController($rootScope, $http, API_Data){
                             }
                         }
                     }
-                    var requests = 0;
+                    var requestss = 0;
                     function car_address(i) {
                         if( i < vm.car_details.length ) {
-                            requests++;
+                            requestss++;
                             $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.car_details[i].data[0].la+','+vm.car_details[i].data[0].lo+'&sensor=true')
                             .success(function(map){
-                                requests--;
+                                requestss--;
                                 if(map.status === 'ZERO_RESULTS'){
                                     vm.car_details[i].data[0].address = '';
                                 }else{
                                     vm.car_details[i].data[0].address = map.results[0].formatted_address;
                                 }
                                 car_address(i+1)
-                                if (requests == 0) car_group_attribute();
+                                if (requestss == 0) car_group_attribute();
                             })
                         }
                     }
@@ -136,7 +140,7 @@ function DashboardHomeController($rootScope, $http, API_Data){
                     for(var i = 0; i < tree_groupcar[0].children.length; i++){
                         for(var j = 0; j < vm.car_details.length; j++){
                             if(vm.car_details[j].data[0].carID === tree_groupcar[0].children[i].children[0].objid){
-                                vm.car_details[j].data[0].group = tree_groupcar[0].children[i].text
+                                vm.car_details[j].data[0].group = tree_groupcar[0].children[i].text_old
                             }
                         }
                     }

@@ -27,5 +27,8 @@ function API_Data($http) {
         gps_gethistorypos : function(date, carid){
             return $http.post('/api/gps_gethistorypos', {date : date, carid : carid})
         },
+        user_tree : function(){
+            return $http.post('/api/user_tree')
+        }
     }
 }

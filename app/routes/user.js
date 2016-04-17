@@ -115,9 +115,29 @@ exports.user_getgroupcars = function(req, res){
 exports.login = function(req, res){
     var postData = {
         'username': req.body.username,
-        'userpass': req.body.userpass
+        'userpass': req.body.password
     };
     request.post({url : 'http://ctserver.dyndns.org:91/data.aspx?action=login', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+}
+
+exports.user_logout = function(req, res){
+    request.post({url : 'http://ctserver.dyndns.org:91/data.aspx?action=logout'}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+}
+
+exports.user_tree = function(req, res){
+    request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=user_tree'}, function(err,httpResponse,body){ 
         if(err){
             res.json({response: "Server Error"})
         }else{

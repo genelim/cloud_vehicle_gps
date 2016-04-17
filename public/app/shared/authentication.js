@@ -2,23 +2,48 @@ angular
 	.module('app')
 	.service('Auth', Auth);
 
-Auth.$inject = ['$http', '$q'];
+Auth.$inject = ['$http', '$q', 'API_Data'];
 
-function Auth($http, $q) {
+function Auth($http, $q, API_Data) {
 	var defer = $q.defer();
 
-    $http.get('/api/loggedin').then(function(response) {
-        if(response.data !== '0'){
-            $http.post('/api/get_user', response).success(function(r){
-                defer.resolve(r);
-            })
+    // $http.get('/api/loggedin').then(function(response) {
+    //     if(response.data !== '0'){
+    //         $http.post('/api/get_user', response).success(function(r){
+    //             defer.resolve(r);
+    //         })
+    //     }else{
+    //         defer.resolve(response.data)
+    //     }
+        
+    // }, function(response) {
+    //     defer.reject(response);
+    // });
+    API_Data.user_tree().then(function(result){
+        if(result.data.response !== '{"success":false"info":"NOT LOGIN"}'){
+            var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+            if(result.success === true){
+                if(result.data.length){
+                    API_Data.user_getinfo(result.data[0].username).then(function(result2){
+                        var result2 = JSON.parse(result2.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        if(result2.data.length){
+                            defer.resolve(result2)
+                        }else{
+                            defer.resolve(false)
+                        }
+                    })
+                }else{
+                    defer.resolve(false)
+                }            
+            }else{
+                defer.resolve(false)
+            }
         }else{
-            defer.resolve(response.data)
+            defer.resolve(false)
         }
         
-    }, function(response) {
-        defer.reject(response);
-    });
+    })
 
     return defer.promise;
+    
 }

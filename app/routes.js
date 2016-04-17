@@ -29,6 +29,9 @@ module.exports = function(app) {
     app.post('/api/user_getinfo', user.user_getinfo)
     app.post('/api/user_getgroupcars', user.user_getgroupcars)
     app.post('/api/login', user.login)
+    app.post('/api/user_logout', user.user_logout)
     app.get('/api/tree_groupcars', vehicle.tree_groupcars)
     app.post('/api/gps_gethistorypos', vehicle.gps_gethistorypos)
+    app.post('/api/user_tree', user.user_tree)
+    
 }

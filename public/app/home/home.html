@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-if="user === false || user_check === 3">
     <div class="col s12 m12 l12 center" style="margin-top:2%">
         <b style="font-size:140%">GPS MONITORING SYSTEM - Web Login</b><br/>
         <img class="responsive-img" style="height:200px" src="/assets/image/logo.jpg">
@@ -26,4 +26,48 @@
         </div>
     </div>
 </div>
-<div ng-include src="'app/home/forgot_password.html'"></div>
+<div ng-include src="'app/home/forgot_password.html'" ng-if="user === false || user_check === 3"></div>
+
+<div class="row" style="text-align:center; padding-top:10em;">
+    <div class="preloader-wrapper medium active" ng-if="user !== false && user_check !== 3">
+        <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,11 +24,13 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
     }
   );
     function logout(){
-    	$http.post('/api/logout').success(function(result){
-    		if(result === 'OK'){
+    	$http.post('/api/user_logout', {username : $rootScope.user.username}).success(function(result){
+            var result = JSON.parse(result.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+    		if(result.success){
                 $('.tooltipped').tooltip('remove');
-    			$state.go('home');
-                $rootScope.user = null;
+                $rootScope.user = null;        
+                $rootScope.user_check = 3;        
+    			$state.go('home');                
     		}else{
     			Materialize.toast('Server Error', 2000);
     		}

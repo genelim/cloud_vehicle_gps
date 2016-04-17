@@ -1,23 +1,23 @@
 <div class="row" style="margin-bottom:0px">
     <div class="col s12 m12 l12">
         <div class="col s12 m12 l6" ng-repeat="i in vm.get_number(vm.number_of_views) track by $index">
-            <div id="map_home{{$index}}" style="height: calc(50vh - 109px);"></div>
-            <div class="col s12 m12 l4">
-                <select class="browser-default">
-                    <option>SHSJB</option>
-                    <option>SHSPG</option>
-                    <option>SHSKL</option>
-                </select>
+            <div id="map_home{{$index}}" style="height: calc(50vh - 109px);">
             </div>
-            <div class="col s12 m12 l4">
-                <select class="browser-default">
-                    <option>ABC 123</option>
-                    <option>DEF 456</option>
-                </select>
+            <div class="row"  style="margin-bottom:0;">
+                <div class="col s12 m12 l6">
+                    <select class="browser-default" ng-model="group" ng-options="group.name for group in vm.group" ng-change="vm.group_selected(group, $index)">
+                    </select>
+                </div>
+                <div class="col s12 m12 l6">
+                    <select class="browser-default" ng-model="plate_number" ng-options="plate_number[0].name for plate_number in vm.cars[$index]" ng-change="vm.vehicle_map(plate_number, $index)" ng-if="vm.cars[$index]">
+                    </select>
+                </div>
             </div>
-            <div class="col s12 m12 l4 ">
-                <a class="btn right">Search</a>
-            </div>
+            <div class="row" ng-if="vm.loader[$index].on" style="margin-bottom:0;">
+                <div class="progress">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>            
         </div>
     </div>
 </div>

@@ -1,8 +1,10 @@
 <p class="headerrow">Vehicle Mileage Report</p>
-<div class="row">
+<div class="row" ng-if="vm.loaded">
     <div class="col s12 m12 l10">
         <div class="col s12 m12 l3">
-            <p>Vehicle Number Plate: <input type="text" id="platenumber" placeholder="ABC1234"></p>
+            <span>Vehicle Group: </span>
+            <select class="browser-default" ng-model="group" ng-options="group.name for group in vm.group" ng-change="vm.group_selected(group)">
+            </select>
         </div>
 
         <div class="col s12 m12 l4">
@@ -11,36 +13,29 @@
                     From:
                 </div>
                 <div class="col s12 m12 l6">
-                    <input id="from" type="month">
+                    <input id="from" type="date" ng-model="vm.date.a">
                 </div>
             </div>
 
-            <div class="col s12 m12 l12" style="margin-top:2%">
+            <div class="col s12 m12 l12">
                 <div class="col s12 m12 l2">
                     To:
                 </div>
                 <div class="col s12 m12 l6">
-                    <input id="to" type="month">
+                    <input id="to" type="date" ng-model="vm.date.b">
                 </div>
             </div>
         </div>
-
-        <div class="col s12 m12 l3">
-            Mileage Type:<select>
-            <option>Tracker Mileage</option>
-            <option>Map Mileage</option>
-        </select>
-        </div>
-
-        <div class="col s12 m12 l2">
-            Statistical method:<select>
-            <option>Statistic for all</option>
-            <option>Daily Statistic</option>
-        </select>
+        <div class="col s12 m12 l4">
+            Statistical method:
+            <select class="browser-default">
+                <option>Statistic for all</option>
+                <option>Daily Statistic</option>
+            </select>
         </div>
     </div>
     <div class="col s12 m12 l2">
-        <a class="btn">Statistics</a>
+        <a class="btn" ng-click="vm.get_mileage()">Statistics</a>
         <a class="btn buttonspace">Export</a>
     </div>
 

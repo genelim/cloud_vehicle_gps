@@ -21,7 +21,6 @@ function DashboardVehicleTrackingController(API_Data){
     function group_selected(group, index){
         for(var i = 0; i < vm.group.length; i++){
             if(vm.group[i].name === group.name){
-                console.log(vm.cars[index])
                 vm.cars[index].cars = vm.group[i].cars;
             }
         }
@@ -31,7 +30,6 @@ function DashboardVehicleTrackingController(API_Data){
         if( i < vm.cars_preset.length ) {
             if(typeof vm.cars_preset[i].carid !== 'undefined'){
                 API_Data.gps_getpos(vm.cars_preset[i].carid).then(function(result){
-                    // setMapOnAll(null);
                     var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     var latlng = {lat:result.data[0].la, lng: result.data[0].lo}
                     vm.map[i].setZoom(12);
@@ -54,7 +52,6 @@ function DashboardVehicleTrackingController(API_Data){
         vm.cars_preset[index] = plate_number[0]
         API_Data.gps_getpos(plate_number[0].carid).then(function(result){
             var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-            // vm.map[i] = new google.maps.Map(document.getElementById("map_home"+index));
             var latlng = {lat:result.data[0].la, lng: result.data[0].lo}
             vm.map[index].setZoom(12);
             vm.map[index].setCenter(latlng);

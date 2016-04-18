@@ -17,6 +17,7 @@ function DrivingRecordsController($rootScope, API_Data, $http){
     vm.driving_records_full = [];
     vm.status = false;
     vm.interval = null;
+    vm.per_page = 10;
     
     angular.element(document).ready(function () {
         vm.loaded = false;
@@ -24,7 +25,8 @@ function DrivingRecordsController($rootScope, API_Data, $http){
     });
     
     function export_data(){
-        if(document.getElementById('exportable')){
+        vm.per_page = 999999999999;        
+        if(document.getElementById('exportable')){            
             var blob = new Blob([document.getElementById('exportable').innerHTML], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
             });
@@ -32,6 +34,7 @@ function DrivingRecordsController($rootScope, API_Data, $http){
         }else{
             Materialize.toast('No data available', 2000);            
         } 
+        vm.per_page = 10;
     }    
     
     function get_statistics(){
@@ -117,7 +120,6 @@ function DrivingRecordsController($rootScope, API_Data, $http){
         for(var i = 0; i < vm.driving_records.data.length; i++){
             // console.log(vm.driving_records.data[i].gpsTime.getMinutes() - vm.driving_records.data[0].gpsTime.getMinutes())
             if(vm.interval && vm.interval > 0){
-                console.log(dif_minutes_data)
                 if(!dif_minutes_data){
                     dif_minutes_data = vm.driving_records.data[i].gpsTime
                 }else if((vm.driving_records.data[i].gpsTime.getMinutes() - dif_minutes_data.getMinutes()) > vm.interval){
@@ -164,7 +166,6 @@ function DrivingRecordsController($rootScope, API_Data, $http){
                 vm.driving_records_full.plate_number = vm.cars.data[i].carNO
             }
         }
-        console.log(vm.driving_records_full)
         vm.search_active = false;
     }
     

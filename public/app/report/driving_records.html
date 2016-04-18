@@ -1,5 +1,5 @@
 <p class="headerrow">Driving records</p>
-<div class="row">
+<div class="row" ng-if="vm.loaded">
     <div class="col s12 m12 l10">
         <div class="col s12 m12 l3">
             <p>Vehicle Number Plate: <input type="text" id="platenumber" ng-model="vm.plate_number"></p>
@@ -64,7 +64,7 @@
                 </thead>
                 <tbody>
                     <tr dir-paginate="records in vm.driving_records_full.data |itemsPerPage:10">
-                        <td>{{records.gpsTime  | date : 'medium'}}</td>
+                        <td>{{records.gpsTime  | date : 'longDate'}}</td>
                         <td>{{records.gpsTime | date : 'HH:mm:ss'}}</td>
                         <td>{{records.fuel}}</td>
                         <td>{{records.temperature}}</td>

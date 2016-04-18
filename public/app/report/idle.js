@@ -46,8 +46,7 @@ function IdleController($rootScope, $http, API_Data){
             saveAs(blob, "Report.xls");
         }else{
             Materialize.toast('No data available', 2000);            
-        }
-        
+        } 
     }
     
     function get_idle(){

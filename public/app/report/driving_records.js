@@ -118,7 +118,6 @@ function DrivingRecordsController($rootScope, API_Data, $http){
         
         //check if status is on/off and push respective data 
         for(var i = 0; i < vm.driving_records.data.length; i++){
-            // console.log(vm.driving_records.data[i].gpsTime.getMinutes() - vm.driving_records.data[0].gpsTime.getMinutes())
             if(vm.interval && vm.interval > 0){
                 if(!dif_minutes_data){
                     dif_minutes_data = vm.driving_records.data[i].gpsTime

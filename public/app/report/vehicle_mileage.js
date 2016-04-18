@@ -13,13 +13,11 @@ function VehicleMileageController(API_Data, $rootScope){
     vm.group_selected = null;
     vm.all_car = []
     vm.get_mileage = get_mileage;
-    
-    angular.element(document).ready(function () {
-        vm.loaded = false;
-    });
+    vm.per_page = 10;
         
     API_Data.tree_groupcars().then(function(result){
         var tree_groupcar = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+        console.log(tree_groupcar)
         for(var i = 0; i < tree_groupcar[0].children.length; i++){
             vm.group.push({name:tree_groupcar[0].children[i].text_old})
         }
@@ -89,7 +87,36 @@ function VehicleMileageController(API_Data, $rootScope){
     }
     
     function full_details(){
-        console.log(vm.all_car)
+        for(var i = 0; i < vm.all_car.cars.length; i++){
+            var data = vm.all_car.cars[i];
+            var last_array_mileage = 0;
+            var total_speed_add = 0;
+            var total_fuel_add = 0;
+            var array_length = data.data.length;
+            var max_speed = null
+            var journey_time = 0
+            for(var a = 0; a < data.data.length; a++){
+                if(a === data.data.length-1){
+                    last_array_mileage = data.data[a].mileage
+                }      
+                total_speed_add += data.data[a].speed;            
+                total_fuel_add += data.data[a].fuel;  
+                if(max_speed === null){
+                    max_speed = data.data[a].speed
+                }else if(data.data[a].speed > max_speed){
+                    max_speed = data.data[a].speed;
+                }          
+                if(data.data[a].status !== 'ACC off'){
+                    journey_time += data.data[a].gpsTime.getMinutes()
+                }
+            }
+            vm.all_car.cars[i].total_mileage = last_array_mileage - data.data[0].mileage;
+            vm.all_car.cars[i].average_speed = total_speed_add / array_length;
+            vm.all_car.cars[i].total_fuel = total_fuel_add;
+            vm.all_car.cars[i].max_speed = max_speed;
+            vm.all_car.cars[i].journey_time = journey_time / 60;     
+            vm.search_active = false      
+        }
     }
     
     function checkFlag() {
@@ -100,7 +127,6 @@ function VehicleMileageController(API_Data, $rootScope){
                 API_Data.car_getall($rootScope.user.userName).then(function(result){
                     var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     vm.cars = result;   
-                    console.log(vm.cars)
                     vm.loaded = true;
                 })
             }else{

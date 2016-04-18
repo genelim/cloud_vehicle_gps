@@ -3,7 +3,7 @@
     <div class="col s12 m12 l10">
         <div class="col s12 m12 l3">
             <span>Vehicle Group: </span>
-            <select class="browser-default" ng-model="group" ng-options="group.name for group in vm.group" ng-change="vm.group_selected(group)">
+            <select class="browser-default" ng-model="vm.group_selected" ng-options="group.name for group in vm.group">
             </select>
         </div>
 

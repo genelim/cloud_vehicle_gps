@@ -164,7 +164,9 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     })
     .state('dashboard.reports.driving_records', {
         url:'/driving_records',
-        templateUrl: "app/report/driving_records.html"
+        templateUrl: "app/report/driving_records.html",
+        controller: "DrivingRecordsController",
+        controllerAs: 'vm'
     })
     .state('dashboard.reports.vehicle_mileage', {
         url:'/vehicle_mileage',

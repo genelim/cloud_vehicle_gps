@@ -25,6 +25,7 @@
     "angular-ui-router": "^0.2.18",
     "components-font-awesome": "^4.5.0",
     "Materialize": "materialize#^0.97.5",
-    "angular-resource": "^1.5.0"
+    "angular-resource": "^1.5.0",
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.1"
   }
 }

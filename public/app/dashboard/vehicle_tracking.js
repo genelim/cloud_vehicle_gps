@@ -99,5 +99,4 @@ function DashboardVehicleTrackingController(API_Data){
     function get_number(number){
         return new Array(number);   
     }
-
 }

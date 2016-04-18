@@ -32,6 +32,8 @@ function IdleController($rootScope, $http, API_Data){
                     vm.cars = result;   
                     vm.loaded = true;
                 })
+            }else{
+                Materialize.toast('Not able to retrieve data. Refresh page to try again', 2000);            
             } 
         }
     }

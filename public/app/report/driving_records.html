@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col s12 m12 l10">
         <div class="col s12 m12 l3">
-            <p>Vehicle Number Plate: <input type="text" id="platenumber" placeholder="ABC1234"></p>
+            <p>Vehicle Number Plate: <input type="text" id="platenumber" ng-model="vm.plate_number"></p>
         </div>
 
         <div class="col s12 m12 l4">
@@ -11,73 +11,122 @@
                     From:
                 </div>
                 <div class="col s12 m12 l6">
-                    <input id="from" type="month">
+                    <input id="from" type="date" ng-model="vm.date.a">
                 </div>
             </div>
 
-            <div class="col s12 m12 l12" style="margin-top:2%">
+            <div class="col s12 m12 l12" >
                 <div class="col s12 m12 l2">
                     To:
                 </div>
                 <div class="col s12 m12 l6">
-                    <input id="to" type="month">
+                    <input id="to" type="date" ng-model="vm.date.b">
                 </div>
             </div>
         </div>
 
         <div class="col s12 m12 l3">
             <div class="col s12 m12 l12">
-                <input type="checkbox" id="test1"/><label for="test1"></label>Only ignition ON record
+                <input type="checkbox" id="test1" ng-model="vm.status"/><label for="test1"></label>Only ignition ON record
             </div>
             <div class="col s12 m12 l12">
-                <br/>Statistics interval:<br/><input type="text" style="width:50%">Minute
+                <br/>Statistics interval:<br/><input type="text" style="width:50%" ng-model="vm.interval">Minute
             </div>
         </div>
 
         <div class="col s12 m12 l2">
-            <a class="btn">Statistics</a>
-            <a class="btn buttonspace">Export</a>
+            <a class="btn" ng-click="vm.get_statistics()">Statistics</a>
+            <a class="btn buttonspace" ng-click="vm.export_data();">Export</a>
         </div>
     </div>
 
 
     <div class="col s12 m12 l12 menuseperator">
+        <div ng-if="vm.driving_records_full.plate_number">
+            <p class="col s12 m12 l3">Total time : <b>{{vm.driving_records_full.t_hours | number: 4}}</b></p>
+            <p class="col s12 m12 l3">Plate NO : <b>{{vm.driving_records_full.plate_number}}</b></p>
+            <p class="col s12 m12 l3">Total mileage(km) : <b>{{vm.driving_records_full.total_mileage  | number: 4}}</b></p>
+            <p class="col s12 m12 l3">Average speed : <b>{{vm.driving_records_full.t_speed  | number: 4}}</b></p>
+        </div>
+        <div id="exportable" ng-if="vm.driving_records_full.data.length">
+            <table>
+                <thead class="tablehead">
+                <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>Oil(L)</td>
+                    <td>Temperature(℃)</td>
+                    <td>Speed</td>
+                    <td>ACC</td>
+                    <td>Mileage(Km)</td>
+                    <td>Address</td>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="records in vm.driving_records_full.data |itemsPerPage:10">
+                        <td>{{records.gpsTime  | date : 'medium'}}</td>
+                        <td>{{records.gpsTime | date : 'HH:mm:ss'}}</td>
+                        <td>{{records.fuel}}</td>
+                        <td>{{records.temperature}}</td>
+                        <td>{{records.speed}}</td>
+                        <td>{{records.status}}</td>
+                        <td>{{records.mileage}}</td>
+                        <td>{{records.address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p ng-if="!vm.driving_records_full.data.length && vm.driving_records_full.plate_number">No Records</p>
+        <div class="divider"></div>
+        
+        <div class="row"  ng-if="vm.driving_records_full.data.length">
+            <dir-pagination-controls class="pagination" style="margin: 0 auto;    text-align: center;"
+                max-size="7"
+                direction-links="true"
+                boundary-links="true" >
+                </dir-pagination-controls>
+        </div>
+    </div>
+    <div class="row" style="text-align:center; padding-top:10em;">
+        <div class="preloader-wrapper medium active"ng-if="vm.search_active || !vm.loaded">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
 
-        <p class="col s12 m12 l12">Statistical Time</p>
-        <p class="col s12 m12 l4">Total time:</p>
-        <p class="col s12 m12 l4">Travel time:</p>
-        <p class="col s12 m12 l4">Tabulation time:</p>
-        <p class="col s12 m12 l4">Plate NO:</p>
-        <p class="col s12 m12 l4">Total mileage(km):</p>
-        <p class="col s12 m12 l4">Average speed:</p>
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
 
-        <table>
-            <thead class="tablehead">
-            <tr>
-                <td>Date</td>
-                <td>Time</td>
-                <td>Oil(L)</td>
-                <td>Temperature(℃)</td>
-                <td>Weight(Tons)</td>
-                <td>Speed</td>
-                <td>ACC</td>
-                <td>Mileage(Km)</td>
-                <td>Address</td>
-            </tr>
-            </thead>
-        </table>
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
 
-        <div class="center" style="padding-top:1%">
-            <div class="col s12 m12 l12">
-                <ul class="pagination">
-                    <li class="disabled"><a href="#!"><i class="fa fa-arrow-left"></i></a></li>
-                    <li class="active"><a href="#!">1</a></li>
-                    <li class="waves-effect"><a href="#!">2</a></li>
-                    <li class="waves-effect"><a href="#!">3</a></li>
-                    <li class="waves-effect"><a href="#!">4</a></li>
-                    <li class="waves-effect"><a href="#!">5</a></li>
-                    <li class="waves-effect"><a href="#!"><i class="fa fa-arrow-right"></i></a></li>
-                </ul>
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
             </div>
         </div>
     </div>

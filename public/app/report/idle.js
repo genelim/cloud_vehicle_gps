@@ -27,9 +27,16 @@ function IdleController($rootScope, $http, API_Data){
             window.setTimeout(checkFlag, 1000);
         } else if($rootScope.user_check === 1){
             if($rootScope.user){
-                API_Data.car_getall($rootScope.user.userName).then(function(result){
+                API_Data.tree_groupcars().then(function(result){
                     var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    vm.cars = result;   
+                    vm.cars = {data : []};
+                    for(var i = 0; i < result.length; i++){
+                        vm.cars.data.push({group : result[i].text_old, carNO : [], carID :[]});
+                        for(var a = 0; a < result[i].children.length; a++){
+                            vm.cars.data[i].carNO.push(result[i].children[a].text_old);
+                            vm.cars.data[i].carID.push(result[i].children[a].objid);
+                        }
+                    }
                     vm.loaded = true;
                 })
             }else{
@@ -54,8 +61,10 @@ function IdleController($rootScope, $http, API_Data){
         vm.idle = [];
         vm.carid = null;
         for(var i = 0; i < vm.cars.data.length; i++){
-            if(vm.cars.data[i].carNO === vm.plate_number){
-                vm.carid = vm.cars.data[i].carID;
+            for(var a = 0; a < vm.cars.data[i].carNO.length; a++){
+                if(vm.cars.data[i].carNO[a] === vm.plate_number){
+                    vm.carid = vm.cars.data[i].carID[a];
+                }
             }
         }
         if(vm.carid){
@@ -138,20 +147,22 @@ function IdleController($rootScope, $http, API_Data){
                 }
             }    
             car_address(0)
-                 
         })
     }
     
     function get_driver_details(){
-        API_Data.car_getall('sa').then(function(result){
+        API_Data.car_getall($rootScope.user.userName).then(function(result){
             var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
             for(var a = 0; a < result.data.length; a++){
-                if(result.data[a].carID === vm.carid){
-                    vm.idle.driver = result.data[a].driver;
-                    vm.idle.driverTel = result.data[a].driverTel;
-                    vm.idle.driver2Tel = result.data[a].driver2Tel;
-                    vm.idle.carBrand = result.data[a].carBrand;
-                    vm.idle.carNO = result.data[a].carNO;
+                for(var i = 0; i < vm.cars.data[a].carNO.length; i++){
+                    if(vm.cars.data[i].carNO[a] === vm.plate_number){
+                        vm.carid = vm.cars.data[i].carID[a];
+                        vm.idle.driver = result.data[a].driver;
+                        vm.idle.driverTel = result.data[a].driverTel;
+                        vm.idle.driver2Tel = result.data[a].driver2Tel;
+                        vm.idle.carBrand = result.data[a].carBrand;
+                        vm.idle.carNO = result.data[a].carNO;
+                    }
                 }
             }        
         })

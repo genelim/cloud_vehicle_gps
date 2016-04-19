@@ -42,9 +42,11 @@ function DrivingRecordsController($rootScope, API_Data, $http){
         vm.search_active = true;
         vm.carid = null;
         for(var i = 0; i < vm.cars.data.length; i++){
-            if(vm.cars.data[i].carNO === vm.plate_number){
-                vm.carid = vm.cars.data[i].carID;
-            }
+            for(var a = 0; a < vm.cars.data[i].carNO.length; a++){
+                if(vm.cars.data[i].carNO[a] === vm.plate_number){
+                    vm.carid = vm.cars.data[i].carID[a];
+                }
+            }            
         }
         if(vm.carid){
             if(vm.date){
@@ -98,9 +100,11 @@ function DrivingRecordsController($rootScope, API_Data, $http){
             }else{
                 vm.search_active = false;
                 for(var i = 0; i < vm.cars.data.length; i++){
-                    if(vm.cars.data[i].carID === vm.carid){
-                        vm.driving_records_full.data = []
-                        vm.driving_records_full.plate_number = vm.cars.data[i].carNO
+                    for(var a = 0; a < vm.cars.data[i].carID.length; a++){
+                        if(vm.cars.data[i].carID[a] === vm.carid){
+                            vm.driving_records_full.data = []
+                            vm.driving_records_full.plate_number = vm.cars.data[i].carNO[a]
+                        }
                     }
                 }
             }            
@@ -173,11 +177,16 @@ function DrivingRecordsController($rootScope, API_Data, $http){
             window.setTimeout(checkFlag, 1000);
         } else if($rootScope.user_check === 1){
             if($rootScope.user){
-                console.log($rootScope.user)
-                API_Data.car_getall($rootScope.user.userName).then(function(result){
+                API_Data.tree_groupcars().then(function(result){
                     var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    vm.cars = result;   
-                    console.log(vm.cars)
+                    vm.cars = {data : []};
+                    for(var i = 0; i < result.length; i++){
+                        vm.cars.data.push({group : result[i].text_old, carNO : [], carID :[]});
+                        for(var a = 0; a < result[i].children.length; a++){
+                            vm.cars.data[i].carNO.push(result[i].children[a].text_old);
+                            vm.cars.data[i].carID.push(result[i].children[a].objid);
+                        }
+                    }
                     vm.loaded = true;
                 })
             }else{
@@ -185,5 +194,4 @@ function DrivingRecordsController($rootScope, API_Data, $http){
             } 
         }
     }
-    
 }

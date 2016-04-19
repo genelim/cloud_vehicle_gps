@@ -3,7 +3,7 @@
     <div class="col s12 m12 l10">
         <div class="col s12 m12 l3">
             <span>Vehicle Group: </span>
-            <select class="browser-default" ng-model="vm.group_selected" ng-options="group.name for group in vm.group">
+            <select class="browser-default" ng-model="vm.group_selected" ng-options="group.group for group in vm.cars.data">
             </select>
         </div>
 
@@ -43,7 +43,7 @@
         <table>
             <thead class="tablehead">
             <tr>
-                <td>Fleet</td>
+                <td>Group</td>
                 <td>Plate NO</td>
                 <td>Journey time</td>
                 <td>Total mileage(km)</td>
@@ -54,8 +54,8 @@
             </thead>
             <tbody>
                 <tr dir-paginate="mileage  in vm.all_car.cars | itemsPerPage: vm.per_page">
-                    <td>{{mileage.plate_number.group}}</td>
-                    <td>{{mileage.plate_number.name}}</td>
+                    <td>{{mileage.group}}</td>
+                    <td>{{mileage.plate_number}}</td>
                     <td>{{mileage.journey_time | number:2}} hours</td>
                     <td>{{mileage.total_mileage}}</td>
                     <td>{{mileage.average_speed | number:2}}</td>

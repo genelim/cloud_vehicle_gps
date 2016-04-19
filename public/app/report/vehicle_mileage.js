@@ -14,24 +14,6 @@ function VehicleMileageController(API_Data, $rootScope){
     vm.all_car = []
     vm.get_mileage = get_mileage;
     vm.per_page = 10;
-        
-    API_Data.tree_groupcars().then(function(result){
-        var tree_groupcar = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-        console.log(tree_groupcar)
-        for(var i = 0; i < tree_groupcar[0].children.length; i++){
-            vm.group.push({name:tree_groupcar[0].children[i].text_old})
-        }
-        for(var i = 0; i < tree_groupcar[0].children.length; i++){
-            for(var j = 0; j < vm.group.length; j++){
-                if(vm.group[j].name === tree_groupcar[0].children[i].text_old){
-                    vm.group[j].cars = []
-                    for(var a = 0; a < tree_groupcar[0].children[i].children.length; a++){
-                        vm.group[j].cars.push({name : tree_groupcar[0].children[i].children[a].text_old, carid : tree_groupcar[0].children[i].children[a].objid, group : tree_groupcar[0].children[i].text_old})
-                    }
-                }
-            }
-        }
-    })
     
     function get_mileage(){
         vm.vehicle_mileage_full = [];
@@ -65,9 +47,9 @@ function VehicleMileageController(API_Data, $rootScope){
         vm.all_car.cars = []
         
         function get_car(i){
-            if( i < vm.carid.cars.length ){
+            if( i < vm.carid.carID.length ){
                 requests++;
-                API_Data.gps_gethistorypos(vm.date, vm.carid.cars[i].carid)
+                API_Data.gps_gethistorypos(vm.date, vm.carid.carID[i])
                 .then(function(result){
                     requests--;
                     var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
@@ -77,7 +59,8 @@ function VehicleMileageController(API_Data, $rootScope){
                     vm.all_car.cars[i] = []
                     vm.all_car.cars[i].data = []
                     vm.all_car.cars[i].data = res.data
-                    vm.all_car.cars[i].plate_number = vm.carid.cars[i]
+                    vm.all_car.cars[i].plate_number = vm.carid.carNO[i]
+                    vm.all_car.cars[i].group = vm.carid.group
                     get_car(i+1)
                     if (requests == 0) full_details();
                 }) 
@@ -124,9 +107,16 @@ function VehicleMileageController(API_Data, $rootScope){
             window.setTimeout(checkFlag, 1000);
         } else if($rootScope.user_check === 1){
             if($rootScope.user){
-                API_Data.car_getall($rootScope.user.userName).then(function(result){
+                API_Data.tree_groupcars().then(function(result){
                     var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    vm.cars = result;   
+                    vm.cars = {data : []};
+                    for(var i = 0; i < result.length; i++){
+                        vm.cars.data.push({group : result[i].text_old, carNO : [], carID :[]});
+                        for(var a = 0; a < result[i].children.length; a++){
+                            vm.cars.data[i].carNO.push(result[i].children[a].text_old);
+                            vm.cars.data[i].carID.push(result[i].children[a].objid);
+                        }
+                    }
                     vm.loaded = true;
                 })
             }else{

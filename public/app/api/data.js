@@ -29,6 +29,9 @@ function API_Data($http) {
         },
         user_tree : function(){
             return $http.post('/api/user_tree')
-        }
+        },
+        get_user_session : function(){
+            return $http.post('/api/get_user_session')
+        },
     }
 }

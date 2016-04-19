@@ -173,6 +173,7 @@ function DrivingRecordsController($rootScope, API_Data, $http){
             window.setTimeout(checkFlag, 1000);
         } else if($rootScope.user_check === 1){
             if($rootScope.user){
+                console.log($rootScope.user)
                 API_Data.car_getall($rootScope.user.userName).then(function(result){
                     var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     vm.cars = result;   

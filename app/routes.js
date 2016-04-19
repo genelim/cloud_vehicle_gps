@@ -33,5 +33,6 @@ module.exports = function(app) {
     app.get('/api/tree_groupcars', vehicle.tree_groupcars)
     app.post('/api/gps_gethistorypos', vehicle.gps_gethistorypos)
     app.post('/api/user_tree', user.user_tree)
+    app.post('/api/get_user_session', user.get_user_session)
     
 }

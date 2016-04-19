@@ -17,22 +17,17 @@ function DashboardHomeController($rootScope, $http, API_Data){
     vm.number_wheels = 10;
     vm.user = null;
     vm.user_carids = [];
+    vm.cars = null;
     vm.car_details = [];
     vm.car_details_full = null;
-    vm.username = '';
-    vm.total_user_vehicle = 0;
+    vm.total_user_vehicle = [];
     vm.view_specific_vehicle = view_specific_vehicle;
     vm.index = 0;
+    vm.groups = null;
     
     angular.element(document).ready(function () {
         $rootScope.admin_page = false;
-        if($rootScope.user){
-            vm.username = $rootScope.user.userName;
-            if($rootScope.user.carids){
-                vm.total_user_vehicle = $rootScope.user.carids.substring(0, $rootScope.user.carids.length-1).split(',').length;
-            }
-            full_car_details(vm.username);  
-        }
+        checkFlag();
         // var startPos;
         var geoSuccess = function(position) {
             startPos = position;
@@ -44,6 +39,65 @@ function DashboardHomeController($rootScope, $http, API_Data){
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     });
+    
+    function checkFlag() {
+        if($rootScope.user_check === 0) {
+            window.setTimeout(checkFlag, 1000);
+        } else if($rootScope.user_check === 1){
+            if($rootScope.user){
+                API_Data.groups_tree().then(function(result){
+                    var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                    vm.groups = [];
+                    looping_group(result.data)
+                    function looping_group(data){
+                        for(var i = 0; i < data.length; i++){
+                            vm.groups.push({group : data[i].title, id : data[i].id})
+                            if(data[i].children.length){
+                                looping_group(data[i].children)
+                            }
+                        }
+                    }
+                    var requestss = 0;
+                    function car_list(i) {
+                        if( i < vm.groups.length ) {
+                            requestss++;
+                            API_Data.cars_list(vm.groups[i].id).then(function(result){
+                                requestss--;
+                                var _car = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                                if(_car.totalProperty > 0){                                    
+                                    for(var a = 0; a < vm.groups.length; a++){
+                                        if(vm.groups[i].id === vm.groups[a].id){
+                                            vm.groups[i].cars = _car.rows
+                                        }
+                                    }
+                                }
+                                car_list(i+1)
+                                if (requestss == 0) completed_loaded();
+                                
+                            })
+                        }
+                    }
+                    car_list(0);   
+                    
+                    function completed_loaded(){
+                        vm.cars = {data : vm.groups};
+                        console.log(vm.cars)
+                        //special requests
+                        for(var i = 0; i < vm.cars.data.length; i++){
+                            if(typeof vm.cars.data[i].cars !== 'undefined'){
+                                for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                                    vm.total_user_vehicle.push(vm.cars.data[i].cars[a])
+                                }
+                            }                            
+                        }
+                        full_car_details($rootScope.user.userName);          
+                    }                  
+                })
+            }else{
+                Materialize.toast('Not able to retrieve data. Refresh page to try again', 2000);            
+            } 
+        }
+    }
     
     function map_initialize(){
         setTimeout(function(){ 
@@ -77,86 +131,73 @@ function DashboardHomeController($rootScope, $http, API_Data){
     }
     
     function full_car_details(username){
-         API_Data.user_getinfo(username).then(function(result){
-            var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-            
-            //set user details
-            vm.user = result.data[0];
-            vm.user_carids = []
-            if(vm.user.carids){
-                //remove last string (')
-                vm.user.carids = vm.user.carids.substring(0, vm.user.carids.length-1);
-                
-                //set into an array
-                vm.user_carids = vm.user.carids.split(',');
-            }
-            
-            if(vm.user_carids.length){
-                //get cars basic details
-                var requests = 0;
-                for(var i = 0; i < vm.user_carids.length; i++){
-                    requests++;
-                    API_Data.gps_getpos(vm.user_carids[i]).then(function(result){
-                        requests--;
-                        if(vm.car_details.length < vm.total_user_vehicle){
-                            vm.car_details.push(JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1")))      
-                        }
-                        if (requests == 0) more_car_details();
-                    });
-                }
-            }else{
-                vm.car_details_full = []
-            }
-            
-            
-            //add carNo and driver
-            function more_car_details(){
-                API_Data.car_getall(username).then(function(result){
-                    var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    for(var i = 0; i < result.data.length; i++){
-                        for(var j = 0; j < vm.car_details.length; j++){
-                            if(vm.car_details[j].data[0].carID === result.data[i].carID){
-                                vm.car_details[j].data[0].carNO = result.data[i].carNO
-                                vm.car_details[j].data[0].driver = result.data[i].driver
-                            }
-                        }
+        if(vm.total_user_vehicle.length){
+            //get cars basic details
+            var requests = 0;
+            for(var i = 0; i < vm.total_user_vehicle.length; i++){
+                requests++;
+                API_Data.gps_getpos(vm.total_user_vehicle[i].carID).then(function(result){
+                    requests--;
+                    if(vm.car_details.length < vm.total_user_vehicle.length){
+                        vm.car_details.push(JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1")))      
                     }
-                    var requestss = 0;
-                    function car_address(i) {
-                        if( i < vm.car_details.length ) {
-                            requestss++;
-                            $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.car_details[i].data[0].la+','+vm.car_details[i].data[0].lo+'&sensor=true')
-                            .success(function(map){
-                                requestss--;
-                                if(map.status === 'ZERO_RESULTS'){
-                                    vm.car_details[i].data[0].address = '';
-                                }else{
-                                    vm.car_details[i].data[0].address = map.results[0].formatted_address;
-                                }
-                                car_address(i+1)
-                                if (requestss == 0) car_group_attribute();
-                            })
-                        }
-                    }
-                    car_address(0);                
+                    if (requests == 0) more_car_details();
                 });
             }
-            
-            //add group details
-            function car_group_attribute(){
-                API_Data.tree_groupcars().then(function(result){
-                    var tree_groupcar = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    for(var i = 0; i < tree_groupcar[0].children.length; i++){
-                        for(var j = 0; j < vm.car_details.length; j++){
-                            if(vm.car_details[j].data[0].carID === tree_groupcar[0].children[i].children[0].objid){
-                                vm.car_details[j].data[0].group = tree_groupcar[0].children[i].text_old
+        }else{
+            vm.car_details_full = []
+        }
+        
+        //add carNo and driver
+        function more_car_details(){
+            console.log(vm.car_details)
+            API_Data.car_getall($rootScope.user.userName).then(function(result){
+                var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                for(var i = 0; i < result.data.length; i++){
+                    for(var j = 0; j < vm.car_details.length; j++){
+                        if(vm.car_details[j].data[0].carID === result.data[i].carID){
+                            vm.car_details[j].data[0].carNO = result.data[i].carNO
+                            vm.car_details[j].data[0].driver = result.data[i].driver
+                        }
+                    }
+                }
+                var requestss = 0;
+                function car_address(i) {
+                    if( i < vm.car_details.length ) {
+                        requestss++;
+                        $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.car_details[i].data[0].la+','+vm.car_details[i].data[0].lo+'&sensor=true')
+                        .success(function(map){
+                            requestss--;
+                            if(map.status === 'ZERO_RESULTS'){
+                                vm.car_details[i].data[0].address = '';
+                            }else{
+                                vm.car_details[i].data[0].address = map.results[0].formatted_address;
+                            }
+                            car_address(i+1)
+                            if (requestss == 0) car_group_attribute();
+                        })
+                    }
+                }
+                car_address(0);                
+            });
+        }
+        
+        //add group details
+        function car_group_attribute(){  
+            vm.car_details_full = vm.car_details;
+            for(var i = 0; i < vm.groups.length; i++){
+                if(typeof vm.groups[i].cars !== 'undefined'){
+                    for(var a = 0; a < vm.groups[i].cars.length; a++){
+                        for(var k = 0; k < vm.car_details.length; k++){
+                            if(vm.car_details[k].data[0].carID === vm.groups[i].cars[a].carID){
+                                vm.car_details[k].data[0].group = vm.groups[i].group
                             }
                         }
                     }
-                    vm.car_details_full = vm.car_details;
-                })
+                    
+                }
             }
-        });
+        }
     }
     
     //getting specific vehicle and data to view

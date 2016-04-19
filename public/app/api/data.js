@@ -33,5 +33,11 @@ function API_Data($http) {
         get_user_session : function(){
             return $http.post('/api/get_user_session')
         },
+        groups_tree : function(){
+            return $http.post('/api/groups_tree')
+        },
+        cars_list : function(groupid){
+            return $http.post('/api/cars_list', {groupid : groupid})
+        }
     }
 }

@@ -20,7 +20,6 @@ function Auth($http, $q, API_Data) {
     //     defer.reject(response);
     // });
     API_Data.get_user_session().then(function(result){
-        console.log(result)
         if(result.data !== '' && result.data){
             var result = result.data;
             if(result){
@@ -38,7 +37,6 @@ function Auth($http, $q, API_Data) {
         }else{
             defer.resolve(false)
         }
-        
     })
 
     return defer.promise;

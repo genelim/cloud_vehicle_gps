@@ -55,3 +55,16 @@ exports.gps_gethistorypos = function (req, res) {
         }
     })
 };
+
+exports.cars_list = function (req, res) {
+    var postData = {
+        'groupid': req.body.groupid
+    };
+    request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=cars_list', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+};

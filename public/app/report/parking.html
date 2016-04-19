@@ -1,1 +1,82 @@
-parking
+<p class="headerrow">Parking Report</p>
+<div class="row">
+    <div class="col s12 m12 l10">
+        <div class="col s12 m12 l3">
+            <p>Vehicle Number Plate: <input type="text" id="platenumber" placeholder="ABC1234"></p>
+        </div>
+
+        <div class="col s12 m12 l3">
+            <div class="col s12 m12 l12">
+                <div class="col s12 m12 l2">
+                    From:
+                </div>
+                <div class="col s12 m12 l10">
+                    <input class="col l12" id="from" type="date">
+                </div>
+            </div>
+
+            <div class="col s12 m12 l12" style="margin-top:2%">
+                <div class="col s12 m12 l2">
+                    To:
+                </div>
+                <div class="col s12 m12 l10">
+                    <input id="to" type="date">
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m12 l4">
+            <div class="col s12 m12 l12">
+                <div class="col l12">
+                    <div class="col l12">
+                        <div class="col l6">
+                            <input type="checkbox" id="acc">
+                            <label for="acc">ACC :</label>
+                        </div>
+                        <select class="col l6 browser-default">
+                            <option>ON</option>
+                            <option>OFF</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col l12 input-field">
+                    <div><input type="text" id="timespent" style="width:60%; text-align:center" placeholder="Parking Duration">Minute</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m12 l2">
+            <a class="btn">Statistics</a>
+            <a class="btn buttonspace">Export</a>
+        </div>
+    </div>
+
+    <div class="col l12 menuseperator">
+        <p class="col s12 m12 l6 left">Statistical Time:</p>
+        <p class="col s12 m12 l6 right">Tabulation Time:</p>
+        <table>
+            <thead class="tablehead">
+                <tr>
+                    <td>Plate NO</td>
+                    <td>Index</td>
+                    <td>Coordinates</td>
+                    <td>Parking Place</td>
+                    <td>Park-in Time</td>
+                    <td>Park-out Time</td>
+                    <td>Parking Duration</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ABC1234</td>
+                    <td>1245</td>
+                    <td>1.10429 5.1234</td>
+                    <td>w123k12ijjr209i9wqkdododjiaoijxowijweioacnwdowie</td>
+                    <td>09:43:29</td>
+                    <td>10:14:24</td>
+                    <td>00:30:00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

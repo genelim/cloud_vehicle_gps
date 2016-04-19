@@ -40,8 +40,7 @@
         </div>
     </div>
 
-        <div id="exportable" ng-if="vm.driving_records_full.data.length">
-
+        <div id="exportable" >
     <div class="col s12 m12 l12 menuseperator">
         <div ng-if="vm.driving_records_full.plate_number">
             <p class="col s12 m12 l3">Total time : <b>{{vm.driving_records_full.t_hours | number: 4}}</b></p>
@@ -49,7 +48,7 @@
             <p class="col s12 m12 l3">Total mileage(km) : <b>{{vm.driving_records_full.total_mileage  | number: 4}}</b></p>
             <p class="col s12 m12 l3">Average speed : <b>{{vm.driving_records_full.t_speed  | number: 4}}</b></p>
         </div>
-            <table>
+            <table ng-if="vm.driving_records_full.data.length">
                 <thead class="tablehead">
                 <tr>
                     <td>Date</td>

@@ -158,7 +158,6 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
         
         //add carNo and driver
         function more_car_details(){
-            console.log(vm.car_details)
             API_Data.car_getall($rootScope.user.userName).then(function(result){
                 var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                 for(var i = 0; i < result.data.length; i++){

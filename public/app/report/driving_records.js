@@ -41,13 +41,17 @@ function DrivingRecordsController($rootScope, API_Data, $http){
         vm.driving_records_full = [];
         vm.search_active = true;
         vm.carid = null;
+        console.log(vm.cars)
         for(var i = 0; i < vm.cars.data.length; i++){
-            for(var a = 0; a < vm.cars.data[i].carNO.length; a++){
-                if(vm.cars.data[i].carNO[a] === vm.plate_number){
-                    vm.carid = vm.cars.data[i].carID[a];
-                }
-            }            
+            if(typeof vm.cars.data[i].cars !== 'undefined'){
+                for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                    if(vm.cars.data[i].cars[a].carNO === vm.plate_number){
+                        vm.carid = vm.cars.data[i].cars[a].carID;
+                    }
+                }  
+            }                      
         }
+        console.log(vm.carid)
         if(vm.carid){
             if(vm.date){
                 if(typeof vm.date.a !== 'undefined' && vm.date.a !== null){
@@ -75,6 +79,7 @@ function DrivingRecordsController($rootScope, API_Data, $http){
         API_Data.gps_gethistorypos(vm.date, vm.carid)
         .then(function(result){
             var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+            console.log(res.data)
             if(res.data.length){
                 for(var i = 0; i < res.data.length; i++){
                     res.data[i].gpsTime = new Date(res.data[i].gpsTime)
@@ -100,13 +105,16 @@ function DrivingRecordsController($rootScope, API_Data, $http){
             }else{
                 vm.search_active = false;
                 for(var i = 0; i < vm.cars.data.length; i++){
-                    for(var a = 0; a < vm.cars.data[i].carID.length; a++){
-                        if(vm.cars.data[i].carID[a] === vm.carid){
-                            vm.driving_records_full.data = []
-                            vm.driving_records_full.plate_number = vm.cars.data[i].carNO[a]
+                    if(typeof vm.cars.data[i].cars !== 'undefined'){
+                        for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                            if(vm.cars.data[i].cars[a].carID === vm.carid){
+                                vm.driving_records_full.data = []
+                                vm.driving_records_full.plate_number = vm.cars.data[i].cars[a].carNO
+                            }
                         }
                     }
                 }
+                console.log(vm.driving_records_full)
             }            
         })
     }
@@ -156,8 +164,12 @@ function DrivingRecordsController($rootScope, API_Data, $http){
                 vm.driving_records_full.t_speed = t_speed/vm.driving_records_full.data.length;
                 vm.driving_records_full.t_hours = t_hours/3600
                 for(var a = 0; a < vm.cars.data.length; a++){
-                    if(vm.cars.data[a].carID === vm.driving_records.data[i].carID){
-                        vm.driving_records_full.plate_number = vm.cars.data[a].carNO
+                    if(typeof vm.cars.data[a].cars !== 'undefined'){
+                        for(var j = 0; j < vm.cars.data[a].cars.length; j++){
+                            if(vm.cars.data[a].cars[j].carID === vm.driving_records.data[i].carID){
+                                vm.driving_records_full.plate_number = vm.cars.data[a].cars[j].carNO
+                            }
+                        }
                     }
                 }
             }
@@ -165,29 +177,68 @@ function DrivingRecordsController($rootScope, API_Data, $http){
         
         //set platenumber with or without data
         for(var i = 0; i < vm.cars.data.length; i++){
-            if(vm.cars.data[i].carID === vm.carid){
-                vm.driving_records_full.plate_number = vm.cars.data[i].carNO
+            if(typeof vm.cars.data[i].cars !== 'undefined'){
+                for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                    if(vm.cars.data[i].cars[a].carID === vm.carid){
+                        vm.driving_records_full.plate_number = vm.cars.data[i].cars[a].carNO
+                    }
+                }
             }
         }
         vm.search_active = false;
     }
     
     function checkFlag() {
-        if($rootScope.user_check === 0) {
+        if($rootScope.user_check === 0 && !$rootScope.user) {
             window.setTimeout(checkFlag, 1000);
         } else if($rootScope.user_check === 1){
             if($rootScope.user){
-                API_Data.tree_groupcars().then(function(result){
-                    var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    vm.cars = {data : []};
-                    for(var i = 0; i < result.length; i++){
-                        vm.cars.data.push({group : result[i].text_old, carNO : [], carID :[]});
-                        for(var a = 0; a < result[i].children.length; a++){
-                            vm.cars.data[i].carNO.push(result[i].children[a].text_old);
-                            vm.cars.data[i].carID.push(result[i].children[a].objid);
+                var requestsss = 0;                
+                API_Data.groups_tree().then(function(result){
+                    if(result.data.response === '{"success":false"info":"NOT LOGIN"}'){
+                        $rootScope.user =false;
+                        $rootScope.user_check = 2;
+                        $state.go('home')
+                    }else{
+                        var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        vm.groups = [];
+                        looping_group(result.data)
+                        function looping_group(data){
+                            for(var i = 0; i < data.length; i++){
+                                vm.groups.push({group : data[i].title, id : data[i].id})
+                                if(data[i].children.length){
+                                    looping_group(data[i].children)
+                                }
+                            }
+                        }
+                        
+                        car_list(0);                           
+                    }
+                    
+                    function car_list(i) {
+                        if( i < vm.groups.length ) {
+                            requestsss++;
+                            API_Data.cars_list(vm.groups[i].id).then(function(result){
+                                requestsss--;
+                                var _car = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                                if(_car.totalProperty > 0){                                    
+                                    for(var a = 0; a < vm.groups.length; a++){
+                                        if(vm.groups[i].id === vm.groups[a].id){
+                                            vm.groups[i].cars = _car.rows
+                                        }
+                                    }
+                                }
+                                car_list(i+1)
+                                if (requestsss == 0) completed_loaded();
+                                
+                            })
                         }
                     }
-                    vm.loaded = true;
+                    
+                    function completed_loaded(){
+                        vm.cars = {data : vm.groups};
+                        vm.loaded = true;    
+                    }                  
                 })
             }else{
                 Materialize.toast('Not able to retrieve data. Refresh page to try again', 2000);            

@@ -47,6 +47,7 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
                     $rootScope.user = result2.data[0];
                     $state.go('dashboard');
                     $('.dropdown-button').dropdown();
+                    $rootScope.user_check = 1
                 }else{
                     $rootScope.user = null;
                 }

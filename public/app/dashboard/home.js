@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('DashboardHomeController', DashboardHomeController);
 
-DashboardHomeController.$inject = ['$rootScope', '$http', 'API_Data'];
+DashboardHomeController.$inject = ['$rootScope', '$http', 'API_Data', '$state'];
 
-function DashboardHomeController($rootScope, $http, API_Data){
+function DashboardHomeController($rootScope, $http, API_Data, $state){
     var vm = this;
     vm.lat = 0;
     vm.lng = 0;
@@ -41,28 +41,37 @@ function DashboardHomeController($rootScope, $http, API_Data){
     });
     
     function checkFlag() {
-        if($rootScope.user_check === 0) {
+        if($rootScope.user_check === 0 && !$rootScope.user) {
             window.setTimeout(checkFlag, 1000);
         } else if($rootScope.user_check === 1){
             if($rootScope.user){
+                var requestsss = 0;                
                 API_Data.groups_tree().then(function(result){
-                    var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    vm.groups = [];
-                    looping_group(result.data)
-                    function looping_group(data){
-                        for(var i = 0; i < data.length; i++){
-                            vm.groups.push({group : data[i].title, id : data[i].id})
-                            if(data[i].children.length){
-                                looping_group(data[i].children)
+                    if(result.data.response === '{"success":false"info":"NOT LOGIN"}'){
+                        $rootScope.user =false;
+                        $rootScope.user_check = 2;
+                        $state.go('home')
+                    }else{
+                        var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        vm.groups = [];
+                        looping_group(result.data)
+                        function looping_group(data){
+                            for(var i = 0; i < data.length; i++){
+                                vm.groups.push({group : data[i].title, id : data[i].id})
+                                if(data[i].children.length){
+                                    looping_group(data[i].children)
+                                }
                             }
                         }
+                        
+                        car_list(0);                           
                     }
-                    var requestss = 0;
+                    
                     function car_list(i) {
                         if( i < vm.groups.length ) {
-                            requestss++;
+                            requestsss++;
                             API_Data.cars_list(vm.groups[i].id).then(function(result){
-                                requestss--;
+                                requestsss--;
                                 var _car = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                                 if(_car.totalProperty > 0){                                    
                                     for(var a = 0; a < vm.groups.length; a++){
@@ -72,16 +81,14 @@ function DashboardHomeController($rootScope, $http, API_Data){
                                     }
                                 }
                                 car_list(i+1)
-                                if (requestss == 0) completed_loaded();
+                                if (requestsss == 0) completed_loaded();
                                 
                             })
                         }
                     }
-                    car_list(0);   
                     
                     function completed_loaded(){
                         vm.cars = {data : vm.groups};
-                        console.log(vm.cars)
                         //special requests
                         for(var i = 0; i < vm.cars.data.length; i++){
                             if(typeof vm.cars.data[i].cars !== 'undefined'){
@@ -90,6 +97,7 @@ function DashboardHomeController($rootScope, $http, API_Data){
                                 }
                             }                            
                         }
+                        
                         full_car_details($rootScope.user.userName);          
                     }                  
                 })

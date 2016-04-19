@@ -16,7 +16,7 @@ function DashboardHomeController($rootScope, $http, API_Data){
     var map = new google.maps.Map(document.getElementById("map_home"));
     vm.number_wheels = 10;
     vm.user = null;
-    vm.user_carids = null;
+    vm.user_carids = [];
     vm.car_details = [];
     vm.car_details_full = null;
     vm.username = '';
@@ -28,8 +28,9 @@ function DashboardHomeController($rootScope, $http, API_Data){
         $rootScope.admin_page = false;
         if($rootScope.user){
             vm.username = $rootScope.user.userName;
-            console.log($rootScope.user)
-            vm.total_user_vehicle = $rootScope.user.carids.substring(0, $rootScope.user.carids.length-1).split(',').length;
+            if($rootScope.user.carids){
+                vm.total_user_vehicle = $rootScope.user.carids.substring(0, $rootScope.user.carids.length-1).split(',').length;
+            }
             full_car_details(vm.username);  
         }
         // var startPos;
@@ -81,25 +82,32 @@ function DashboardHomeController($rootScope, $http, API_Data){
             
             //set user details
             vm.user = result.data[0];
-                    
-            //remove last string (')
-            vm.user.carids = vm.user.carids.substring(0, vm.user.carids.length-1);
-            
-            //set into an array
-            vm.user_carids = vm.user.carids.split(',');
-            
-            //get cars basic details
-            var requests = 0;
-            for(var i = 0; i < vm.user_carids.length; i++){
-                requests++;
-                API_Data.gps_getpos(vm.user_carids[i]).then(function(result){
-                    requests--;
-                    if(vm.car_details.length < vm.total_user_vehicle){
-                        vm.car_details.push(JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1")))      
-                    }
-                    if (requests == 0) more_car_details();
-                });
+            vm.user_carids = []
+            if(vm.user.carids){
+                //remove last string (')
+                vm.user.carids = vm.user.carids.substring(0, vm.user.carids.length-1);
+                
+                //set into an array
+                vm.user_carids = vm.user.carids.split(',');
             }
+            
+            if(vm.user_carids.length){
+                //get cars basic details
+                var requests = 0;
+                for(var i = 0; i < vm.user_carids.length; i++){
+                    requests++;
+                    API_Data.gps_getpos(vm.user_carids[i]).then(function(result){
+                        requests--;
+                        if(vm.car_details.length < vm.total_user_vehicle){
+                            vm.car_details.push(JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1")))      
+                        }
+                        if (requests == 0) more_car_details();
+                    });
+                }
+            }else{
+                vm.car_details_full = []
+            }
+            
             
             //add carNo and driver
             function more_car_details(){

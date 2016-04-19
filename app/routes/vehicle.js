@@ -40,6 +40,7 @@ exports.tree_groupcars = function (req, res) {
     })
 };
 
+
 exports.gps_gethistorypos = function (req, res) {
     var postData = {
         'carid': req.body.carid,

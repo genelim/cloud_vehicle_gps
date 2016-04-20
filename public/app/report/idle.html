@@ -24,16 +24,13 @@
                 </div>
             </div>
         </div>
-<!--
-        <div class="col s12 m12 l3">
-            <p>Idling Time >= <input type="number" id="idle" style="width:50px">Minute</p>
-        </div>-->
 
         <div class="col s12 m12 l2">
             <a class="btn" ng-click="vm.get_idle()">Statistics</a>
             <a class="btn buttonspace" ng-click="vm.export_data()">Export</a>
         </div>
     </div>
+
     <div ng-if="vm.idle.length">
         <div class="col s12 m12 l12">
             <!--<p class="col s12 m12 l5">Statistical Time: <b>01-03-2016 00:00:00</b></p>

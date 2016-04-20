@@ -1,4 +1,4 @@
-angular
+    angular
     .module('app')
     .config(Configuration);
 
@@ -220,10 +220,21 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         controller: 'IdleController',
         controllerAs: 'vm'
     })
+        
     // .state('dashboard.reports.fuel_management', {
     //     url:'/fuel_management',
     //     templateUrl: "app/report/fuel_management.html"
     // })
+
+    .state('dashboard.reports.all_vehicle_summary' ,{
+      url:'/all_vehicle_summary',
+    templateURL: "app/report/all_vehicle_summary.html"
+    })
+
+    .state('dashboard.reports.refuel', {
+        url:'/refuel',
+        templateURL: "app/report/refuel.html"
+    })
     
     .state('admin', {
         url:'/admin',
@@ -231,6 +242,7 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         controller: 'AdminController',
         controllerAs: 'vm'
     })
+
     .state('admin.users', {
         url:'/users',
         templateUrl: "app/admin/users.html",

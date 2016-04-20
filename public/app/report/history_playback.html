@@ -1,19 +1,30 @@
 <div class="row">
     <div class="col s12 m12 l3">
         <div class="col s12 m12 l12" style="border:1px black solid;padding-bottom:2%">
-            <p class="col s12 m12 l5">Plate NO:</p>
-            <div class="col s12 m12 l7">
-                <input id="plateno" type="text" placeholder="ABC1234">
+            <div class="col l12">
+                <p class="col s12 m12 l3">Plate NO:</p>
+                <div class="col s12 m12 l9">
+                    <input id="plateno" type="text" placeholder="ABC1234">
+                </div>
             </div>
-            <p class="col s12 m12 l5">From Time:</p>
-            <div class="col s12 m12 l7">
-                <input type="text" placeholder="2016-02-25" id="fromtime" onfocus="new WdatePicker()">
+            <div class="col l12">
+                <p class="col s12 m12 l3">From Time:</p>
+                <div class="col s12 m12 l9">
+                    <input type="date" placeholder="2016-02-25" id="fromtime" onfocus="new WdatePicker()">
+                </div>
             </div>
-            <p class="col s12 m12 l5">To Time:</p>
-            <div class="col s12 m12 l7">
-                <input type="text" placeholder="2016-02-25" id="totime" onfocus="new WdatePicker()">
+            <div class="col l12">
+                <p class="col s12 m12 l3">To Time:</p>
+                <div class="col s12 m12 l9">
+                    <input type="date" placeholder="2016-02-25" id="totime" onfocus="new WdatePicker()">
+                </div>
             </div>
-            <a class="btn col s12 m12 l4 push-l4">Search</a>
+            <div class="col l12">
+                <div class="col l8">
+                    <p><i class="fa fa-exclamation-triangle" style="margin-right:1%"></i>Not more than a day</p>
+                </div>
+                <a class="btn col l4">Search</a>
+            </div>
         </div>
 
         <div class="col s12 m12 l12 center mainborder" style="padding-top:5%;border-top:none">

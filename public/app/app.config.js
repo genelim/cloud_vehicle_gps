@@ -220,7 +220,7 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         controller: 'IdleController',
         controllerAs: 'vm'
     })
-        
+
     // .state('dashboard.reports.fuel_management', {
     //     url:'/fuel_management',
     //     templateUrl: "app/report/fuel_management.html"

@@ -23,21 +23,56 @@ function IdleController($rootScope, $http, API_Data){
     });
     
     function checkFlag() {
-        if($rootScope.user_check === 0) {
+        if($rootScope.user_check === 0 && !$rootScope.user) {
             window.setTimeout(checkFlag, 1000);
         } else if($rootScope.user_check === 1){
             if($rootScope.user){
-                API_Data.tree_groupcars().then(function(result){
-                    var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    vm.cars = {data : []};
-                    for(var i = 0; i < result.length; i++){
-                        vm.cars.data.push({group : result[i].text_old, carNO : [], carID :[]});
-                        for(var a = 0; a < result[i].children.length; a++){
-                            vm.cars.data[i].carNO.push(result[i].children[a].text_old);
-                            vm.cars.data[i].carID.push(result[i].children[a].objid);
+                var requestsss = 0;                
+                API_Data.groups_tree().then(function(result){
+                    if(result.data.response === '{"success":false"info":"NOT LOGIN"}'){
+                        $rootScope.user =false;
+                        $rootScope.user_check = 2;
+                        $state.go('home')
+                    }else{
+                        var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        vm.groups = [];
+                        looping_group(result.data)
+                        function looping_group(data){
+                            for(var i = 0; i < data.length; i++){
+                                vm.groups.push({group : data[i].title, id : data[i].id})
+                                if(data[i].children.length){
+                                    looping_group(data[i].children)
+                                }
+                            }
+                        }
+                        
+                        car_list(0);                           
+                    }
+                    
+                    function car_list(i) {
+                        if( i < vm.groups.length ) {
+                            requestsss++;
+                            API_Data.cars_list(vm.groups[i].id).then(function(result){
+                                requestsss--;
+                                var _car = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                                if(_car.totalProperty > 0){                                    
+                                    for(var a = 0; a < vm.groups.length; a++){
+                                        if(vm.groups[i].id === vm.groups[a].id){
+                                            vm.groups[i].cars = _car.rows
+                                        }
+                                    }
+                                }
+                                car_list(i+1)
+                                if (requestsss == 0) completed_loaded();
+                                
+                            })
                         }
                     }
-                    vm.loaded = true;
+                    
+                    function completed_loaded(){
+                        vm.cars = {data : vm.groups};
+                        vm.loaded = true;    
+                    }                  
                 })
             }else{
                 Materialize.toast('Not able to retrieve data. Refresh page to try again', 2000);            
@@ -60,13 +95,17 @@ function IdleController($rootScope, $http, API_Data){
         vm.search_active = true;
         vm.idle = [];
         vm.carid = null;
+        console.log(vm.cars)
         for(var i = 0; i < vm.cars.data.length; i++){
-            for(var a = 0; a < vm.cars.data[i].carNO.length; a++){
-                if(vm.cars.data[i].carNO[a] === vm.plate_number){
-                    vm.carid = vm.cars.data[i].carID[a];
-                }
-            }
+            if(typeof vm.cars.data[i].cars !== 'undefined'){
+                for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                    if(vm.cars.data[i].cars[a].carNO === vm.plate_number){
+                        vm.carid = vm.cars.data[i].cars[a].carID;
+                    }
+                }  
+            }                      
         }
+        console.log(vm.carid)
         if(vm.carid){
             if(vm.date){
                 console.log(vm.date)
@@ -92,80 +131,96 @@ function IdleController($rootScope, $http, API_Data){
     }
     
     function get_car_history(){
-        console.log(vm.data, vm.carid)
         API_Data.gps_gethistorypos(vm.date, vm.carid)
         .then(function(result){
             var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-            for(var i = 0; i < res.data.length; i++){
-                res.data[i].gpsTime = new Date(res.data[i].gpsTime)
-            }
-            
-            //start is to get the starting point of not moving
-            //true is not moving
-            //false is first move, so from the true to false is the hours of idle when the status is ON
-            var start = true;
-            for(var i = 0; i < res.data.length; i++){
-                if(res.data[i].speed === 0 && res.data[i].status === 'ACC off'){
-                    if(start == true){
-                        vm.idle.push(res.data[i])   
-                        start = false;
-                    }
-                }else{
-                    if(start === false){
-                        vm.idle.push(res.data[i])  
-                        start = true;
-                    }
+            if(res.data.length){
+                for(var i = 0; i < res.data.length; i++){
+                    res.data[i].gpsTime = new Date(res.data[i].gpsTime)
                 }
-            }
-            for(var i = 0; i < vm.idle.length; i++){
-                if(isOdd(i)){
-                   vm.idle[i-1].end_date = vm.idle[i].gpsTime
-                   vm.idle[i-1].total_hours =  Math.abs(vm.idle[i].gpsTime - vm.idle[i-1].gpsTime) / 36e5;
-                }
-                if(i === (vm.idle.length - 1)){
-                    if(!isOdd(i)){
-                        vm.idle[i].end_date = new Date()
-                        vm.idle[i].total_hours =  Math.abs(vm.idle[i].end_date - vm.idle[i].gpsTime) / 36e5;
-                    }
-                }
-            }    
-            var requests = 0;
-            function car_address(i) {
-                if( i < vm.idle.length ) {
-                    requests++;
-                    $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.idle[i].la+','+vm.idle[i].lo+'&sensor=true')
-                    .success(function(map){
-                        requests--;
-                        if(map.status === 'ZERO_RESULTS'){
-                            vm.idle[i].address = '';
-                        }else{
-                            vm.idle[i].address = map.results[0].formatted_address;
+                
+                //start is to get the starting point of not moving
+                //true is not moving
+                //false is first move, so from the true to false is the hours of idle when the status is ON
+                var start = true;
+                for(var i = 0; i < res.data.length; i++){
+                    if(res.data[i].speed === 0 && res.data[i].status === 'ACC off'){
+                        if(start == true){
+                            vm.idle.push(res.data[i])   
+                            start = false;
                         }
-                        car_address(i+1)
-                        if (requests == 0) vm.get_driver_details();
-                    })
+                    }else{
+                        if(start === false){
+                            vm.idle.push(res.data[i])  
+                            start = true;
+                        }
+                    }
                 }
-            }    
-            car_address(0)
+                for(var i = 0; i < vm.idle.length; i++){
+                    if(isOdd(i)){
+                    vm.idle[i-1].end_date = vm.idle[i].gpsTime
+                    vm.idle[i-1].total_hours =  Math.abs(vm.idle[i].gpsTime - vm.idle[i-1].gpsTime) / 36e5;
+                    }
+                    if(i === (vm.idle.length - 1)){
+                        if(!isOdd(i)){
+                            vm.idle[i].end_date = new Date()
+                            vm.idle[i].total_hours =  Math.abs(vm.idle[i].end_date - vm.idle[i].gpsTime) / 36e5;
+                        }
+                    }
+                }    
+                var requests = 0;
+                function car_address(i) {
+                    if( i < vm.idle.length ) {
+                        requests++;
+                        $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.idle[i].la+','+vm.idle[i].lo+'&sensor=true')
+                        .success(function(map){
+                            requests--;
+                            if(map.status === 'ZERO_RESULTS'){
+                                vm.idle[i].address = '';
+                            }else{
+                                vm.idle[i].address = map.results[0].formatted_address;
+                            }
+                            car_address(i+1)
+                            if (requests == 0) vm.get_driver_details();
+                        })
+                    }
+                }    
+                car_address(0)
+            }else{
+                vm.search_active = false;
+                for(var i = 0; i < vm.cars.data.length; i++){
+                    if(typeof vm.cars.data[i].cars !== 'undefined'){
+                        for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                            if(vm.cars.data[i].cars[a].carID === vm.carid){
+                                vm.idle.driver = vm.cars.data[i].cars[a].driver;
+                                vm.idle.driverTel = vm.cars.data[i].cars[a].driverTel;
+                                vm.idle.driver2Tel = vm.cars.data[i].cars[a].driver2Tel;
+                                vm.idle.carBrand = vm.cars.data[i].cars[a].carBrand;
+                                vm.idle.carNO = vm.cars.data[i].cars[a].carNO;
+                            }
+                        }
+                    }
+                }
+            }
         })
     }
     
     function get_driver_details(){
-        API_Data.car_getall($rootScope.user.userName).then(function(result){
-            var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-            for(var a = 0; a < result.data.length; a++){
-                for(var i = 0; i < vm.cars.data[a].carNO.length; i++){
-                    if(vm.cars.data[i].carNO[a] === vm.plate_number){
-                        vm.carid = vm.cars.data[i].carID[a];
-                        vm.idle.driver = result.data[a].driver;
-                        vm.idle.driverTel = result.data[a].driverTel;
-                        vm.idle.driver2Tel = result.data[a].driver2Tel;
-                        vm.idle.carBrand = result.data[a].carBrand;
-                        vm.idle.carNO = result.data[a].carNO;
+        for(var j = 0; j < vm.cars.data.length; j++){
+            if(typeof vm.cars.data[j].cars !== 'undefined'){
+                for(var i = 0; i < vm.cars.data[j].cars.length; i++){
+                    if(vm.cars.data[j].cars[i].carNO === vm.plate_number){
+                        vm.carid = vm.cars.data[j].cars[i].carID;
+                        vm.idle.driver = vm.cars.data[j].cars[i].driver;
+                        vm.idle.driverTel = vm.cars.data[j].cars[i].driverTel;
+                        vm.idle.driver2Tel = vm.cars.data[j].cars[i].driver2Tel;
+                        vm.idle.carBrand = vm.cars.data[j].cars[i].carBrand;
+                        vm.idle.carNO = vm.cars.data[j].cars[i].carNO;
                     }
                 }
-            }        
-        })
+            }
+        }
+        console.log(vm.idle)
     }
     
     function isOdd(num) {

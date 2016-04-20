@@ -1,6 +1,6 @@
 <p class="headerrow">Driving records</p>
-<div class="row" ng-if="vm.loaded">
-    <div class="col s12 m12 l10">
+<div class="row">
+    <div class="col s12 m12 l10"  ng-if="vm.loaded">
         <div class="col s12 m12 l3">
             <p>Vehicle Number Plate: <input type="text" id="platenumber" ng-model="vm.plate_number"></p>
         </div>
@@ -88,7 +88,7 @@
         
     </div>
     <div class="row" style="text-align:center; padding-top:10em;">
-        <div class="preloader-wrapper medium active"ng-if="vm.search_active || !vm.loaded">
+        <div class="preloader-wrapper medium active" ng-if="!vm.driving_records_full.data.length && vm.search_active || !vm.loaded">
             <div class="spinner-layer spinner-blue">
                 <div class="circle-clipper left">
                 <div class="circle"></div>

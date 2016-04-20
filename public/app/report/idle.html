@@ -24,14 +24,17 @@
                 </div>
             </div>
         </div>
+        <!--
+                <div class="col s12 m12 l3">
+                    <p>Idling Time >= <input type="number" id="idle" style="width:50px">Minute</p>
+                </div>-->
 
         <div class="col s12 m12 l2">
             <a class="btn" ng-click="vm.get_idle()">Statistics</a>
             <a class="btn buttonspace" ng-click="vm.export_data()">Export</a>
         </div>
     </div>
-
-    <div ng-if="vm.idle.length">
+    <div ng-if="vm.idle.carNO">
         <div class="col s12 m12 l12">
             <!--<p class="col s12 m12 l5">Statistical Time: <b>01-03-2016 00:00:00</b></p>
             <p class="col s12 m12 l4">Tabulation Time: <b>01-03-2016 Current Time</b></p>-->
@@ -60,82 +63,82 @@
                     <p class="col s12 m12 l4" ng-if="vm.idle.driver2Tel"><b>{{vm.idle.driver2Tel}}</b></p>
                 </div>
             </div>
-            <div id="exportable">
+            <div id="exportable" ng-if="vm.idle[0]">
                 <table>
                     <thead class="tablehead">
-                        <tr>
-                            <td>START DATE TIME</td>
-                            <td>END DATE TIME</td>
-                            <td>DURATION OF IDLE</td>
-                            <td>IDLING(LITRE)</td>
-                            <td>POI ADDRESS</td>
-                            <td>LOCATION</td>
-                        </tr>
+                    <tr>
+                        <td>START DATE TIME</td>
+                        <td>END DATE TIME</td>
+                        <td>DURATION OF IDLE</td>
+                        <td>IDLING(LITRE)</td>
+                        <td>POI ADDRESS</td>
+                        <td>LOCATION</td>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr dir-paginate="idle in vm.idle | itemsPerPage: vm.per_page">
-                            <td>{{idle.gpsTime  | date:'medium'}}</td>
-                            <td>{{idle.end_date | date:'medium'}}</td>
-                            <td>{{idle.total_hours | number : 2}} hours</td>
-                            <td>0</td>
-                            <td>{{idle.lo}} , {{idle.la}}</td>
-                            <td>{{idle.address}}</td>
-                        </tr>
+                    <tr dir-paginate="idle in vm.idle | itemsPerPage: vm.per_page">
+                        <td>{{idle.gpsTime  | date:'medium'}}</td>
+                        <td>{{idle.end_date | date:'medium'}}</td>
+                        <td>{{idle.total_hours | number : 2}} hours</td>
+                        <td>0</td>
+                        <td>{{idle.lo}} , {{idle.la}}</td>
+                        <td>{{idle.address}}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
+            <p ng-if="!vm.idle[0] && vm.idle.carNO">No Records</p>
             <div class="divider"></div>
             <div class="row"  ng-if="vm.all_car.cars.length">
                 <dir-pagination-controls class="pagination" style="margin: 0 auto;    text-align: center;"
-                    max-size="7"
-                    direction-links="true"
-                    boundary-links="true" >
-                    </dir-pagination-controls>
+                                         max-size="7"
+                                         direction-links="true"
+                                         boundary-links="true" >
+                </dir-pagination-controls>
             </div>
         </div>
     </div>
     <div class="row" style="text-align:center; padding-top:10em;">
-        <div class="preloader-wrapper medium active"ng-if="!vm.idle.length && vm.search_active || !vm.loaded">
+        <div class="preloader-wrapper medium active" ng-if="!vm.idle[0] && vm.search_active || !vm.loaded">
             <div class="spinner-layer spinner-blue">
                 <div class="circle-clipper left">
-                <div class="circle"></div>
+                    <div class="circle"></div>
                 </div><div class="gap-patch">
                 <div class="circle"></div>
-                </div><div class="circle-clipper right">
+            </div><div class="circle-clipper right">
                 <div class="circle"></div>
-                </div>
+            </div>
             </div>
 
             <div class="spinner-layer spinner-red">
                 <div class="circle-clipper left">
-                <div class="circle"></div>
+                    <div class="circle"></div>
                 </div><div class="gap-patch">
                 <div class="circle"></div>
-                </div><div class="circle-clipper right">
+            </div><div class="circle-clipper right">
                 <div class="circle"></div>
-                </div>
+            </div>
             </div>
 
             <div class="spinner-layer spinner-yellow">
                 <div class="circle-clipper left">
-                <div class="circle"></div>
+                    <div class="circle"></div>
                 </div><div class="gap-patch">
                 <div class="circle"></div>
-                </div><div class="circle-clipper right">
+            </div><div class="circle-clipper right">
                 <div class="circle"></div>
-                </div>
+            </div>
             </div>
 
             <div class="spinner-layer spinner-green">
                 <div class="circle-clipper left">
-                <div class="circle"></div>
+                    <div class="circle"></div>
                 </div><div class="gap-patch">
                 <div class="circle"></div>
-                </div><div class="circle-clipper right">
+            </div><div class="circle-clipper right">
                 <div class="circle"></div>
-                </div>
+            </div>
             </div>
         </div>
     </div>
 </div>
-

@@ -34,7 +34,7 @@
             <a class="btn buttonspace" ng-click="vm.export_data()">Export</a>
         </div>
     </div>
-    <div ng-if="vm.idle.length">
+    <div ng-if="vm.idle.carNO">
         <div class="col s12 m12 l12">
             <!--<p class="col s12 m12 l5">Statistical Time: <b>01-03-2016 00:00:00</b></p>
             <p class="col s12 m12 l4">Tabulation Time: <b>01-03-2016 Current Time</b></p>-->
@@ -63,7 +63,7 @@
                     <p class="col s12 m12 l4" ng-if="vm.idle.driver2Tel"><b>{{vm.idle.driver2Tel}}</b></p>
                 </div>
             </div>
-            <div id="exportable">
+            <div id="exportable" ng-if="vm.idle[0]">
                 <table>
                     <thead class="tablehead">
                         <tr>
@@ -87,6 +87,7 @@
                     </tbody>
                 </table>
             </div>
+            <p ng-if="!vm.idle[0] && vm.idle.carNO">No Records</p>
             <div class="divider"></div>
             <div class="row"  ng-if="vm.all_car.cars.length">
                 <dir-pagination-controls class="pagination" style="margin: 0 auto;    text-align: center;"
@@ -98,7 +99,7 @@
         </div>
     </div>
     <div class="row" style="text-align:center; padding-top:10em;">
-        <div class="preloader-wrapper medium active"ng-if="!vm.idle.length && vm.search_active || !vm.loaded">
+        <div class="preloader-wrapper medium active" ng-if="!vm.idle[0] && vm.search_active || !vm.loaded">
             <div class="spinner-layer spinner-blue">
                 <div class="circle-clipper left">
                 <div class="circle"></div>

@@ -64,8 +64,8 @@
                     <ul class="right hide-on-med-and-down" ng-if="user">
                         <!--<li><a class="dropdown-button blue-text dropdown-test" href="#!" data-activates="dropdown" data-beloworigin="true"><i class="fa fa-bell"></i><span class="new badge">4</span></a></li> notification button-->
                         <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">{{user.userName}}<i class="fa fa-arrow-down right"></i></a></li>
-                        <!--<li ng-if="user.response.role.indexOf(1) > -1 && !admin_page"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>-->
-                        <!--<li ng-if="user.response.role.indexOf(1) > -1 && admin_page"><a href="/" class="blue-text">Return Home<i class="fa fa-arrow-right right"></i></a></li>-->
+                        <li ng-if="!admin_page"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
+                        <li ng-if="admin_page"><a href="/" class="blue-text">Return Home<i class="fa fa-arrow-right right"></i></a></li>
                         <!--<li><a href="" class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Lock"><i class="fa fa-lock"></i></a></li>-->
                         <li><a class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Logout" ng-click="vm.logout()"><i class="fa fa-sign-out"></i></a></li>
                     </ul>
@@ -105,12 +105,15 @@
         <script src="app/report/idle.js"></script>
         <script src="app/report/fuel_consumption.js"></script>
         <script src="app/report/variation.js"></script>
+        <script src="app/report/all_vehicle_summary.js"></script>
         <script src="app/admin/home.js"></script>
         <script src="app/admin/users.js"></script>
         <script src="app/admin/location.js"></script>
+        <script src="app/admin/refuel.js"></script>
         <script src="app/shared/user.js"></script>
         <script src="app/shared/authentication.js"></script>
         <script src="app/shared/group_car_load.js"></script>
+        <script src="app/shared/refuel_cost.js"></script>
         <script src="assets/js/script.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
     </body>

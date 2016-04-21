@@ -1,0 +1,50 @@
+<div style="padding: 1em 2em 0em 2em">
+	 <div class="row ">
+        <div class="col s12">
+            <div class="card">
+                <div class="title">
+                    <h5>Refuel Cost History</h5>
+                    <div class="btn-group right">
+                        <a class="btn green lighten-1 z-depth-0 modal-trigger" ng-click="vm.add_modal()"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="content">
+                    <table class="highlight">
+                        <thead>
+                            <tr>
+                                <th data-field="date">Date</th>
+                                <th data-field="time">Time</th>
+                                <th data-field="cost">Cost (RM)</th>
+                                <th data-field="cost">Created By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cost in vm.all_cost">
+                                <th>{{cost.created_date | date : 'longDate'}}</th>
+                                <th>{{cost.created_date | date : 'HH:mm:ss'}}</th>
+                                <td>{{cost.cost | number:2}}</td>
+                                <td>{{cost.user}}</td>
+                            </tr>                    
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="new_fuel_cost" class="modal">
+    <div class="modal-content">
+        <div>
+            <div class="center">
+                <p class="flow-text">Create new fuel cost</p>
+            </div>
+            <div class="row">
+                <input type="number" ng-model="vm.cost"/>
+            </div>
+            <div class="row center">
+                <button class="btn" ng-click="vm.create_cost()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

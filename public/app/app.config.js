@@ -176,7 +176,9 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     })
     .state('dashboard.reports.fuel_consumption', {
         url:'/fuel_consumption',
-        templateUrl: "app/report/fuel_consumption.html"
+        templateUrl: "app/report/fuel_consumption.html",
+        controller: "FuelConsumptionController",
+        controllerAs: 'vm'
     })
     // .state('dashboard.reports.parking', {
     //     url:'/parking',
@@ -226,9 +228,11 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     //     templateUrl: "app/report/fuel_management.html"
     // })
 
-    .state('dashboard.reports.refuel', {
-        url:'/refuel',
-        templateUrl: "app/report/refuel.html"
+    .state('dashboard.reports.variation', {
+        url:'/variation',
+        templateUrl: "app/report/variation.html",
+        controller: 'VariationController',
+        controllerAs: 'vm'
     })
     .state('dashboard.reports.all_vehicle_summary', {
         url:'/all_vehicle_summary',

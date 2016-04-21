@@ -1,24 +1,33 @@
 angular
     .module('app')
-    .controller('VehicleMileageController', VehicleMileageController);
+    .controller('VariationController', VariationController);
 
-VehicleMileageController.$inject = ['API_Data', '$rootScope'];
+VariationController.$inject = ['API_Data', '$rootScope', '$state', '$http'];
 
-function VehicleMileageController(API_Data, $rootScope){ 
+function VariationController(API_Data, $rootScope, $state, $http){ 
     var vm = this;
     vm.loaded = false;
     vm.search_active = false;
     vm.group = [];
     vm.date = null;
     vm.group_selected = null;
-    vm.all_car = []
-    vm.get_mileage = get_mileage;
+    vm.get_variation = get_variation;
     vm.per_page = 10;
+    vm.variation_full = [];
     
-    function get_mileage(){
-        vm.vehicle_mileage_full = [];
+    function get_variation(){
+        vm.variation_full = [];
         vm.search_active = true;
-        vm.carid = vm.group_selected;
+        vm.carid = null;
+        for(var i = 0; i < vm.cars.data.length; i++){
+            if(typeof vm.cars.data[i].cars !== 'undefined'){
+                for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                    if(vm.cars.data[i].cars[a].carNO === vm.plate_number){
+                        vm.carid = vm.cars.data[i].cars[a].carID;
+                    }
+                }  
+            }                      
+        }
         if(vm.carid){
             if(vm.date){
                 if(typeof vm.date.a !== 'undefined' && vm.date.a !== null){
@@ -37,72 +46,75 @@ function VehicleMileageController(API_Data, $rootScope){
                 vm.search_active = false;
             }
         }else{
-            Materialize.toast('Please Select Group', 2000);
+            Materialize.toast('Invalid Plate Number', 2000);
             vm.search_active = false;
         }
     }
+    
     function get_car_history(){
-        var requests = 0;
-        vm.all_car = []
-        vm.all_car.cars = []
-        
-        function get_car(i){
-            if( i < vm.carid.cars.length ){
-                requests++;
-                API_Data.gps_gethistorypos(vm.date, vm.carid.cars[i].carID)
-                .then(function(result){
-                    requests--;
-                    var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    for(var a = 0; a < res.data.length; a++){
-                        res.data[a].gpsTime = new Date(res.data[a].gpsTime)
-                    }   
-                    vm.all_car.cars[i] = []
-                    vm.all_car.cars[i].data = []
-                    vm.all_car.cars[i].data = res.data
-                    vm.all_car.cars[i].plate_number = vm.carid.cars[i].carNO
-                    vm.all_car.cars[i].group = vm.group_selected.group
-                    get_car(i+1)
-                    if (requests == 0) full_details();
-                }) 
-            } 
-        }        
-        get_car(0)
+        API_Data.gps_gethistorypos(vm.date, vm.carid)
+        .then(function(result){
+            var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+            console.log(res.data)
+            if(res.data.length){
+                for(var i = 0; i < res.data.length; i++){
+                    res.data[i].gpsTime = new Date(res.data[i].gpsTime)
+                }
+                var requests = 0;
+                function car_address(i) {
+                    if( i < res.data.length ) {
+                        requests++;
+                        $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+res.data[i].la+','+res.data[i].lo+'&sensor=true')
+                        .success(function(map){
+                            requests--;
+                            if(map.status === 'ZERO_RESULTS'){
+                                res.data[i].address = '';
+                            }else{
+                                res.data[i].address = map.results[0].formatted_address;
+                            }
+                            car_address(i+1)
+                            if (requests == 0) get_car_details(res);
+                        })
+                    }
+                }    
+                car_address(0)
+            }else{
+                vm.search_active = false;
+                for(var i = 0; i < vm.cars.data.length; i++){
+                    if(typeof vm.cars.data[i].cars !== 'undefined'){
+                        for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                            if(vm.cars.data[i].cars[a].carID === vm.carid){
+                                vm.variation_full.data = []
+                                vm.variation_full.plate_number = vm.cars.data[i].cars[a].carNO
+                            }
+                        }
+                    }
+                }
+                console.log(vm.variation_full)
+            }            
+        })
     }
     
-    function full_details(){
-        console.log(vm.all_car)
-        for(var i = 0; i < vm.all_car.cars.length; i++){
-            var data = vm.all_car.cars[i];
-            var last_array_mileage = 0;
-            var total_speed_add = 0;
-            var total_fuel_add = 0;
-            var array_length = data.data.length;
-            var max_speed = null
-            var journey_time = 0
-            for(var a = 0; a < data.data.length; a++){
-                if(a === data.data.length-1){
-                    last_array_mileage = data.data[a].mileage
-                }      
-                total_speed_add += data.data[a].speed;            
-                total_fuel_add += data.data[a].fuel;  
-                if(max_speed === null){
-                    max_speed = data.data[a].speed
-                }else if(data.data[a].speed > max_speed){
-                    max_speed = data.data[a].speed;
-                }          
-                if(data.data[a].status !== 'ACC off'){
-                    journey_time += data.data[a].gpsTime.getMinutes()
-                }
+    function get_car_details(res){
+        var base_fuel = 0;
+        var refuel = 0;
+        for(var i = 0; i < res.data.length; i++){
+            if(res.data[i].fuel > base_fuel){
+                refuel += res.data[i].fuel - base_fuel;
+            }else if(refuel > 0){
+                res.data[i].refuel = refuel;
+                refuel = 0;
             }
-            if(typeof data.data[0] !== 'undefined'){
-                vm.all_car.cars[i].total_mileage = last_array_mileage - data.data[0].mileage;
-            } 
-            vm.all_car.cars[i].average_speed = total_speed_add / array_length;
-            vm.all_car.cars[i].total_fuel = total_fuel_add;
-            vm.all_car.cars[i].max_speed = max_speed;
-            vm.all_car.cars[i].journey_time = journey_time / 60;     
-            vm.search_active = false      
+            base_fuel = res.data[i].fuel
         }
+        vm.variation_full.data = [];
+        for(var i = 0; i > res.data.length; i++){
+            if(typeof res.data[i].refuel !== 'undefined'){
+                vm.variation_full.data.push(res.data[i])
+            }
+        }
+        vm.variation_full.plate_number = vm.plate_number
+        vm.search_active = false;
     }
     
     function checkFlag() {

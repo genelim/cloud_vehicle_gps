@@ -1,1 +1,1 @@
-angular.module('app', ['ui.router', 'ngResource', 'angularUtils.directives.dirPagination']); 
+angular.module('app', ['ui.router', 'ngResource', 'angularUtils.directives.dirPagination','chart.js']); 

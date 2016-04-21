@@ -87,7 +87,9 @@
                     </tbody>
                 </table>
             </div>
-            <p ng-if="!vm.idle[0] && vm.idle.carNO">No Records</p>
+        </div>
+    </div>
+    <p ng-if="!vm.idle[0] && vm.idle.carNO">No Records</p>
             <div class="divider"></div>
             <div class="row"  ng-if="vm.all_car.cars.length">
                 <dir-pagination-controls class="pagination" style="margin: 0 auto;    text-align: center;"
@@ -96,8 +98,6 @@
                                          boundary-links="true" >
                 </dir-pagination-controls>
             </div>
-        </div>
-    </div>
     <div class="row" style="text-align:center; padding-top:10em;">
         <div class="preloader-wrapper medium active" ng-if="!vm.idle[0] && vm.search_active || !vm.loaded">
             <div class="spinner-layer spinner-blue">

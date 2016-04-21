@@ -1,9 +1,9 @@
 <p class="headerrow">Fuel Consumption</p>
 <div class="row">
-    <div class="col s12 m12 l12">
+    <div class="col s12 m12 l12" ng-if="vm.loaded">
         <div class="col s12 m12 l9">
             <div class="col s12 m12 l3">
-                <p>Fleet & Number Plate: <input type="text" id="platenumber" placeholder="ABC1234"></p>
+                <p>Fleet & Number Plate: <input type="text" id="platenumber" ng-model="vm.plate_number"></p>
             </div>
 
             <div class="col s12 m12 l5">
@@ -12,58 +12,88 @@
                         From:
                     </div>
                     <div class="col s12 m12 l10">
-                        <input id="from" type="date">
+                        <input id="from" type="date"  ng-model="vm.date.a">
                     </div>
                 </div>
 
-                <div class="col s12 m12 l12" style="margin-top:2%">
+                <div class="col s12 m12 l12">
                     <div class="col s12 m12 l2">
                         To:
                     </div>
                     <div class="col s12 m12 l10">
-                        <input id="to" type="date">
+                        <input id="to" type="date" ng-model="vm.date.b">
                     </div>
                 </div>
             </div>
 
             <div class="col s12 m12 l2">
-                <a class="btn">Statistics</a>
-                <a class="btn buttonspace">Export</a>
+                <a class="btn" ng-click="vm.get_fuel()">Statistics</a>
             </div>
         </div>
     </div>
 
-    <div class="col s12 m12 l12 menuseperator">
-        <p class="col s12 m12 l3">Plate NO:</p>
-        <p class="col s12 m12 l3">Total Milleage</p>
-        <p class="col s12 m12 l3">Total Consumption:</p>
-        <p class="col s12 m12 l3">Total Refuel(L):</p>
-        <p class="col s12 m12 l4">Statistical Time:</p>
-        <p class="col s12 m12 l4">Average fuel consumption(L/100Km):</p>
-        <p class="col s12 m12 l4">Refueling Views:</p>
-
-        <table>
-            <thead>
-            <tr>
-                <td>Refueling Time</td>
-                <td>Refuel(L)</td>
-                <td>Address</td>
-            </tr>
-            </thead>
-        </table>
+    <div class="col s12 m12 l12 menuseperator" ng-if="vm.fuel_data_full.plate_number">
+        <p class="col s12 m12 l3">Plate NO: <b>{{vm.fuel_data_full.plate_number}}</b></p>
+        <p class="col s12 m12 l3">Total Milleage: 
+            <b ng-if="vm.fuel_data_full.total_mileage">{{vm.fuel_data_full.total_mileage}}</b>
+            <b ng-if="!vm.fuel_data_full.total_mileage">0</b>
+        </p>
+        <p class="col s12 m12 l3">Total Consumption: 
+            <b ng-if="vm.fuel_data_full.fuel_consumption">{{vm.fuel_data_full.fuel_consumption}}</b>
+            <b ng-if="!vm.fuel_data_full.fuel_consumption">0</b>
+        </p>
+        <p class="col s12 m12 l3">Average fuel consumption(L/100Km): 
+            <b ng-if="vm.fuel_data_full.fuel_consumption">{{vm.fuel_data_full.fuel_consumption / 100}}</b>
+            <b ng-if="!vm.fuel_data_full.fuel_consumption">0</b>
+        </p>
     </div>
+    <div class="row" style="text-align:center; padding-top:10em;">
+        <div class="preloader-wrapper medium active" ng-if="vm.search_active || !vm.loaded">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
 
-    <div class="center" style="padding-top:1%">
-        <div class="col s12 m12 l12">
-            <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="fa fa-arrow-left"></i></a></li>
-                <li class="active"><a href="#!">1</a></li>
-                <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li>
-                <li class="waves-effect"><a href="#!"><i class="fa fa-arrow-right"></i></a></li>
-            </ul>
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="container">
+        <canvas id="line" class="chart chart-line" chart-data="vm.data"
+            chart-labels="vm.labels" chart-legend="true" chart-series="vm.series"
+            chart-click="onClick" >
+        </canvas> 
     </div>
 </div>

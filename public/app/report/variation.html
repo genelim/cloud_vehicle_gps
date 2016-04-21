@@ -1,13 +1,11 @@
-<p class="headerrow">Vehicle Mileage Report</p>
-<div class="row">
-    <div class="col s12 m12 l10"  ng-if="vm.loaded">
+<p class="headerrow">Refuel Report</p>
+<div class="row" ng-if="vm.loaded">
+    <div class="col s12 m12 l12">
         <div class="col s12 m12 l3">
-            <span>Vehicle Group: </span>
-            <select class="browser-default" ng-model="vm.group_selected" ng-options="group.group for group in vm.group">
-            </select>
+            <p>Vehicle Number Plate: <input type="text" id="platenumber" ng-model="vm.plate_number"></p>
         </div>
 
-        <div class="col s12 m12 l6">
+        <div class="col s12 m12 l4">
             <div class="col s12 m12 l12">
                 <div class="col s12 m12 l2">
                     From:
@@ -26,62 +24,36 @@
                 </div>
             </div>
         </div>
-        <!--<div class="col s12 m12 l2">
-            Statistical method:
-            <select class="browser-default">
-                <option>Statistic for all</option>
-                <option>Daily Statistic</option>
-            </select>
-        </div>-->
-        <div class="col s12 m12 l2">
-            <a class="btn" ng-click="vm.get_mileage()">Statistics</a>
-            <a class="btn buttonspace">Export</a>
-        </div>
-    </div>    
 
-    <div class="col s12 m12 l12 menuseperator" ng-if="vm.all_car.cars.length">
+        <div class="col s12 m12 l2">
+            <a class="btn" ng-click="vm.get_variation()">Statistics</a>
+            <a class="btn buttonspace" ng-click="vm.export_data()">Export</a>
+        </div>
+    </div>
+
+    <div class="col l12" ng-if="vm.variation_full.data.length">
         <table>
-            <thead class="tablehead">
-            <tr>
-                <td>Group</td>
-                <td>Plate NO</td>
-                <td>Journey time</td>
-                <td>Total mileage(km)</td>
-                <td>Average speed(km/h)</td>
-                <td>Estimate fuel consumption(L)</td>
-                <td>Maximum Speed</td>
-            </tr>
+            <thead>
+                <tr>
+                    <td>Date Time</td>
+                    <td>Refuel (L) Software generated data</td>
+                    <td>Refuel Update (L) Client data</td>
+                    <td>Location</td>
+                </tr>
             </thead>
             <tbody>
-                <tr dir-paginate="mileage  in vm.all_car.cars | itemsPerPage: vm.per_page">
-                    <td>{{mileage.group}}</td>
-                    <td>{{mileage.plate_number}}</td>
-                    <td>{{mileage.journey_time | number:2}} hours</td>
-                    <td>
-                        <span ng-if="mileage.total_mileage">{{mileage.total_mileage}}</span>
-                        <span ng-if="!mileage.total_mileage">0</span>
-                    </td>
-                    <td>
-                        <span ng-if="mileage.average_speed">{{mileage.average_speed | number:2}}</span>
-                        <span ng-if="!mileage.average_speed">0</span>
-                    </td>
-                    <td>{{mileage.total_fuel}}</td>
-                    <td>
-                        <span ng-if="mileage.max_speed">{{mileage.max_speed}}</span>
-                        <span ng-if="!mileage.max_speed">0</span>                        
-                    </td>
+                <tr dir-paginate="variation in vm.variation_full.data | itemsPerPage: vm.per_page">
+                    <td>{{variation.gpsTime | date : 'medium'}}</td>
+                    <td>{{variation.refuel}}</td>
+                    <td>0</td>
+                    <td>{{variation.address}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <p ng-if="!vm.variation_full.data.length && vm.variation_full.plate_number">No Records</p>
+</div>
     <div class="divider"></div>
-    <div class="row"  ng-if="vm.all_car.cars.length">
-        <dir-pagination-controls class="pagination" style="margin: 0 auto;    text-align: center;"
-            max-size="7"
-            direction-links="true"
-            boundary-links="true" >
-            </dir-pagination-controls>
-    </div>
     <div class="row" style="text-align:center; padding-top:10em;">
         <div class="preloader-wrapper medium active" ng-if="vm.search_active || !vm.loaded">
             <div class="spinner-layer spinner-blue">
@@ -125,4 +97,3 @@
             </div>
         </div>
     </div>
-</div>

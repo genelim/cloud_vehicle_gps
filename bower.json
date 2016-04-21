@@ -26,6 +26,8 @@
     "components-font-awesome": "^4.5.0",
     "Materialize": "materialize#^0.97.5",
     "angular-resource": "^1.5.0",
-    "angularUtils-pagination": "angular-utils-pagination#^0.11.1"
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.1",
+    "angular-chart.js": "^0.10.0",
+    "Chart.js": "^2.0.2"
   }
 }

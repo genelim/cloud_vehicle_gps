@@ -19,6 +19,7 @@ function AdminRefuelController($http, Refuel_Cost, $rootScope){
                 console.log(result)
                 Materialize.toast('New Cost Added!', 2000);
                 $('#new_fuel_cost').closeModal();
+                vm.get_cost();
             })
         }else{
             Materialize.toast('Enter Fuel Cost', 2000);

@@ -138,7 +138,9 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     })
     .state('dashboard.reports.history_playback', {
         url:'/history_playback',
-        templateUrl: "app/report/history_playback.html"
+        templateUrl: "app/report/history_playback.html",
+        controller: 'HistoryPlaybackController',
+        controllerAs: 'vm',
     })
     // .state('dashboard.reports.gprs_flow', {
     //     url:'/gprs_flow',

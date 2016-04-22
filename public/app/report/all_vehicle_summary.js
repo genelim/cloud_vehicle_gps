@@ -169,6 +169,13 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                     vm.all_car.cars[i].total_idle_cost = 0
                     vm.all_car.cars[i].total_idle_fuel = 0
                     vm.all_car.cars[i].total_idle_hours = 0
+                    for(var i = 0; i < vm.all_car.cars.length; i++){
+                        for(var a = 0; a < vm.car_list_all.data.length; a++){
+                            if(vm.car_list_all.data[a].carNO === vm.all_car.cars[i].plate_number){
+                                vm.all_car.cars[i].driver = vm.car_list_all.data[a].driver
+                            }   
+                        }
+                    }
                     vm.all_car_full = vm.all_car
                     vm.search_active = false;
                 }                
@@ -226,6 +233,13 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                             }
                         } 
                     }                 
+                }
+                for(var i = 0; i < vm.all_car.cars.length; i++){
+                    for(var a = 0; a < vm.car_list_all.data.length; a++){
+                        if(vm.car_list_all.data[a].carNO === vm.all_car.cars[i].plate_number){
+                            vm.all_car.cars[i].driver = vm.car_list_all.data[a].driver
+                        }   
+                    }
                 }
                 vm.all_car_full = vm.all_car
                 vm.search_active = false;

@@ -51,18 +51,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr dir-paginate="mileage  in vm.all_car_full.cars | itemsPerPage: vm.per_page">
-                    <td>Dennis</td>
-                    <td>{{mileage.plate_number}}</td>
-                    <td>{{mileage.fuel_used}}</td>
-                    <td>RM {{mileage.fuel_total_cost | number:2}}</td>
-                    <td>{{mileage.kl_l | number:3}}Km</td>
-                    <td>{{mileage.refuel}}</td>
-                    <td>{{mileage.refuel_cost | number:2}}</td>
-                    <td>{{mileage.total_idle_hours | number:2}}</td>
-                    <td>{{mileage.total_idle_fuel}}</td>
-                    <td>RM {{mileage.total_idle_cost | number:2}}</td>
-                    <td>{{mileage.total_travel | number:2}}</td>
+                <tr dir-paginate="summary  in vm.all_car_full.cars | itemsPerPage: vm.per_page">
+                    <td>
+                        <span ng-if="summary.driver">{{summary.driver}}</span>
+                        <span ng-if="!summary.driver">No Name</span>                        
+                    </td>
+                    <td>{{summary.plate_number}}</td>
+                    <td>{{summary.fuel_used}}</td>
+                    <td>RM {{milsummaryeage.fuel_total_cost | number:2}}</td>
+                    <td>{{summary.kl_l | number:3}}Km</td>
+                    <td>{{summary.refuel}}</td>
+                    <td>{{summary.refuel_cost | number:2}}</td>
+                    <td>{{summary.total_idle_hours | number:2}}</td>
+                    <td>{{summary.total_idle_fuel}}</td>
+                    <td>RM {{summary.total_idle_cost | number:2}}</td>
+                    <td>{{summary.total_travel | number:2}}</td>
                 </tr>
             </tbody>
         </table>

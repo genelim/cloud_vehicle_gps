@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('AllVehicleSummaryController', AllVehicleSummaryController);
 
-AllVehicleSummaryController.$inject = ['API_Data', '$rootScope'];
+AllVehicleSummaryController.$inject = ['API_Data', '$rootScope', 'Refuel_Cost', '$state'];
 
-function AllVehicleSummaryController(API_Data, $rootScope){ 
+function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){ 
     var vm = this;
     vm.loaded = false;
     vm.search_active = false;
@@ -13,7 +13,9 @@ function AllVehicleSummaryController(API_Data, $rootScope){
     vm.group_selected = null;
     vm.all_car = []
     vm.get_summary = get_summary;
+    vm.all_car_full = null;
     vm.per_page = 10;
+    vm.car_list_all = null;
     
     function get_summary(){
         vm.vehicle_mileage_full = [];
@@ -70,7 +72,169 @@ function AllVehicleSummaryController(API_Data, $rootScope){
     }
     
     function full_details(){
-        console.log(vm.all_car)
+        Refuel_Cost.query(function(result){
+            vm.all_cost = result.response
+            vm.all_cost.sort(function(a,b) { 
+                return new Date(a.created_date).getTime() - new Date(b.created_date).getTime() 
+            });
+            for(var i = 0; i < vm.all_car.cars.length; i++){
+                var fuel = 0;
+                var base_fuel = 0;
+                var base_refuel = false;
+                var refuel = 0;
+                var start = true;
+                var card_record_length =  vm.all_car.cars[i].data.length;
+                var idle_record = []
+                var total_travel = 0;
+                for(var a = 0; a < card_record_length; a++){
+                    if(a === 0){
+                        base_refuel = false;
+                        base_fuel = vm.all_car.cars[i].data[a].fuel 
+                    }else if(vm.all_car.cars[i].data[a].fuel < base_fuel){
+                        base_refuel = false;
+                        fuel += base_fuel - vm.all_car.cars[i].data[a].fuel;
+                        base_fuel = vm.all_car.cars[i].data[a].fuel;                    
+                    }else if(vm.all_car.cars[i].data[a].fuel > base_fuel){
+                        if(!base_refuel){
+                            refuel += 1
+                        }
+                        base_refuel = true;
+                        base_fuel = vm.all_car.cars[i].data[a].fuel;  
+                    }
+                    if(vm.all_car.cars[i].data[a].fuel < base_fuel){
+                        fuel += base_fuel - vm.all_car.cars[i].data[a].fuel;
+                    }
+                    base_fuel = vm.all_car.cars[i].data[a].fuel;  
+                    if(vm.all_car.cars[i].data[a].speed === 0 && vm.all_car.cars[i].data[a].status !== 'ACC off'){
+                        if(start == true){
+                            idle_record.push(vm.all_car.cars[i].data[a])   
+                            start = false;
+                        }
+                    }else{
+                        if(start === false){
+                            idle_record.push(vm.all_car.cars[i].data[a])  
+                            start = true;
+                        }
+                    } 
+                    if(vm.all_car.cars[i].data[a].status !== 'ACC off'){
+                        if(a !== 0){
+                            total_travel += Math.abs(vm.all_car.cars[i].data[a].gpsTime - vm.all_car.cars[i].data[a-1].gpsTime) / 36e5;
+                        }
+                    }                
+                }
+                vm.all_car.cars[i].fuel_used = fuel;
+                vm.all_car.cars[i].total_travel = total_travel;
+                console.log()
+                if(vm.all_car.cars[i].data.length){
+                    vm.all_car.cars[i].carid = vm.all_car.cars[i].data[0].carID;
+                }
+                vm.all_car.cars[i].refuel = refuel;
+                vm.all_car.cars[i].idle_record = idle_record;
+                if(fuel !== 0){
+                    vm.all_car.cars[i].kl_l = (vm.all_car.cars[i].data[card_record_length - 1].mileage - vm.all_car.cars[i].data[0].mileage)/fuel;
+                }else{
+                    vm.all_car.cars[i].kl_l = 0;
+                }
+            }
+            for(var i = 0; i < vm.all_car.cars.length; i++){
+                var fuel_cost = 0;
+                for(var a = 0; a < vm.all_car.cars[i].data.length; a++){
+                    for(var j = 0; j < vm.all_cost.length; j++){
+                        var cur_date = new Date(vm.all_cost[j].created_date)
+                        if(cur_date > vm.all_car.cars[i].data.gpsTime){
+                            if(j === 0){
+                                fuel_cost = vm.all_cost[j].cost;                                             
+                            }else{
+                                fuel_cost = vm.all_cost[j - 1].cost;
+                            }
+                            break;
+                        }
+                    }
+                }
+                vm.all_car.cars[i].fuel_total_cost = fuel_cost * vm.all_car.cars[i].fuel_used;
+                vm.all_car.cars[i].refuel_cost = fuel_cost * vm.all_car.cars[i].refuel; 
+            }
+            
+            var requests = 0;
+            var current_update = []
+            for(var i = 0; i < vm.all_car.cars.length; i++){
+                requests++;
+                if(vm.all_car.cars[i].data.length){
+                    API_Data.gps_getpos(vm.all_car.cars[i].carid).then(function(result){
+                        requests--;
+                        current_update.push(JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1")))
+                        if (requests == 0) continue_summary();
+                    });
+                }else{
+                    vm.all_car.cars[i].total_idle_cost = 0
+                    vm.all_car.cars[i].total_idle_fuel = 0
+                    vm.all_car.cars[i].total_idle_hours = 0
+                    vm.all_car_full = vm.all_car
+                    vm.search_active = false;
+                }                
+            }
+            function continue_summary(){
+                for(var i = 0; i < vm.all_car.cars.length; i++){
+                    vm.all_car.cars[i].total_idle_hours = 0
+                    vm.all_car.cars[i].total_idle_cost = 0
+                    vm.all_car.cars[i].total_idle_fuel = 0
+                    if(typeof vm.all_car.cars[i].idle_record !== 'undefined'){
+                        for(var a = 0; a < vm.all_car.cars[i].idle_record.length; a++){
+                            if(isOdd(a)){
+                                vm.all_car.cars[i].idle_record[a-1].end_date = vm.all_car.cars[i].idle_record[a].gpsTime;
+                                vm.all_car.cars[i].total_idle_fuel += vm.all_car.cars[i].idle_record[a-1].fuel - vm.all_car.cars[i].idle_record[a].fuel; 
+                                vm.all_car.cars[i].total_idle_hours +=  Math.abs(vm.all_car.cars[i].idle_record[a].gpsTime - vm.all_car.cars[i].idle_record[a-1].gpsTime) / 36e5;
+                                var idle_cost = 0
+                                for(var j = 0; j < vm.all_cost.length; j++){
+                                    var cur_date = new Date(vm.all_cost[j].created_date)
+                                    if(cur_date > vm.all_car.cars[i].idle_record[a].gpsTime){
+                                        if(j === 0){
+                                            idle_cost = vm.all_cost[j].cost;                                                
+                                        }else{
+                                            idle_cost = vm.all_cost[j - 1].cost;
+                                        }
+                                        break;
+                                    }
+                                }
+                                vm.all_car.cars[i].total_idle_cost += idle_cost*(vm.all_car.cars[i].idle_record[a-1].fuel - vm.all_car.cars[i].idle_record[a].fuel);
+                            }
+                            if(a === (vm.all_car.cars[i].idle_record.length - 1)){
+                                if(!isOdd(a)){
+                                    cur_fuel_used = 0
+                                    vm.all_car.cars[i].idle_record[a].end_date = new Date()
+                                    for(var z = 0; z < current_update[0].data.length; z++){
+                                        if(current_update[0].data[z].carID === vm.all_car.cars[i].carid){
+                                            vm.all_car.cars[i].total_idle_fuel += vm.all_car.cars[i].idle_record[a].fuel - current_update[0].data[z].fuel 
+                                            cur_fuel_used = vm.all_car.cars[i].idle_record[a].fuel - current_update[0].data[z].fuel 
+                                        }
+                                    }
+                                    var idle_cost = 0
+                                    for(var j = 0; j < vm.all_cost.length; j++){
+                                        var cur_date = new Date(vm.all_cost[j].created_date)
+                                        if(cur_date > vm.all_car.cars[i].idle_record[a].gpsTime){
+                                            if(j === 0){
+                                                idle_cost = vm.all_cost[j].cost;                                                
+                                            }else{
+                                                idle_cost = vm.all_cost[j - 1].cost;
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    vm.all_car.cars[i].total_idle_cost += idle_cost*cur_fuel_used;
+                                    vm.all_car.cars[i].total_idle_hours +=  Math.abs(vm.all_car.cars[i].idle_record[a].end_date - vm.all_car.cars[i].idle_record[a].gpsTime) / 36e5;
+                                }
+                            }
+                        } 
+                    }                 
+                }
+                vm.all_car_full = vm.all_car
+                vm.search_active = false;
+            }
+        })
+    }
+    
+    function isOdd(num) {
+        return num % 2;
     }
     
     function checkFlag() {
@@ -121,13 +285,18 @@ function AllVehicleSummaryController(API_Data, $rootScope){
                     }
                     
                     function completed_loaded(){
-                        vm.cars = {data : vm.groups};
-                        for(var i = 0; i < vm.cars.data.length; i++){
-                            if(typeof vm.cars.data[i].cars !== 'undefined'){
-                                vm.group.push(vm.cars.data[i])
+                        API_Data.car_getall().then(function(result){
+                            var car_list = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                            vm.car_list_all = car_list;
+                            vm.cars = {data : vm.groups};
+                            for(var i = 0; i < vm.cars.data.length; i++){
+                                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                                    vm.group.push(vm.cars.data[i])
+                                }
                             }
-                        }
-                        vm.loaded = true;    
+                            vm.loaded = true; 
+                        })
+                           
                     }                  
                 })
             }else{

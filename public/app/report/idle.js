@@ -95,7 +95,6 @@ function IdleController($rootScope, $http, API_Data){
         vm.search_active = true;
         vm.idle = [];
         vm.carid = null;
-        console.log(vm.cars)
         for(var i = 0; i < vm.cars.data.length; i++){
             if(typeof vm.cars.data[i].cars !== 'undefined'){
                 for(var a = 0; a < vm.cars.data[i].cars.length; a++){
@@ -105,7 +104,6 @@ function IdleController($rootScope, $http, API_Data){
                 }  
             }                      
         }
-        console.log(vm.carid)
         if(vm.carid){
             if(vm.date){
                 console.log(vm.date)

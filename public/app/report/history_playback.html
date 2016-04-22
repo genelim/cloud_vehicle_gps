@@ -1,74 +1,57 @@
-<div class="row">
+<div class="row">    
+    <div class="col s12 m12 l9 card" style="margin: 0; padding: 0; height: calc(100vh - 148px);">
+        <div id="map_home"></div>
+    </div>
     <div class="col s12 m12 l3">
-        <div class="col s12 m12 l12" style="border:1px black solid;padding-bottom:2%">
+        <div class="row" ng-if="vm.loaded">
+            <div class="col s12 m12 l12">
+                <span>Vehicle Group: </span>
+                <select class="browser-default" ng-model="vm.group_selected" ng-options="group.group for group in vm.group" ng-change="vm.group_update()">
+                </select>
+            </div>
             <div class="col l12">
                 <p class="col s12 m12 l3">Plate NO:</p>
                 <div class="col s12 m12 l9">
-                    <input id="plateno" type="text" placeholder="ABC1234">
+                    <input  class='dropdown-button' data-beloworigin="true" href='#' data-activates='dropdown1' ng-model="vm.plate_number.carNO">
                 </div>
+                <ul id='dropdown1' class='dropdown-content'>
+                    <li ng-repeat="car in vm.car_id | filter:car.carNO:startsWith"  ng-click="vm.plate_number_select(car)"><a>{{car.carNO}}</a></li>
+                </ul>
             </div>
             <div class="col l12">
                 <p class="col s12 m12 l3">From Time:</p>
                 <div class="col s12 m12 l9">
-                    <input type="date" placeholder="2016-02-25" id="fromtime" onfocus="new WdatePicker()">
+                    <input type="date" placeholder="2016-02-25" id="fromtime" ng-model="vm.date.a">
                 </div>
             </div>
             <div class="col l12">
                 <p class="col s12 m12 l3">To Time:</p>
                 <div class="col s12 m12 l9">
-                    <input type="date" placeholder="2016-02-25" id="totime" onfocus="new WdatePicker()">
+                    <input type="date" placeholder="2016-02-25" id="totime" ng-model="vm.date.b">
                 </div>
             </div>
-            <div class="col l12">
-                <div class="col l8">
-                    <p><i class="fa fa-exclamation-triangle" style="margin-right:1%"></i>Not more than a day</p>
+            <a class="btn col l12" ng-click="vm.get_playback()">Search</a>
+        </div>
+        <div class="divider"></div>
+        <div class="row" ng-if="vm.play_full.length">
+            <a class="btn col s12 m6 l6" id="btnPlay" ng-click="vm.play_now()">Play</a>
+            <a class="btn col s12 m6 l6" id="btnPlay" ng-click="vm.play_pause()">Pause</a>
+            <a class="btn col s12 m6 l6" id="btnPlay" ng-click="vm.play_stop()">Stop</a>
+            <a class="btn col s12 m6 l6" id="btnPlay">Export</a>
+            <div class="row">
+                <div class="col s12 m12 l4">
+                    <p><b>Playback : </b></p>
                 </div>
-                <a class="btn col l4">Search</a>
+                <div class="col s12 m12 l8">
+                    <p class="range-field col s12 m12 l12">
+                        <input type="range" min="1" max="10" ng-model="vm.ranging"/>
+                    </p>
+                </div>
             </div>
         </div>
+        <div class="divider"></div>
 
-        <div class="col s12 m12 l12 center mainborder" style="padding-top:5%;border-top:none">
-            <div class="col s12 m12 l12" style="margin-bottom:5%">
-                <div class="col s12 m6 l6">
-                    <a class="btn" id="btnPlay">Play</a>
-                </div>
-                <div class="col s12 m6 l6">
-                    <a class="btn" id="btnSespend">Pause</a>
-                </div>
-            </div>
-            <div class="col s12 m12 l12">
-                <div class="col s12 m6 l6">
-                    <a class="btn" id="btnStop">Stop</a>
-                </div>
-                <div class="col s12 m6 l6">
-                    <a class="btn" id="btnExport">Export</a>
-                </div>
-            </div>
-            <table>
-                <tr>
-                    <td style="text-align: center;">
-                        <table cellpadding="0" cellspacing="0">
-                            <tbody>
-                            <tr>
-                                <td style="text-align: right">
-                                    Playback speed:
-                                </td>
-                                <td>
-                                    <form action="#">
-                                        <p class="range-field">
-                                            <input type="range" id="test5" min="-5" max="5" />
-                                        </p>
-                                    </form>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="col s12 m12 l12 mainborder" style="border-top:none">
+        <div class="col s12 m12 l12 mainborder" style="border-top:none"  ng-if="vm.play_full.length">
             <table>
                 <thead>
                 <tr>
@@ -77,14 +60,69 @@
                     <th>Address</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>14:20</td>
-                    <td>40km/h</td>
-                    <td>SPICE ARENA, Bayan Lepas, Pulau Pinang</td>
-                </tr>
+                <tbody >
+                    <tr  dir-paginate="play in vm.play_full |itemsPerPage: vm.per_page">
+                        <td>{{play.gpsTime | date : 'HH:mm:ss'}}</td>
+                        <td>{{play.speed}}</td>
+                        <td>{{play.address}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
+        <p ng-if="!vm.play_full.length && vm.play_full.no" style="text-align:center">No Records</p>
+        <div class="divider" ng-if="vm.play_full.length && vm.play_full.no"></div>
+        
+        <div class="row"  ng-if="vm.play_full.length">
+            <dir-pagination-controls class="pagination" style="margin: 0 auto;    text-align: center;"
+                max-size="7"
+                direction-links="true"
+                boundary-links="true" >
+                </dir-pagination-controls>
+        </div>
+        
+        <div class="row" style="text-align:center; padding-top:10em;" ng-if="!vm.play_full.length && vm.search_active || !vm.loaded">
+            <div class="preloader-wrapper medium active">
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                    <div class="circle"></div>
+                    </div><div class="gap-patch">
+                    <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                    <div class="circle"></div>
+                    </div><div class="gap-patch">
+                    <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-yellow">
+                    <div class="circle-clipper left">
+                    <div class="circle"></div>
+                    </div><div class="gap-patch">
+                    <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                    <div class="circle"></div>
+                    </div><div class="gap-patch">
+                    <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    
 </div>

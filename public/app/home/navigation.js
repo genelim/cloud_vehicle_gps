@@ -43,21 +43,10 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
     }
     
     function disturb(){
-        console.log($rootScope.disturb_off)
         if($rootScope.disturb_off){
             $rootScope.disturb_off = false;        
         }else{
             $rootScope.disturb_off = true;        
-        }
-        setTimeout(function() {
-            $('.dropdown-test').dropdown({
-                inDuration: 300,
-                outDuration: 225,
-                hover: false, // Activate on hover
-                belowOrigin: true, // Displays dropdown below the button
-                alignment: 'right' // Displays dropdown with edge aligned to the left of button
-            });
-        }, 1000);
-        
+        }        
     }
 }

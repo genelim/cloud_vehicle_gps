@@ -41,21 +41,27 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
         //     }
         // })
         vm.log = true;
+        
         $http.post('/api/login', vm.user)
         .success(function(result){
-            var result = JSON.parse(result.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-            API_Data.user_getinfo(result.data.userid).then(function(result2){
-                var result2 = JSON.parse(result2.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                if(result2.data.length){
-                    $rootScope.user = result2.data[0];
-                    $state.go('dashboard');
-                    $('.dropdown-button').dropdown();
-                    $rootScope.user_check = 1
-                }else{
-                    $rootScope.user = null;
-                }
-                vm.log = false;        
-            })
+            if(result.response){
+                var result = JSON.parse(result.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                API_Data.user_getinfo(result.data.userid).then(function(result2){
+                    var result2 = JSON.parse(result2.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                    if(result2.data.length){
+                        $rootScope.user = result2.data[0];
+                        $state.go('dashboard');
+                        $('.dropdown-button').dropdown();
+                        $rootScope.user_check = 1
+                    }else{
+                        $rootScope.user = null;
+                    }
+                    vm.log = false;        
+                })
+            }else{
+                vm.log = false;      
+                Materialize.toast('Invalid Password', 2000);
+            }         
         })
         
     }

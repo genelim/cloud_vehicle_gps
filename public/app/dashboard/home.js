@@ -45,13 +45,14 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
     window.onbeforeunload = function (e) {
         vm.loaded = false;
     };
+    
     setInterval(function(){ 
         if(vm.loaded){
             if($rootScope.user){
                 full_car_details($rootScope.user.userName); 
             }
         }
-    }, 1000);
+    }, 3000);
     
     function checkFlag() {
         if($rootScope.user_check === 0 && !$rootScope.user) {
@@ -132,7 +133,7 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
                 title:  vm.car_details_full[vm.index].data[0].carNO
             }); 
             map.setCenter(myLatLng);
-        }, 1000);
+        }, 1500);
         vm.current_tab = 'map';
     }
     

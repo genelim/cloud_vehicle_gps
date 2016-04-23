@@ -124,6 +124,8 @@ exports.login = function(req, res){
             if(body !== '{"success":false}'){
                 req.session.username = req.body.username
                 res.json({response:body})
+            }else{
+                res.json({response:false})
             }
         }
     })

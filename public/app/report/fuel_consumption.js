@@ -22,17 +22,7 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
         vm.loaded = false;
         checkFlag();
     });
-    
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-    $scope.series = ['Series A', 'Series B'];
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 48, 40, 19, 86, 27, 90]
-    ];
-    $scope.onClick = function (points, evt) {
-        console.log(points, evt);
-    };
-    
+        
     function get_fuel(){
         vm.fuel_data_full = [];
         vm.search_active = true;
@@ -94,8 +84,8 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
                     var minutes = res.data[i].gpsTime.getMinutes()
                     var seconds = res.data[i].gpsTime.getSeconds()
                     vm.labels.push(hours + ' ' + minutes + ':' +seconds)
-                    vm.data[0].push(res.data[i].fuel)
-                    vm.data[1].push(res.data[i].speed)
+                    vm.data[0].push(res.data[i].speed)
+                    vm.data[1].push(res.data[i].fuel)
                     if(i === 0){
                         base_fuel = res.data[i].fuel;
                     }else{

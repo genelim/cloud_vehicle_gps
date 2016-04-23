@@ -39,7 +39,8 @@
                     <td ng-if="!car_detail.data[0].driver">No Name</td>
                     <td>{{car_detail.data[0].group}}</td>
                     <td>{{car_detail.data[0].speed}}</td>
-                    <td>{{car_detail.data[0].fuel}}</td>
+                    <td ng-if="car_detail.data[0].fuel">{{car_detail.data[0].fuel}}</td>
+                    <td ng-if="!car_detail.data[0].fuel">0</td>
                     <td>{{car_detail.data[0].mileage}}km</td>
                     <td ng-if="car_detail.data[0].status">{{car_detail.data[0].status}}</td>
                     <td ng-if="!car_detail.data[0].status">Not Indicated</td>

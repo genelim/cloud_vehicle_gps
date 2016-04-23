@@ -23,12 +23,14 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
     vm.total_user_vehicle = [];
     vm.view_specific_vehicle = view_specific_vehicle;
     vm.index = 0;
+    vm.loaded = false;
     vm.groups = null;
+    vm.marker = new google.maps.Marker();   
     
     angular.element(document).ready(function () {
+        vm.loaded = false;
         $rootScope.admin_page = false;
         checkFlag();
-        // var startPos;
         var geoSuccess = function(position) {
             startPos = position;
             vm.lat = startPos.coords.latitude;
@@ -39,6 +41,17 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     });
+    
+    window.onbeforeunload = function (e) {
+        vm.loaded = false;
+    };
+    setInterval(function(){ 
+        if(vm.loaded){
+            if($rootScope.user){
+                full_car_details($rootScope.user.userName); 
+            }
+        }
+    }, 1000);
     
     function checkFlag() {
         if($rootScope.user_check === 0 && !$rootScope.user) {
@@ -97,7 +110,7 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
                                 }
                             }                            
                         }
-                        
+                        vm.loaded = true;
                         full_car_details($rootScope.user.userName);          
                     }                  
                 })
@@ -108,17 +121,18 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
     }
     
     function map_initialize(){
-        setTimeout(function(){ 
+        setInterval(function(){ 
             google.maps.event.trigger(map, "resize");
             var myLatLng = {lat: vm.car_details_full[vm.index].data[0].la, lng: vm.car_details_full[vm.index].data[0].lo};
-            var marker = new google.maps.Marker({
+            vm.marker.setMap(null);            
+            vm.marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
                 icon: "/assets/image/car.png",
                 title:  vm.car_details_full[vm.index].data[0].carNO
             }); 
             map.setCenter(myLatLng);
-        }, 100);
+        }, 1000);
         vm.current_tab = 'map';
     }
     
@@ -158,35 +172,37 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
         
         //add carNo and driver
         function more_car_details(){
-            API_Data.car_getall($rootScope.user.userName).then(function(result){
-                var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                for(var i = 0; i < result.data.length; i++){
-                    for(var j = 0; j < vm.car_details.length; j++){
-                        if(vm.car_details[j].data[0].carID === result.data[i].carID){
-                            vm.car_details[j].data[0].carNO = result.data[i].carNO
-                            vm.car_details[j].data[0].driver = result.data[i].driver
+            if($rootScope.user){
+                API_Data.car_getall($rootScope.user.userName).then(function(result){
+                    var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                    for(var i = 0; i < result.data.length; i++){
+                        for(var j = 0; j < vm.car_details.length; j++){
+                            if(vm.car_details[j].data[0].carID === result.data[i].carID){
+                                vm.car_details[j].data[0].carNO = result.data[i].carNO
+                                vm.car_details[j].data[0].driver = result.data[i].driver
+                            }
                         }
                     }
-                }
-                var requestss = 0;
-                function car_address(i) {
-                    if( i < vm.car_details.length ) {
-                        requestss++;
-                        $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.car_details[i].data[0].la+','+vm.car_details[i].data[0].lo+'&sensor=true')
-                        .success(function(map){
-                            requestss--;
-                            if(map.status === 'ZERO_RESULTS'){
-                                vm.car_details[i].data[0].address = '';
-                            }else{
-                                vm.car_details[i].data[0].address = map.results[0].formatted_address;
-                            }
-                            car_address(i+1)
-                            if (requestss == 0) car_group_attribute();
-                        })
+                    var requestss = 0;
+                    function car_address(i) {
+                        if( i < vm.car_details.length ) {
+                            requestss++;
+                            $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.car_details[i].data[0].la+','+vm.car_details[i].data[0].lo+'&sensor=true')
+                            .success(function(map){
+                                requestss--;
+                                if(map.status === 'ZERO_RESULTS'){
+                                    vm.car_details[i].data[0].address = '';
+                                }else{
+                                    vm.car_details[i].data[0].address = map.results[0].formatted_address;
+                                }
+                                car_address(i+1)
+                                if (requestss == 0) car_group_attribute();
+                            })
+                        }
                     }
-                }
-                car_address(0);                
-            });
+                    car_address(0);                
+                });
+            }            
         }
         
         //add group details

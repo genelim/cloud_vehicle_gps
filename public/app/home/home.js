@@ -10,12 +10,14 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
     vm.forget_password_modal = forget_password_modal;
     vm.forget_password = forget_password;
     vm.user = null;
+    vm.log = false;
     vm.load = false;
     angular.element(document).ready(function () {
         checkFlag();  
     });
     
     function checkFlag() {
+        vm.log = false;        
         if($rootScope.user_check === 0) {
             window.setTimeout(checkFlag, 1000); /* this checks the flag every 1000 milliseconds*/
         } else if($rootScope.user_check === 1){
@@ -38,6 +40,7 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
         //         $('.dropdown-button').dropdown();
         //     }
         // })
+        vm.log = true;
         $http.post('/api/login', vm.user)
         .success(function(result){
             var result = JSON.parse(result.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
@@ -51,6 +54,7 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
                 }else{
                     $rootScope.user = null;
                 }
+                vm.log = false;        
             })
         })
         

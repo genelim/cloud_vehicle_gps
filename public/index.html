@@ -63,7 +63,8 @@
                     </a>
                     <a href="/dashboard" class="brand-logo blue-text darken-2" ng-class="{'center' : !user }"></a>
                     <ul class="right hide-on-med-and-down" ng-if="user">
-                        <!--<li><a class="dropdown-button blue-text dropdown-test" href="#!" data-activates="dropdown" data-beloworigin="true"><i class="fa fa-bell"></i><span class="new badge">4</span></a></li> notification button-->
+                        <li ng-show="!disturb_off"><a class="dropdown-button blue-text dropdown-test" href="" data-activates="dropdown" data-beloworigin="true"><i class="fa fa-bell"></i><span class="new badge">4</span></a></li> 
+                        <li ng-click="vm.disturb()"><a class="blue-text" href=""><i class="fa" ng-class="disturb_off ? 'fa-toggle-off' : 'fa-toggle-on'"></i></a></li>
                         <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">{{user.userName}}<i class="fa fa-arrow-down right"></i></a></li>
                         <li ng-if="!admin_page"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
                         <li ng-if="admin_page"><a href="/" class="blue-text">Return Home<i class="fa fa-arrow-right right"></i></a></li>
@@ -74,7 +75,6 @@
             </nav>
         </div>
         <div ui-view></div>
-
         <div ng-include src="'app/dashboard/user_profile.html'"></div>
         <div ng-include src="'app/dashboard/user_change_password.html'"></div>
 

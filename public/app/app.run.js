@@ -9,16 +9,15 @@ function runBlock($rootScope, Auth){
     $rootScope.user_type = 0;
     $rootScope.admin_page = false;
     $rootScope.user_check = 0;
-        Auth.then(function(data){
-            console.log(data)
-            if(data === false){
-                $rootScope.user =false;
-                $rootScope.user_check = 2;
-            }else{
-                $rootScope.user = data.data[0];
-                $rootScope.user_check = 1
-            }
-        })
-    
-
+    $rootScope.disturb_off = false;
+    Auth.then(function(data){
+        console.log(data)
+        if(data === false){
+            $rootScope.user =false;
+            $rootScope.user_check = 2;
+        }else{
+            $rootScope.user = data.data[0];
+            $rootScope.user_check = 1
+        }
+    })
 }

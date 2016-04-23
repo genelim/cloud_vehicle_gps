@@ -3,13 +3,13 @@
         <div class="col s12 m12 l6" ng-repeat="i in vm.get_number(vm.number_of_views) track by $index">
             <div id="map_home{{$index}}" style="height: calc(50vh - 109px);">
             </div>
-            <div class="row"  style="margin-bottom:0;">
+            <div class="row"  style="margin-bottom:0;" ng-if="!vm.loader[$index].on">
                 <div class="col s12 m12 l6">
-                    <select class="browser-default" ng-model="group" ng-options="group.name for group in vm.group" ng-change="vm.group_selected(group, $index)">
+                    <select class="browser-default" ng-model="group" ng-options="group.group for group in vm.good_group" ng-change="vm.group_selected(group, $index)">
                     </select>
                 </div>
                 <div class="col s12 m12 l6">
-                    <select class="browser-default" ng-model="plate_number" ng-options="plate_number[0].name for plate_number in vm.cars[$index]" ng-change="vm.vehicle_map(plate_number, $index)" ng-if="vm.cars[$index]">
+                    <select class="browser-default" ng-model="plate_number" ng-options="plate_number.carNO for plate_number in vm.cars[$index].cars" ng-change="vm.vehicle_map(plate_number, $index)" ng-if="vm.cars[$index]">
                     </select>
                 </div>
             </div>

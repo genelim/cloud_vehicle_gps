@@ -16,7 +16,6 @@ function AdminRefuelController($http, Refuel_Cost, $rootScope){
         if(typeof vm.cost !== 'undefined'){
             var data = {cost : vm.cost, user : $rootScope.user.userName}
             Refuel_Cost.save(data, function(result){
-                console.log(result)
                 Materialize.toast('New Cost Added!', 2000);
                 $('#new_fuel_cost').closeModal();
                 vm.get_cost();

@@ -88,15 +88,16 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
     
     function group_update(){
         vm.car_id = vm.group_selected.cars
-        vm.map = map
     }
     
     function get_playback(){
+        vm.map = map        
         vm.play_full = [];
         vm.marker.setMap(null);
         vm.can_play = false;
         vm.flightPath.setMap(null)
         vm.carid = null;
+        vm.group = []
         vm.search_active = true;
         if(vm.group_selected){
             for(var i = 0; i < vm.group_selected.cars.length; i++){
@@ -108,7 +109,17 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
             vm.carid = null;
         }else{
             //type ownself so need to get the id manually
-            alert(vm.plate_number.carNO)
+            for(var i = 0; i < vm.cars.data.length; i++){
+                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                    vm.group.push(vm.cars.data[i])
+                    for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                        if(vm.cars.data[i].cars[a].carNO === vm.plate_number.carNO){
+                            vm.carid = vm.cars.data[i].cars[a].carID
+                        }
+                    }
+                }
+            }
+            // alert(vm.plate_number.carNO)
         }
         if(vm.carid && vm.carid !== '' && vm.carid !== null){
             if(vm.date){
@@ -128,7 +139,7 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
                 vm.search_active = false;
             }
         }else{
-            Materialize.toast('Please enter Plate Number', 2000);
+            Materialize.toast('Please enter valid Plate Number', 2000);
             vm.search_active = false;
         }
     }
@@ -152,6 +163,7 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
                 for(var i = 0; i < res.data.length; i++){
                     res.data[i].gpsTime = new Date(res.data[i].gpsTime)
                 }
+                console.log(res.data)
                 var requests = 0;
                 function car_address(i) {
                     if( i < res.data.length ) {
@@ -179,6 +191,7 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
                                     strokeOpacity: 1.0,
                                     strokeWeight: 5  
                                 });
+                                console.log(vm.map)
                                 vm.flightPath.setMap(vm.map)
                                 vm.can_play = true;
                             }
@@ -188,7 +201,8 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
                 car_address(0)
             }else{
                 vm.search_active = false;
-                vm.play_full = null;
+                vm.play_full = [];
+                vm.play_full.no = true
             }            
         })
     }

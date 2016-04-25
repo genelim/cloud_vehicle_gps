@@ -39,17 +39,17 @@ function runBlock($rootScope, Auth, API_Data){
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         if(current_idle === null || isEmpty(current_idle[i])){
-                            if(res.data[0].status === 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed === 0){
                                     current_idle[i] = res.data[0]
                                 }
                             }
                         }else{                            
-                            if(res.data[0].status === 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed === 0){
                                     var minute = res.data[0].gpsTime - current_idle[i].gpsTime;
                                     minute = Math.round(((minute % 86400000) % 3600000) / 60000)
-                                    if(minute > 2){
+                                    if(minute > 30){
                                         //NOTIFY!
                                         current_idle[i] = res.data[0]
                                         var car_plate = null;

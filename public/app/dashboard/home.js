@@ -55,6 +55,8 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
     }, 3000);
     
     function checkFlag() {
+        vm.total_user_vehicle = []
+        vm.car_details = []
         if($rootScope.user_check === 0 && !$rootScope.user) {
             window.setTimeout(checkFlag, 1000);
         } else if($rootScope.user_check === 1){
@@ -112,7 +114,7 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
                             }                            
                         }
                         vm.loaded = true;
-                        full_car_details($rootScope.user.userName);          
+                        full_car_details($rootScope.user.userName);   
                     }                  
                 })
             }else{
@@ -120,6 +122,9 @@ function DashboardHomeController($rootScope, $http, API_Data, $state){
             } 
         }
     }
+    setInterval(function(){ 
+        checkFlag()  
+    }, 30000);
     
     function map_initialize(){
         setInterval(function(){ 

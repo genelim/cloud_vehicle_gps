@@ -95,7 +95,7 @@ function DrivingRecordsController($rootScope, API_Data, $http){
                             if(map.status === 'ZERO_RESULTS'){
                                 res.data[i].address = '';
                             }else{
-                                if(typeof map.results !== 'undefined'){
+                                if(map.results.length){
                                     res.data[i].address = map.results[0].formatted_address;
                                 }
                             }
@@ -152,13 +152,13 @@ function DrivingRecordsController($rootScope, API_Data, $http){
                     }
                 }
             }else if(vm.status){
-                    vm.driving_records_full.data.push(vm.driving_records.data[i])
                 if(vm.driving_records.data[i].status !== 'ACC off'){
+                    vm.driving_records_full.data.push(vm.driving_records.data[i])
                 }
             }else{
                 //
-                if(vm.driving_records.data[i].status === 'ACC off'){
                     vm.driving_records_full.data.push(vm.driving_records.data[i])
+                if(vm.driving_records.data[i].status === 'ACC off'){
                 }
             } 
         }

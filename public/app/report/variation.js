@@ -55,7 +55,6 @@ function VariationController(API_Data, $rootScope, $state, $http){
         API_Data.gps_gethistorypos(vm.date, vm.carid)
         .then(function(result){
             var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-            console.log(res.data)
             if(res.data.length){
                 for(var i = 0; i < res.data.length; i++){
                     res.data[i].gpsTime = new Date(res.data[i].gpsTime)
@@ -108,6 +107,7 @@ function VariationController(API_Data, $rootScope, $state, $http){
             base_fuel = res.data[i].fuel
         }
         vm.variation_full.data = [];
+        console.log(res)
         for(var i = 0; i > res.data.length; i++){
             if(typeof res.data[i].refuel !== 'undefined'){
                 vm.variation_full.data.push(res.data[i])

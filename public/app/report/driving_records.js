@@ -76,10 +76,11 @@ function DrivingRecordsController($rootScope, API_Data, $http){
     }
     
     function get_car_history(){
+        console.log(vm.date, vm.carid)
         API_Data.gps_gethistorypos(vm.date, vm.carid)
         .then(function(result){
             var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-            console.log(res.data)
+            // console.log(result)
             if(res.data.length){
                 for(var i = 0; i < res.data.length; i++){
                     res.data[i].gpsTime = new Date(res.data[i].gpsTime)
@@ -94,7 +95,9 @@ function DrivingRecordsController($rootScope, API_Data, $http){
                             if(map.status === 'ZERO_RESULTS'){
                                 res.data[i].address = '';
                             }else{
-                                res.data[i].address = map.results[0].formatted_address;
+                                if(typeof map.results !== 'undefined'){
+                                    res.data[i].address = map.results[0].formatted_address;
+                                }
                             }
                             car_address(i+1)
                             if (requests == 0) get_car_details(res);
@@ -133,22 +136,30 @@ function DrivingRecordsController($rootScope, API_Data, $http){
             if(vm.interval && vm.interval > 0){
                 if(!dif_minutes_data){
                     dif_minutes_data = vm.driving_records.data[i].gpsTime
-                }else if((vm.driving_records.data[i].gpsTime.getMinutes() - dif_minutes_data.getMinutes()) > vm.interval){
-                    dif_minutes_data = vm.driving_records.data[i].gpsTime
-                    if(vm.status){
-                        if(vm.driving_records.data[i].status !== 'ACC off'){
-                            vm.driving_records_full.data.push(vm.driving_records.data[i])
-                        }
-                    }else{
-                        vm.driving_records_full.data.push(vm.driving_records.data[i])
-                    } 
+                }else {
+                    if((Math.abs(vm.driving_records.data[i].gpsTime - dif_minutes_data) / 36e5*60) > vm.interval){
+                        dif_minutes_data = vm.driving_records.data[i].gpsTime
+                        if(vm.status){
+                            if(vm.driving_records.data[i].status !== 'ACC off'){
+                                vm.driving_records_full.data.push(vm.driving_records.data[i])
+                            }
+                        }else{
+                            //
+                                vm.driving_records_full.data.push(vm.driving_records.data[i])
+                            if(vm.driving_records.data[i].status === 'ACC off'){
+                            }
+                        } 
+                    }
                 }
             }else if(vm.status){
-                if(vm.driving_records.data[i].status !== 'ACC off'){
                     vm.driving_records_full.data.push(vm.driving_records.data[i])
+                if(vm.driving_records.data[i].status !== 'ACC off'){
                 }
             }else{
-                vm.driving_records_full.data.push(vm.driving_records.data[i])
+                //
+                if(vm.driving_records.data[i].status === 'ACC off'){
+                    vm.driving_records_full.data.push(vm.driving_records.data[i])
+                }
             } 
         }
         

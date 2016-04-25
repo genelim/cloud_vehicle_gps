@@ -8,6 +8,7 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
     var vm = this;
     vm.logout = logout;
     vm.open_modal = open_modal;
+    vm.open_notification = open_notification;
     vm.disturb = disturb;
   
     angular.element(document).ready(function(){
@@ -40,6 +41,11 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
     
     function open_modal(modal){
         $('#'+modal).openModal();
+    }
+    
+    function open_notification(data, index){
+        $rootScope.live_noti -= 1;
+        $rootScope.notification.splice(index,1)
     }
     
     function disturb(){

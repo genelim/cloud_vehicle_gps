@@ -10,6 +10,8 @@ function runBlock($rootScope, Auth, API_Data){
     $rootScope.admin_page = false;
     $rootScope.user_check = 0;
     $rootScope.disturb_off = false;
+    $rootScope.notification = [];
+    $rootScope.live_noti = 0;
     var  groups = [];
     var  cars = [];
     var group = []
@@ -37,19 +39,29 @@ function runBlock($rootScope, Auth, API_Data){
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         if(current_idle === null || isEmpty(current_idle[i])){
-                            if(res.data[0].status === 'ACC off'){
+                            if(res.data[0].status === 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed === 0){
                                     current_idle[i] = res.data[0]
                                 }
                             }
-                        }else{
-                            if(res.data[0].status === 'ACC off'){
+                        }else{                            
+                            if(res.data[0].status === 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed === 0){
                                     var minute = res.data[0].gpsTime - current_idle[i].gpsTime;
                                     minute = Math.round(((minute % 86400000) % 3600000) / 60000)
-                                    if(minute > 30){
+                                    if(minute > 2){
                                         //NOTIFY!
                                         current_idle[i] = res.data[0]
+                                        var car_plate = null;
+                                        for(var i = 0; i < group.length; i++){
+                                            for(var a = 0; a < group[i].cars.length; a++){
+                                                if(group[i].cars[a].carID === res.data[0].carID){
+                                                    car_plate = group[i].cars[a].carNO
+                                                }
+                                            }
+                                        }
+                                        $rootScope.notification.push({type : 'speed', plate_number : car_plate, time : Date.now(), color: 'yellow', carid: res.data[0].carID})
+                                        $rootScope.live_noti += 1;
                                     }
                                 }
                             }
@@ -57,13 +69,13 @@ function runBlock($rootScope, Auth, API_Data){
                         if (requests == 0) more_car_details();
                     });
                     check_idle(i+1)
-                    console.log(i)
                 }
             }    
             check_idle(0)
         }
     }
     setInterval(function(){ 
+        console.log($rootScope.notification)
         checking_idle() 
     }, 10000);  
     

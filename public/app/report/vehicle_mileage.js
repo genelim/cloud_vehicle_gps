@@ -90,8 +90,9 @@ function VehicleMileageController(API_Data, $rootScope){
                 }else if(data.data[a].speed > max_speed){
                     max_speed = data.data[a].speed;
                 }          
-                if(data.data[a].status !== 'ACC off'){
-                    journey_time += data.data[a].gpsTime.getMinutes()
+                if(data.data[a].status !== 'ACC off' && a !== 0){
+                    journey_time += Math.abs(data.data[a].gpsTime - data.data[a-1].gpsTime) / 36e5;
+                    
                 }
             }
             if(typeof data.data[0] !== 'undefined'){
@@ -100,7 +101,7 @@ function VehicleMileageController(API_Data, $rootScope){
             vm.all_car.cars[i].average_speed = total_speed_add / array_length;
             vm.all_car.cars[i].total_fuel = total_fuel_add;
             vm.all_car.cars[i].max_speed = max_speed;
-            vm.all_car.cars[i].journey_time = journey_time / 60;     
+            vm.all_car.cars[i].journey_time = journey_time;     
             vm.search_active = false      
         }
     }

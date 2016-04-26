@@ -29,8 +29,8 @@ function runBlock($rootScope, Auth, API_Data){
     
     var current_idle  = [];
     function checking_idle(){
-        var time800 = new Date(2010, 12, 21, 8, 00, 0, 0).getTime(),
-        var time1700 = new Date(2010, 12, 21, 17, 00, 0, 0).getTime(),
+        var time800 = new Date(2010, 12, 21, 8, 00, 0, 0).getTime();
+        var time1700 = new Date(2010, 12, 21, 17, 00, 0, 0).getTime();
         if($rootScope.user_check === 1){
             var requests = 0;
             function check_idle(i) {
@@ -99,7 +99,7 @@ function runBlock($rootScope, Auth, API_Data){
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 breaking[i] = res.data[0]
                             }
-                        }else{                            
+                        }else{                         
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 difspeed = res.data[0].speed - breaking[i].speed
                                 console.log(difspeed)

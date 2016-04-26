@@ -29,6 +29,8 @@ function runBlock($rootScope, Auth, API_Data){
     
     var current_idle  = [];
     function checking_idle(){
+        var time800 = new Date(2010, 12, 21, 8, 00, 0, 0).getTime(),
+        var time1700 = new Date(2010, 12, 21, 17, 00, 0, 0).getTime(),
         if($rootScope.user_check === 1){
             var requests = 0;
             function check_idle(i) {
@@ -38,6 +40,7 @@ function runBlock($rootScope, Auth, API_Data){
                     //     requests--;
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
+                        
                         if(current_idle === null || isEmpty(current_idle[i])){
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed === 0){
@@ -49,7 +52,12 @@ function runBlock($rootScope, Auth, API_Data){
                                 if(res.data[0].speed === 0){
                                     var minute = res.data[0].gpsTime - current_idle[i].gpsTime;
                                     minute = Math.round(((minute % 86400000) % 3600000) / 60000)
-                                    if(minute > 30){
+                                    if(res.data[0].gpsTime.getTime() >= time800 && res.data[0].gps.getTime() <= time1700){
+                                        var set_minute = 30
+                                    }else{
+                                        var set_minute = 15                                        
+                                    }
+                                    if(minute > set_minute){
                                         //NOTIFY!
                                         current_idle[i] = res.data[0]
                                         var car_plate = null;

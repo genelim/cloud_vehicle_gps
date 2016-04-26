@@ -82,8 +82,56 @@ function runBlock($rootScope, Auth, API_Data){
             check_idle(0)
         }
     }
+    
+    var breaking  = [];
+    function checking_harsh_breaking(){
+        if($rootScope.user_check === 1){
+            var requests = 0;
+            function check_harsh_breaking(i) {
+                if( i < carid.length ) {
+                    requests++;
+                    API_Data.gps_getpos(carid[i].carID).then(function(result){
+                    //     requests--;
+                        res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
+                        
+                        if(breaking === null || isEmpty(breaking[i])){
+                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                                breaking[i] = res.data[0]
+                            }
+                        }else{                            
+                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                                difspeed = res.data[0].speed - breaking[i].speed
+                                console.log(difspeed)
+                                var minute = res.data[0].gpsTime - breaking[i].gpsTime;
+                                minute = Math.round(((minute % 86400000) % 3600000) / 60000)
+                                if(minute > 1){
+                                    if(difspeed > 60){
+                                        breaking[i] = res.data[0]
+                                        var car_plate = null;
+                                        for(var i = 0; i < group.length; i++){
+                                            for(var a = 0; a < group[i].cars.length; a++){
+                                                if(group[i].cars[a].carID === res.data[0].carID){
+                                                    car_plate = group[i].cars[a].carNO
+                                                }
+                                            }
+                                        }
+                                        $rootScope.notification.push({type : 'harsh_breaking', plate_number : car_plate, time : Date.now(), color: 'green', carid: res.data[0].carID})
+                                        $rootScope.live_noti += 1;
+                                    }
+                                }
+                            }
+                        }
+                        if (requests == 0) more_car_details();
+                    });
+                    check_harsh_breaking(i+1)
+                }
+            }    
+            check_harsh_breaking(0)
+        }
+    }
     setInterval(function(){ 
-        console.log($rootScope.notification)
+        checking_harsh_breaking()
         checking_idle() 
     }, 10000);  
     
@@ -158,9 +206,9 @@ function runBlock($rootScope, Auth, API_Data){
                                     carid.push(group[i].cars[a])
                                 }
                             }
-                            console.log(carid.length)
                             for(var a = 0; a < carid.length; a++){
                                 current_idle.push({})
+                                breaking.push({})
                             }
                         })
                            

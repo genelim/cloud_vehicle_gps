@@ -39,7 +39,5 @@ function Auth($http, $q, API_Data) {
             defer.resolve(false)
         }
     })
-
     return defer.promise;
-    
 }

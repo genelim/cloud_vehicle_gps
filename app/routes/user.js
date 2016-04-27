@@ -122,8 +122,10 @@ exports.login = function(req, res){
             res.json({response: "Server Error"})
         }else{
             if(body !== '{"success":false}'){
-                req.session.username = req.body.username
-                res.json({response:body})
+                req.user = body;
+                req.login(req.user, function(){
+                    res.json({response:req.user});
+                })
             }else{
                 res.json({response:false})
             }
@@ -136,7 +138,7 @@ exports.user_logout = function(req, res){
         if(err){
             res.json({response: "Server Error"})
         }else{
-            req.session.username = ''
+            req.logOut();
             res.json({response:body})
         }
     })
@@ -153,7 +155,7 @@ exports.user_tree = function(req, res){
 }
 
 exports.get_user_session = function(req, res){
-    res.json(req.session.username)
+    res.json(req.isAuthenticated() ? req.user : '0');
 }
 
 exports.groups_tree = function(req, res){

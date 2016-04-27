@@ -44,6 +44,7 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
         
         $http.post('/api/login', vm.user)
         .success(function(result){
+            console.log(result)
             if(result.response){
                 var result = JSON.parse(result.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                 API_Data.user_getinfo(result.data.userid).then(function(result2){

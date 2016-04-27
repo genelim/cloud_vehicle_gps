@@ -87,6 +87,7 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
     }
     
     function group_update(){
+        vm.plate_number = null;
         vm.car_id = vm.group_selected.cars
     }
     
@@ -97,7 +98,7 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
         vm.can_play = false;
         vm.flightPath.setMap(null)
         vm.carid = null;
-        vm.group = []
+        // vm.group = []
         vm.search_active = true;
         if(vm.group_selected){
             for(var i = 0; i < vm.group_selected.cars.length; i++){
@@ -174,7 +175,9 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
                             if(map.status === 'ZERO_RESULTS'){
                                 res.data[i].address = '';
                             }else{
-                                res.data[i].address = map.results[0].formatted_address;
+                                if(typeof map !== 'undefined'){
+                                    res.data[i].address = map.results[0].formatted_address;
+                                }
                             }
                             car_address(i+1)
                             if (requests == 0) {
@@ -191,7 +194,6 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
                                     strokeOpacity: 1.0,
                                     strokeWeight: 5  
                                 });
-                                console.log(vm.map)
                                 vm.flightPath.setMap(vm.map)
                                 vm.can_play = true;
                             }

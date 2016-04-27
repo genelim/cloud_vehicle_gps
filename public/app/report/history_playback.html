@@ -15,7 +15,7 @@
                     <input  class='dropdown-button' data-beloworigin="true" href='#' data-activates='dropdown1' ng-model="vm.plate_number.carNO">
                 </div>
                 <ul id='dropdown1' class='dropdown-content'>
-                    <li ng-repeat="car in vm.car_id | filter:car.carNO:startsWith"  ng-click="vm.plate_number_select(car)"><a>{{car.carNO}}</a></li>
+                    <li ng-repeat="car in vm.car_id | filter:vm.plate_number"  ng-click="vm.plate_number_select(car)"><a>{{car.carNO}}</a></li>
                 </ul>
             </div>
             <div class="col l12">

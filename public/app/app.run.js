@@ -130,9 +130,57 @@ function runBlock($rootScope, Auth, API_Data){
             check_harsh_breaking(0)
         }
     }
+    
+    var fuel_check  = [];
+    function checking_fuel(){
+        if($rootScope.user_check === 1){
+            var requests = 0;
+            function check_fuel(i) {
+                if( i < carid.length ) {
+                    requests++;
+                    API_Data.gps_getpos(carid[i].carID).then(function(result){
+                    //     requests--;
+                        res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
+                        
+                        if(fuel_check === null || isEmpty(fuel_check[i])){
+                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                                fuel_check[i] = res.data[0]
+                            }
+                        }else{                         
+                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                                difspeed = res.data[0].speed - fuel_check[i].speed
+                                var minute = res.data[0].gpsTime - fuel_check[i].gpsTime;
+                                minute = Math.round(((minute % 86400000) % 3600000) / 60000)
+                                if(minute > 1){
+                                    if(difspeed > 100){
+                                        fuel_check[i] = res.data[0]
+                                        var car_plate = null;
+                                        for(var i = 0; i < group.length; i++){
+                                            for(var a = 0; a < group[i].cars.length; a++){
+                                                if(group[i].cars[a].carID === res.data[0].carID){
+                                                    car_plate = group[i].cars[a].carNO
+                                                }
+                                            }
+                                        }
+                                        $rootScope.notification.push({type : 'fuel', plate_number : car_plate, time : Date.now(), color: 'blue', carid: res.data[0].carID})
+                                        $rootScope.live_noti += 1;
+                                    }
+                                }
+                            }
+                        }
+                        if (requests == 0) more_car_details();
+                    });
+                    check_fuel(i+1)
+                }
+            }    
+            check_fuel(0)
+        }
+    }
     setInterval(function(){ 
         checking_harsh_breaking()
         checking_idle() 
+        checking_fuel()
     }, 10000);  
     
     function isEmpty(obj) {

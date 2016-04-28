@@ -39,6 +39,7 @@ function runBlock($rootScope, Auth, API_Data){
                     API_Data.gps_getpos(carid[i].carID).then(function(result){
                     //     requests--;
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        // res.data[0].gpsTime = new Date(res.data[i].gpsTime)
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         
                         if(isEmpty(current_idle[i])){
@@ -52,7 +53,7 @@ function runBlock($rootScope, Auth, API_Data){
                                 if(res.data[0].speed === 0){
                                     var minute = res.data[0].gpsTime - current_idle[i].gpsTime;
                                     minute = Math.round(((minute % 86400000) % 3600000) / 60000)
-                                    if(res.data[0].gpsTime.getTime() >= time800 && res.data[0].gps.getTime() <= time1700){
+                                    if(res.data[0].gpsTime.getTime() >= time800 && res.data[0].gpsTime.getTime() <= time1700){
                                         var set_minute = 30
                                     }else{
                                         var set_minute = 15                                        
@@ -105,7 +106,7 @@ function runBlock($rootScope, Auth, API_Data){
                                 var minute = res.data[0].gpsTime - breaking[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
                                 if(minute > 1){
-                                    if(difspeed > 60){
+                                    if(difspeed > 10){
                                         breaking[i] = res.data[0]
                                         var car_plate = null;
                                         for(var i = 0; i < group.length; i++){
@@ -117,7 +118,6 @@ function runBlock($rootScope, Auth, API_Data){
                                         }
                                         $rootScope.notification.push({type : 'harsh_breaking', plate_number : car_plate, time : Date.now(), color: 'green', carid: res.data[0].carID})
                                         $rootScope.live_noti += 1;
-                                        console.log($rootScope.notification)
                                     }
                                 }
                             }
@@ -153,7 +153,7 @@ function runBlock($rootScope, Auth, API_Data){
                                 var minute = res.data[0].gpsTime - fuel_check[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
                                 if(minute > 1){
-                                    if(difspeed > 100){
+                                    if(difspeed > 2){
                                         fuel_check[i] = res.data[0]
                                         var car_plate = null;
                                         for(var i = 0; i < group.length; i++){
@@ -195,7 +195,7 @@ function runBlock($rootScope, Auth, API_Data){
                         }else{                            
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed !== 0){
-                                    if(res.data[0].speed > 100){
+                                    if(res.data[0].speed > 20){
                                         if(typeof current_speed[i].speedy !== 'undefined'){
                                             if(res.data[0].speed - current_speed[i].speedy > 10){
                                                 current_speed[i] = res.data[0]

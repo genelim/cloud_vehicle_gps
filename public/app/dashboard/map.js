@@ -145,7 +145,7 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
                 title:  vm.car_details_full.data[0].carNO
             }); 
             vm.map.setCenter(myLatLng);
-        }, 15000);
+        }, 5000);
     }
     
     function checkFlag() {

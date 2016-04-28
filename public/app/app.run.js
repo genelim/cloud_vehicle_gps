@@ -57,7 +57,7 @@ function runBlock($rootScope, Auth, API_Data){
                                     }else{
                                         var set_minute = 15                                        
                                     }
-                                    if(minute > set_minute){
+                                    if(minute > 1){
                                         //NOTIFY!
                                         current_idle[i] = res.data[0]
                                         var car_plate = null;

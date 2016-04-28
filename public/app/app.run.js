@@ -69,7 +69,7 @@ function runBlock($rootScope, Auth, API_Data){
                                                 }
                                             }
                                         }
-                                        $rootScope.notification.push({type : 'idle', plate_number : car_plate, time : Date.now(), color: 'yellow', carid: res.data[0].carID})
+                                        $rootScope.notification.push({type : 'idle', plate_number : car_plate, time : Date.now(), color: '#5e5e5f', carid: res.data[0].carID})
                                         $rootScope.live_noti += 1;
                                     }
                                 }
@@ -106,7 +106,7 @@ function runBlock($rootScope, Auth, API_Data){
                                 var minute = res.data[0].gpsTime - breaking[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
                                 if(minute > 1){
-                                    if(difspeed > 10){
+                                    if(difspeed > 60){
                                         breaking[i] = res.data[0]
                                         var car_plate = null;
                                         for(var i = 0; i < group.length; i++){
@@ -116,7 +116,7 @@ function runBlock($rootScope, Auth, API_Data){
                                                 }
                                             }
                                         }
-                                        $rootScope.notification.push({type : 'harsh_breaking', plate_number : car_plate, time : Date.now(), color: 'green', carid: res.data[0].carID})
+                                        $rootScope.notification.push({type : 'harsh_breaking', plate_number : car_plate, time : Date.now(), color: '#E71D36', carid: res.data[0].carID})
                                         $rootScope.live_noti += 1;
                                     }
                                 }
@@ -149,11 +149,11 @@ function runBlock($rootScope, Auth, API_Data){
                             }
                         }else{                         
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
-                                difspeed = res.data[0].speed - fuel_check[i].speed
+                                difspeed = res.data[0].fuel - fuel_check[i].fuel
                                 var minute = res.data[0].gpsTime - fuel_check[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
                                 if(minute > 1){
-                                    if(difspeed > 2){
+                                    if(difspeed > 100){
                                         fuel_check[i] = res.data[0]
                                         var car_plate = null;
                                         for(var i = 0; i < group.length; i++){
@@ -163,7 +163,7 @@ function runBlock($rootScope, Auth, API_Data){
                                                 }
                                             }
                                         }
-                                        $rootScope.notification.push({type : 'fuel', plate_number : car_plate, time : Date.now(), color: 'blue', carid: res.data[0].carID})
+                                        $rootScope.notification.push({type : 'fuel', plate_number : car_plate, time : Date.now(), color: '#285943', carid: res.data[0].carID})
                                         $rootScope.live_noti += 1;
                                     }
                                 }
@@ -195,7 +195,7 @@ function runBlock($rootScope, Auth, API_Data){
                         }else{                            
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed !== 0){
-                                    if(res.data[0].speed > 20){
+                                    if(res.data[0].speed > 1){
                                         if(typeof current_speed[i].speedy !== 'undefined'){
                                             if(res.data[0].speed - current_speed[i].speedy > 10){
                                                 current_speed[i] = res.data[0]
@@ -208,7 +208,7 @@ function runBlock($rootScope, Auth, API_Data){
                                                         }
                                                     }
                                                 }
-                                                $rootScope.notification.push({type : 'speed', plate_number : car_plate, time : Date.now(), color: 'yellow', carid: res.data[0].carID})
+                                                $rootScope.notification.push({type : 'speed', plate_number : car_plate, time : Date.now(), color: '#E71D36', carid: res.data[0].carID})
                                                 $rootScope.live_noti += 1;
                                             }
                                         }else{
@@ -222,7 +222,7 @@ function runBlock($rootScope, Auth, API_Data){
                                                     }
                                                 }
                                             }
-                                            $rootScope.notification.push({type : 'speed', plate_number : car_plate, time : Date.now(), color: 'yellow', carid: res.data[0].carID})
+                                            $rootScope.notification.push({type : 'speed', plate_number : car_plate, time : Date.now(), color: '#E71D36', carid: res.data[0].carID})
                                             $rootScope.live_noti += 1;
                                         }
                                     }

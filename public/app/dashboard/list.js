@@ -11,8 +11,6 @@ function HomeListController($rootScope, $http, API_Data, $state){
     vm.current_tab = 'list';
     vm.user_setting_modal = user_setting_modal;
     vm.update_setting = update_setting;
-    vm.map_initialize = map_initialize;
-    vm.initialize = initialize;
     vm.number_wheels = 10;
     vm.user = null;
     vm.user_carids = [];
@@ -23,8 +21,7 @@ function HomeListController($rootScope, $http, API_Data, $state){
     vm.view_specific_vehicle = view_specific_vehicle;
     vm.index = 0;
     vm.loaded = false;
-    vm.groups = null;
-    vm.marker = new google.maps.Marker();   
+    vm.groups = null;  
     
     angular.element(document).ready(function () {
         vm.loaded = false;
@@ -42,7 +39,7 @@ function HomeListController($rootScope, $http, API_Data, $state){
                 full_car_details($rootScope.user.userName); 
             }
         }
-    }, 3000);
+    }, 30000);
     
     function checkFlag() {
         vm.total_user_vehicle = []
@@ -116,26 +113,6 @@ function HomeListController($rootScope, $http, API_Data, $state){
         checkFlag()  
     }, 30000);
     
-    function map_initialize(){
-        setInterval(function(){ 
-            google.maps.event.trigger(map, "resize");
-            var myLatLng = {lat: vm.car_details_full[vm.index].data[0].la, lng: vm.car_details_full[vm.index].data[0].lo};
-            vm.marker.setMap(null);            
-            vm.marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                icon: "/assets/image/car.png",
-                title:  vm.car_details_full[vm.index].data[0].carNO
-            }); 
-            map.setCenter(myLatLng);
-        }, 1500);
-        vm.current_tab = 'map';
-    }
-    
-    function initialize(){
-        vm.current_tab = 'list';
-    }
-    
     function user_setting_modal(){
         $('#user_setting_modal').openModal();
     }
@@ -189,7 +166,9 @@ function HomeListController($rootScope, $http, API_Data, $state){
                                 if(map.status === 'ZERO_RESULTS'){
                                     vm.car_details[i].data[0].address = '';
                                 }else{
-                                    vm.car_details[i].data[0].address = map.results[0].formatted_address;
+                                    if(map.results.length){
+                                        vm.car_details[i].data[0].address = map.results[0].formatted_address;
+                                    }
                                 }
                                 car_address(i+1)
                                 if (requestss == 0) car_group_attribute();

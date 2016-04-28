@@ -27,6 +27,7 @@
                     <span class="title" style="display: inline;" ng-if="noti.type == 'fuel'"><b>{{noti.plate_number}}</b> is consuming much fuel</span>
                     <span class="title" style="display: inline;" ng-if="noti.type == 'harsh_breaking'"><b>{{noti.plate_number}}</b> is harsh breaking</span>
                     <span class="title" style="display: inline;" ng-if="noti.type == 'speed'"><b>{{noti.plate_number}}</b> is over speeding</span>
+                    <span class="title" style="display: inline;" ng-if="noti.type == 'fatigue'"><b>{{noti.plate_number}}</b> is fatigue driving</span>
                     <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> {{noti.time | date:'medium'}}</p>
                 </div>
             </li>

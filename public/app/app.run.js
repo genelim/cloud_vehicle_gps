@@ -244,42 +244,40 @@ function runBlock($rootScope, Auth, API_Data){
                 if( i < carid.length ) {
                     API_Data.gps_getpos(carid[i].carID).then(function(result){
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                        res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
-                        
+                        res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)                        
                         if(isEmpty(fatigue_check[i])){
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 fatigue_check[i] = res.data[0]
+                                fatigue_check[i].fatigue = 0;
                             }
-                        }else{                         
+                        }else{                      
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
-                                difspeed = res.data[0].fuel - fatigue_check[i].fuel
+                                difspeed = res.data[0].speed - fuel_check[i].speed                          
                                 var minute = res.data[0].gpsTime - fatigue_check[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
-                                if(minute > 1){
-                                    if(difspeed > 30 || difspeed < 30){
-                                        fatigue_check[i] = res.data[0]
-                                        if(typeof fatigue_check[i].fatigue !== 'undefined'){
-                                            if(fatigue_check[i].fatigue > 3){
-                                                fatigue_check[i].fatigue ++
-                                            }else{
-                                                var car_plate = null;
-                                                for(var i = 0; i < group.length; i++){
-                                                    for(var a = 0; a < group[i].cars.length; a++){
-                                                        if(group[i].cars[a].carID === res.data[0].carID){
-                                                            car_plate = group[i].cars[a].carNO
-                                                        }
+                                if(minute > 3){
+                                    if(difspeed > 30 || difspeed < -30){
+                                        var tt = fatigue_check[i].fatigue;
+                                        if(tt > 1){
+                                            fatigue_check[i] = res.data[0];
+                                            fatigue_check[i].fatigue = 0
+                                            var car_plate = null;
+                                            for(var i = 0; i < group.length; i++){
+                                                for(var a = 0; a < group[i].cars.length; a++){
+                                                    if(group[i].cars[a].carID === res.data[0].carID){
+                                                        car_plate = group[i].cars[a].carNO
                                                     }
                                                 }
-                                                $rootScope.notification.push({type : 'fatigue', plate_number : car_plate, time : Date.now(), color: '#fcbe32 ', carid: res.data[0].carID})
-                                                $rootScope.live_noti += 1;
-                                                fatigue_check[i].fatigue = 0;
-                                            }
+                                            }                                    
+                                            $rootScope.notification.push({type : 'fatigue', plate_number : car_plate, time : Date.now(), color: '#fcbe32 ', carid: res.data[0].carID})
+                                            $rootScope.live_noti += 1;
                                         }else{
-                                            fatigue_check[i].fatigue = 1;
-                                        }                                        
+                                            fatigue_check[i] = res.data[0];
+                                            fatigue_check[i].fatigue = tt + 1                                                                              
+                                        }                                      
                                     }else{
                                         fatigue_check[i] = res.data[0];
-                                        fatigue_check[i].fatigue = 1;
+                                        fatigue_check[i].fatigue = 0;
                                     }
                                 }
                             }
@@ -294,14 +292,18 @@ function runBlock($rootScope, Auth, API_Data){
     
     function timing_inteval(){
         setInterval(function(){ 
-            checking_harsh_breaking()
-            checking_idle() 
-            checking_fuel()
-            checking_speed()
-            checking_fatigue()
-        }, 10000); 
+            if($rootScope.disturb_off){
+                $rootScope.notification = []
+                $rootScope.live_noti = 0
+            }else{
+                checking_harsh_breaking()
+                checking_idle() 
+                checking_fuel()
+                checking_speed()
+                checking_fatigue()
+            }
+        }, 30000); 
     }
-     
     
     function isEmpty(obj) {
         for(var prop in obj) {

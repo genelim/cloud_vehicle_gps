@@ -69,7 +69,9 @@ function VariationController(API_Data, $rootScope, $state, $http){
                             if(map.status === 'ZERO_RESULTS'){
                                 res.data[i].address = '';
                             }else{
-                                res.data[i].address = map.results[0].formatted_address;
+                                if(map.results.length){
+                                    res.data[i].address = map.results[0].formatted_address;
+                                }
                             }
                             car_address(i+1)
                             if (requests == 0) get_car_details(res);

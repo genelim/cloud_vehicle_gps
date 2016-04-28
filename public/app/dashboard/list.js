@@ -163,7 +163,7 @@ function HomeListController($rootScope, $http, API_Data, $state){
                 });
             }
         }else{
-            vm.car_details_full = []
+            // vm.car_details_full = []
         }
         
         //add carNo and driver
@@ -203,6 +203,7 @@ function HomeListController($rootScope, $http, API_Data, $state){
         
         //add group details
         function car_group_attribute(){  
+            vm.car_details_full = []
             vm.car_details_full = vm.car_details;
             for(var i = 0; i < vm.groups.length; i++){
                 if(typeof vm.groups[i].cars !== 'undefined'){

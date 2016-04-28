@@ -20,6 +20,7 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
     vm.number_wheels = 10;
     vm.marker = new google.maps.Marker(); 
     vm.car_details_full = null  
+    vm.timer = null;
     
     angular.element(document).ready(function () {
         vm.loaded = false;
@@ -116,6 +117,9 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
                             }
                         }
                         vm.car_details_full = vm.car_details
+                        if(vm.timer){
+                            clearInterval(vm.timer);
+                        }
                         map_initialize()
                     })
                 })
@@ -126,8 +130,11 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
         }
     }
     
+    
+    
     function map_initialize(){
-        setInterval(function(){ 
+        vm.timer = setInterval(function(){ 
+            get_map();
             google.maps.event.trigger(vm.map, "resize");
             var myLatLng = {lat: vm.car_details_full.data[0].la, lng: vm.car_details_full.data[0].lo};
             vm.marker.setMap(null);            
@@ -138,7 +145,7 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
                 title:  vm.car_details_full.data[0].carNO
             }); 
             vm.map.setCenter(myLatLng);
-        }, 1500);
+        }, 15000);
     }
     
     function checkFlag() {

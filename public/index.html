@@ -20,7 +20,7 @@
         <ul id="dropdown" class="dropdown-content collection dropdown-notification">
             <li class="collection-item avatar row" style="padding-left: 20px; margin: 0;" ng-repeat="noti in notification"  ng-click="vm.open_notification(noti, $index)">
                 <div class="col l2">
-                    <i class="fa fa-2x" ng-class="{'fa-hourglass-half': noti.type === 'speed'}" style="color:{{noti.color}}"></i>
+                    <i class="fa fa-2x" ng-class="{'fa-hourglass-half': noti.type === 'speed', 'fa-flask': noti.type === 'fuel', 'fa-truck': noti.type === 'harsh_breaking'}" style="color:{{noti.color}}"></i>
                 </div>
                 <div class="col l10" style="margin-top: 10px;">
                     <span class="title" style="display: inline;" ng-if="noti.type == 'speed'"><b>{{noti.plate_number}}</b> is over speeding</span>

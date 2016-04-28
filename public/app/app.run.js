@@ -255,7 +255,7 @@ function runBlock($rootScope, Auth, API_Data){
                                 difspeed = res.data[0].fuel - fatigue_check[i].fuel
                                 var minute = res.data[0].gpsTime - fatigue_check[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
-                                if(minute > 3){
+                                if(minute > 1){
                                     if(difspeed > 30 || difspeed < 30){
                                         fatigue_check[i] = res.data[0]
                                         if(typeof fatigue_check[i].fatigue !== 'undefined'){
@@ -277,6 +277,9 @@ function runBlock($rootScope, Auth, API_Data){
                                         }else{
                                             fatigue_check[i].fatigue = 1;
                                         }                                        
+                                    }else{
+                                        fatigue_check[i] = res.data[0];
+                                        fatigue_check[i].fatigue = 1;
                                     }
                                 }
                             }
@@ -295,6 +298,7 @@ function runBlock($rootScope, Auth, API_Data){
             checking_idle() 
             checking_fuel()
             checking_speed()
+            checking_fatigue()
         }, 10000); 
     }
      

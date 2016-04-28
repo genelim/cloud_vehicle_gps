@@ -1,22 +1,24 @@
 <div class="col s12 m12 l12" style="    margin-top: -30px;">
         <div class="row" style="margin-bottom: 0px; margin-top:15px;">
             <div class="col s12 m12 l4">
-                <div class="col s12 m12 l6">
-                    <span>Vehicle Group: </span>
-                    <select class="browser-default" ng-model="vm.group_selected" ng-options="group.group for group in vm.group" ng-change="vm.group_update()">
-                    </select>
-                </div>
-                <div class="col l16">
-                    <span>Plate NO: </span>
-                    <div class="col s12 m12 l12">
-                        <input  class='dropdown-button' data-beloworigin="true" href='#' data-activates='dropdown1' ng-model="vm.plate_number.carNO">
+                <div class="row">
+                    <div class="col s12 m12 l6">
+                        <span>Vehicle Group: </span>
+                        <select class="browser-default" ng-model="vm.group_selected" ng-options="group.group for group in vm.group" ng-change="vm.group_update()">
+                        </select>
                     </div>
-                    <ul id='dropdown1' class='dropdown-content'>
-                        <li ng-repeat="car in vm.car_id | filter:vm.plate_number"  ng-click="vm.plate_number_select(car)"><a>{{car.carNO}}</a></li>
-                    </ul>
-                </div>
-                <div class="col l12">
-                    <button class="btn col l12" ng-click="vm.get_map()">Search</button>
+                    <div class="col l16">
+                        <span>Plate NO: </span>
+                        <div class="col s12 m12 l12">
+                            <input  class='dropdown-button' data-beloworigin="true" href='#' data-activates='dropdown1' ng-model="vm.plate_number.carNO">
+                        </div>
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li ng-repeat="car in vm.car_id | filter:vm.plate_number"  ng-click="vm.plate_number_select(car)"><a>{{car.carNO}}</a></li>
+                        </ul>
+                    </div>
+                    <div class="col l12">
+                        <button class="btn col l12" ng-click="vm.get_map()">Search</button>
+                    </div>
                 </div>
                 <div class="row" style="font-size:100%;">
                     <h5 style="margin-top:1em;">Vehicle Details</h5>

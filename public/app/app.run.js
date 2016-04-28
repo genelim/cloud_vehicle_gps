@@ -41,7 +41,7 @@ function runBlock($rootScope, Auth, API_Data){
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         
-                        if(current_idle === null || isEmpty(current_idle[i])){
+                        if(isEmpty(current_idle[i])){
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed === 0){
                                     current_idle[i] = res.data[0]
@@ -68,7 +68,7 @@ function runBlock($rootScope, Auth, API_Data){
                                                 }
                                             }
                                         }
-                                        $rootScope.notification.push({type : 'speed', plate_number : car_plate, time : Date.now(), color: 'yellow', carid: res.data[0].carID})
+                                        $rootScope.notification.push({type : 'idle', plate_number : car_plate, time : Date.now(), color: 'yellow', carid: res.data[0].carID})
                                         $rootScope.live_noti += 1;
                                     }
                                 }
@@ -95,7 +95,7 @@ function runBlock($rootScope, Auth, API_Data){
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         
-                        if(breaking === null || isEmpty(breaking[i])){
+                        if(isEmpty(breaking[i])){
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 breaking[i] = res.data[0]
                             }
@@ -143,7 +143,7 @@ function runBlock($rootScope, Auth, API_Data){
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         
-                        if(fuel_check === null || isEmpty(fuel_check[i])){
+                        if(isEmpty(fuel_check[i])){
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 fuel_check[i] = res.data[0]
                             }
@@ -177,11 +177,75 @@ function runBlock($rootScope, Auth, API_Data){
             check_fuel(0)
         }
     }
-    setInterval(function(){ 
-        checking_harsh_breaking()
-        checking_idle() 
-        checking_fuel()
-    }, 10000);  
+    var current_speed  = [];
+    function checking_speed(){
+        if($rootScope.user_check === 1){
+            function check_speed(i) {
+                if( i < carid.length ) {
+                    API_Data.gps_getpos(carid[i].carID).then(function(result){
+                        res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
+                        
+                        if(isEmpty(current_speed[i])){
+                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                                if(res.data[0].speed !== 0){
+                                    current_speed[i] = res.data[0]
+                                }
+                            }
+                        }else{                            
+                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                                if(res.data[0].speed !== 0){
+                                    if(res.data[0].speed > 100){
+                                        if(typeof current_speed[i].speedy !== 'undefined'){
+                                            if(res.data[0].speed - current_speed[i].speedy > 10){
+                                                current_speed[i] = res.data[0]
+                                                current_speed[i].speedy = current_speed[i].speed;
+                                                var car_plate = null;
+                                                for(var i = 0; i < group.length; i++){
+                                                    for(var a = 0; a < group[i].cars.length; a++){
+                                                        if(group[i].cars[a].carID === res.data[0].carID){
+                                                            car_plate = group[i].cars[a].carNO
+                                                        }
+                                                    }
+                                                }
+                                                $rootScope.notification.push({type : 'speed', plate_number : car_plate, time : Date.now(), color: 'yellow', carid: res.data[0].carID})
+                                                $rootScope.live_noti += 1;
+                                            }
+                                        }else{
+                                            current_speed[i] = res.data[0]
+                                            current_speed[i].speedy = current_speed[i].speed;
+                                            var car_plate = null;
+                                            for(var i = 0; i < group.length; i++){
+                                                for(var a = 0; a < group[i].cars.length; a++){
+                                                    if(group[i].cars[a].carID === res.data[0].carID){
+                                                        car_plate = group[i].cars[a].carNO
+                                                    }
+                                                }
+                                            }
+                                            $rootScope.notification.push({type : 'speed', plate_number : car_plate, time : Date.now(), color: 'yellow', carid: res.data[0].carID})
+                                            $rootScope.live_noti += 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    check_speed(i+1)
+                }
+            }    
+            check_speed(0)
+        }
+    }
+    
+    function timing_inteval(){
+        setInterval(function(){ 
+            checking_harsh_breaking()
+            checking_idle() 
+            checking_fuel()
+            checking_speed()
+        }, 10000); 
+    }
+     
     
     function isEmpty(obj) {
         for(var prop in obj) {
@@ -257,7 +321,10 @@ function runBlock($rootScope, Auth, API_Data){
                             for(var a = 0; a < carid.length; a++){
                                 current_idle.push({})
                                 breaking.push({})
+                                fuel_check.push({})
+                                current_speed.push({})
                             }
+                            timing_inteval()
                         })
                            
                     }                  

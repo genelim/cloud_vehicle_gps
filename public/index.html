@@ -20,40 +20,16 @@
         <ul id="dropdown" class="dropdown-content collection dropdown-notification">
             <li class="collection-item avatar row" style="padding-left: 20px; margin: 0;" ng-repeat="noti in notification"  ng-click="vm.open_notification(noti, $index)">
                 <div class="col l2">
-                    <i class="fa fa-2x" ng-class="{'fa-hourglass-half': noti.type === 'speed', 'fa-flask': noti.type === 'fuel', 'fa-truck': noti.type === 'harsh_breaking'}" style="color:{{noti.color}}"></i>
+                    <i class="fa fa-2x" ng-class="{'fa-hourglass-half': noti.type === 'idle', 'fa-flask': noti.type === 'fuel', 'fa-truck': noti.type === 'harsh_breaking'}" style="color:{{noti.color}}"></i>
                 </div>
                 <div class="col l10" style="margin-top: 10px;">
+                    <span class="title" style="display: inline;" ng-if="noti.type == 'idle'"><b>{{noti.plate_number}}</b> is idling</span>
+                    <span class="title" style="display: inline;" ng-if="noti.type == 'fuel'"><b>{{noti.plate_number}}</b> is consuming fuel</span>
+                    <span class="title" style="display: inline;" ng-if="noti.type == 'harsh_breaking'"><b>{{noti.plate_number}}</b> is harsh breaking</span>
                     <span class="title" style="display: inline;" ng-if="noti.type == 'speed'"><b>{{noti.plate_number}}</b> is over speeding</span>
                     <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> {{Math.abs(Date.now() - noti.time) / 36e5}}</p>
                 </div>
             </li>
-            <!--<li class="collection-item avatar row"  style="padding-left: 20px; margin: 0;">
-                <div class="col l2">
-                    <i class="fa fa-hourglass-half fa-2x" style="color:#89F589;"></i>
-                </div>
-                <div class="col l10" style="margin-top: 10px;">
-                    <span class="title" style="display: inline;"><b>ABC 1234</b> is over idling</span>
-                    <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> 2 hours ago</p>
-                </div>
-            </li>
-            <li class="collection-item avatar row"  style="padding-left: 20px; margin: 0;">
-                <div class="col l2">
-                    <i class="fa fa-bell fa-2x" style="color:#51BAF7;"></i>
-                </div>
-                <div class="col l10" style="margin-top: 10px;">
-                    <span class="title" style="display: inline;"><b>DEF 2422</b> is over speeding</span>
-                    <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> 3 hours ago</p>
-                </div>
-            </li>
-            <li class="collection-item avatar row"  style="padding-left: 20px; margin: 0;">
-                <div class="col l2">
-                    <i class="fa fa-bell fa-2x" style="color:#51BAF7;"></i>
-                </div>
-                <div class="col l10" style="margin-top: 10px;">
-                    <span class="title" style="display: inline;"><b>DEF 2422</b> is over speeding</span>
-                    <p style="color: grey"><i class="fa fa-clock-o" style="height: 0; line-height: 0;"></i> 3 hours ago</p>
-                </div>
-            </li>-->
         </ul>
         <div class="navbar-fixed" style="z-index: 999;" ng-if="user && user_type === 0">
             <nav class="white">

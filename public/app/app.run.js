@@ -58,7 +58,7 @@ function runBlock($rootScope, Auth, API_Data){
                                     }else{
                                         var set_minute = 15                                        
                                     }
-                                    if(minute > 1){
+                                    if(minute > set_minute){
                                         //NOTIFY!
                                         current_idle[i] = res.data[0]
                                         var car_plate = null;
@@ -195,7 +195,7 @@ function runBlock($rootScope, Auth, API_Data){
                         }else{                            
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed !== 0){
-                                    if(res.data[0].speed > 1){
+                                    if(res.data[0].speed > 100){
                                         if(typeof current_speed[i].speedy !== 'undefined'){
                                             if(res.data[0].speed - current_speed[i].speedy > 10){
                                                 current_speed[i] = res.data[0]

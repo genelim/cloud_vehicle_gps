@@ -120,6 +120,16 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
                         if(vm.timer){
                             clearInterval(vm.timer);
                         }
+                        google.maps.event.trigger(vm.map, "resize");
+                        var myLatLng = {lat: vm.car_details_full.data[0].la, lng: vm.car_details_full.data[0].lo};
+                        vm.marker.setMap(null);            
+                        vm.marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: vm.map,
+                            icon: "/assets/image/car.png",
+                            title:  vm.car_details_full.data[0].carNO
+                        }); 
+                        vm.map.setCenter(myLatLng);
                         map_initialize()
                     })
                 })
@@ -135,17 +145,7 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
     function map_initialize(){
         vm.timer = setInterval(function(){ 
             get_map();
-            google.maps.event.trigger(vm.map, "resize");
-            var myLatLng = {lat: vm.car_details_full.data[0].la, lng: vm.car_details_full.data[0].lo};
-            vm.marker.setMap(null);            
-            vm.marker = new google.maps.Marker({
-                position: myLatLng,
-                map: vm.map,
-                icon: "/assets/image/car.png",
-                title:  vm.car_details_full.data[0].carNO
-            }); 
-            vm.map.setCenter(myLatLng);
-        }, 5000);
+        }, 15000);
     }
     
     function checkFlag() {

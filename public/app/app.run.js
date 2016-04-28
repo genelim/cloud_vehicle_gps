@@ -102,7 +102,6 @@ function runBlock($rootScope, Auth, API_Data){
                         }else{                         
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 difspeed = res.data[0].speed - breaking[i].speed
-                                console.log(difspeed)
                                 var minute = res.data[0].gpsTime - breaking[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
                                 if(minute > 1){
@@ -118,6 +117,7 @@ function runBlock($rootScope, Auth, API_Data){
                                         }
                                         $rootScope.notification.push({type : 'harsh_breaking', plate_number : car_plate, time : Date.now(), color: 'green', carid: res.data[0].carID})
                                         $rootScope.live_noti += 1;
+                                        console.log($rootScope.notification)
                                     }
                                 }
                             }

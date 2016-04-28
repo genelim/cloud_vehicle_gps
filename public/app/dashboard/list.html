@@ -1,0 +1,95 @@
+<div id="carlist" style="margin-top:1em; text-align: center; margin-top: -20px;">
+    <table class="highlight" ng-if="vm.car_details_full">
+        <thead class="tablehead">
+            <tr>
+                <td>PLATE NO</td>
+                <td>DRIVER NAME</td>
+                <td>GROUP NAME</td>
+                <td>SPEED</td>
+                <td>FUEL</td>
+                <td>MILLEAGE</td>
+                <td>IGNITION</td>
+                <td>LOCATION</td>
+                <!--<td><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x white-text"></i></a></td>
+                <td ng-if="user.response.settings.plate_number">PLATE NO</td>
+                <td ng-if="user.response.settings.driver_name">DRIVER NAME</td>
+                <td ng-if="user.response.settings.group_name">GROUP NAME</td>
+                <td ng-if="user.response.settings.speed">SPEED</td>
+                <td ng-if="user.response.settings.fuel">FUEL</td>
+                <td ng-if="user.response.settings.total_mileage">TODAY MILLEAGE</td>
+                <td ng-if="user.response.settings.ignition">IGNITION</td>
+                <td ng-if="user.response.settings.location">LOCATION</td>
+                <td ng-if="vm.current_tab === 'list'"><a href="" ng-click="vm.user_setting_modal()"><i class="fa fa-cogs fa-2x white-text" style="margin-left:1%"></i></a></td>-->
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="car_detail in vm.car_details_full" ng-click="vm.view_specific_vehicle(car_detail.data[0].carID)">
+                <td>{{car_detail.data[0].carNO}}</td>
+                <td ng-if="car_detail.data[0].driver">{{car_detail.data[0].driver}}</td>
+                <td ng-if="!car_detail.data[0].driver">No Name</td>
+                <td>{{car_detail.data[0].group}}</td>
+                <td>{{car_detail.data[0].speed}}</td>
+                <td ng-if="car_detail.data[0].fuel">{{car_detail.data[0].fuel}}</td>
+                <td ng-if="!car_detail.data[0].fuel">0</td>
+                <td>{{car_detail.data[0].mileage}}km</td>
+                <td ng-if="car_detail.data[0].status">{{car_detail.data[0].status}}</td>
+                <td ng-if="!car_detail.data[0].status">Not Indicated</td>
+                <td ng-if="car_detail.data[0].address">{{car_detail.data[0].address}}</td>
+                <td ng-if="!car_detail.data[0].address">No Address</td>
+                <!--<td></td>-->
+                <!--<td ng-if="user.response.settings.plate_number">{{car_detail.data[0].carNO}}</td>
+                <td ng-if="user.response.settings.driver_name && car_detail.data[0].driver">{{car_detail.data[0].driver}}</td>
+                <td ng-if="user.response.settings.driver_name && !car_detail.data[0].driver">No Name</td>
+                <td ng-if="user.response.settings.group_name">{{car_detail.data[0].group}}</td>
+                <td ng-if="user.response.settings.speed">{{car_detail.data[0].speed}}</td>
+                <td ng-if="user.response.settings.fuel">{{car_detail.data[0].fuel}}</td>
+                <td ng-if="user.response.settings.total_mileage">{{car_detail.data[0].mileage}}km</td>
+                <td ng-if="user.response.settings.ignition && car_detail.data[0].status">{{car_detail.data[0].status}}</td>
+                <td ng-if="user.response.settings.ignition && !car_detail.data[0].status">Not Indicated</td>
+                <td ng-if="user.response.settings.location && car_detail.data[0].address">{{car_detail.data[0].address}}</td>
+                <td ng-if="user.response.settings.location && !car_detail.data[0].address">No Address</td>-->
+            </tr>
+        </tbody>
+    </table>
+    <div class="preloader-wrapper medium active" ng-if="!vm.car_details_full">
+        <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+</div>

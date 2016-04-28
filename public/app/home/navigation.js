@@ -46,6 +46,7 @@ function NavigationController($http, $state, Auth, $scope, $rootScope){
     function open_notification(data, index){
         $rootScope.live_noti -= 1;
         $rootScope.notification.splice(index,1)
+        $state.go('dashboard.home.map', {id : data.carid})
     }
     
     function disturb(){

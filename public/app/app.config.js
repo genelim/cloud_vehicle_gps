@@ -6,8 +6,8 @@ Configuration.$inject = ['$urlRouterProvider','$stateProvider','$locationProvide
 
 function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
     $urlRouterProvider.otherwise('/dashboard/home');
-    $urlRouterProvider.when('/dashboard', '/dashboard/home');
-    $urlRouterProvider.when('/dashboard/', '/dashboard/home');
+    $urlRouterProvider.when('/dashboard', '/dashboard/home/list');
+    $urlRouterProvider.when('/dashboard/', '/dashboard/home/list');
     $urlRouterProvider.when('/dashboard/settings', '/dashboard/settings/message_to_device');
     $urlRouterProvider.when('/dashboard/settings/', '/dashboard/settings/message_to_device');
     $urlRouterProvider.when('/dashboard/reports', '/dashboard/reports/driving_records');
@@ -38,6 +38,18 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         url:'/home',
         templateUrl: 'app/dashboard/home.html',
         controller: 'DashboardHomeController',
+        controllerAs: 'vm'
+    })
+    .state('dashboard.home.list', {
+        url:'/list',
+        templateUrl: 'app/dashboard/list.html',
+        controller: 'HomeListController',
+        controllerAs: 'vm'
+    })
+    .state('dashboard.home.map', {
+        url:'/map/:id',
+        templateUrl: 'app/dashboard/map.html',
+        controller: 'HomeMapController',
         controllerAs: 'vm'
     })
     .state('dashboard.vehicle_tracking', {

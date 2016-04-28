@@ -1,0 +1,118 @@
+<div class="col s12 m12 l12" style="    margin-top: -30px;">
+        <div class="row" style="margin-bottom: 0px; margin-top:15px;">
+            <div class="col s12 m12 l4">
+                <div class="col s12 m12 l6">
+                    <span>Vehicle Group: </span>
+                    <select class="browser-default" ng-model="vm.group_selected" ng-options="group.group for group in vm.group" ng-change="vm.group_update()">
+                    </select>
+                </div>
+                <div class="col l16">
+                    <span>Plate NO: </span>
+                    <div class="col s12 m12 l12">
+                        <input  class='dropdown-button' data-beloworigin="true" href='#' data-activates='dropdown1' ng-model="vm.plate_number.carNO">
+                    </div>
+                    <ul id='dropdown1' class='dropdown-content'>
+                        <li ng-repeat="car in vm.car_id | filter:vm.plate_number"  ng-click="vm.plate_number_select(car)"><a>{{car.carNO}}</a></li>
+                    </ul>
+                </div>
+                <div class="col l12">
+                    <button class="btn col l12" ng-click="vm.get_map()">Search</button>
+                </div>
+                <div class="row" style="font-size:100%;">
+                    <h5 style="margin-top:1em;">Vehicle Details</h5>
+                    <div class="row">
+                        <div class="col s3">FLEET</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8"><b>{{vm.car_details_full.data[0].group}}</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">PLATE NO</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8"><b>{{vm.car_details_full.data[0].carNO}}</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">DRIVER</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8" ng-if="vm.car_details_full.data[0].driver"><b>{{vm.car_details_full.data[0].driver}}</b></div>
+                        <div class="col s8" ng-if="!vm.car_details_full.data[0].driver"><b>No Name</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">SPEED</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8">
+                            <b ng-style="vm.car_details_full.data[0].speed > 99 && {'color':'red'} ||  {'color':'black'}">
+                                {{vm.car_details_full.data[0].speed}} km/h
+                            </b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">ADDRESS</div>
+                        <div class="col s1">:</div>
+                        <div class="col s8" ng-if="vm.car_details_full.data[0].address"><b>{{vm.car_details_full.data[0].address}}</b></div>
+                        <div class="col s8" ng-if="!vm.car_details_full.data[0].address"><b>N/A</b></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <h5>Tyre Details</h5>
+                    <div class="col l4">
+                        <div class="row center" style="position:relative;">
+                            <div>23</div>
+                            <img src="/assets/image/tyre_green.png" style="height:50px"/>
+                        </div>
+                        <div class="row center" style="position:relative;">
+                            <div>24</div>
+                            <img src="/assets/image/tyre_green.png" style="height:50px"/>
+                        </div>
+                    </div>     
+                    <div class="col s4">
+                        <div class="row">
+                            <div class="col s6 center" style="position:relative;">
+                                <div>21</div>
+                                <img src="/assets/image/tyre_green.png" style="height:50px"/>
+                            </div>
+                            <div class="col s6 center" style="position:relative;">
+                                <div>23</div>
+                                <img src="/assets/image/tyre_green.png" style="height:50px"/>
+                            </div>                       
+                        </div>
+                        <div class="row">
+                            <div class="col s6 center" style="position:relative;">
+                                <div>18</div>
+                                <img src="/assets/image/tyre_blue.png" style="height:50px"/>
+                            </div>
+                            <div class="col s6 center" style="position:relative;">
+                                <div>23</div>
+                                <img src="/assets/image/tyre_green.png" style="height:50px"/>
+                            </div>                           
+                        </div>
+                    </div>     
+                    <div class="col s4" ng-if="vm.number_wheels === 10">
+                        <div class="row">
+                            <div class="col s6 center" style="position:relative;">
+                                <div>31</div>
+                                <img src="/assets/image/tyre_red.png" style="height:50px"/>
+                            </div>
+                            <div class="col s6 center" style="position:relative;">
+                                <div>13</div>
+                                <img src="/assets/image/tyre_blue.png" style="height:50px"/>
+                            </div>               
+                        </div>
+                        <div class="row">
+                            <div class="col s6 center" style="position:relative;">
+                                <div>23</div>
+                                <img src="/assets/image/tyre_green.png" style="height:50px"/>
+                            </div>
+                            <div class="col s6 center" style="position:relative;">
+                                <div>19</div>
+                                <img src="/assets/image/tyre_blue.png" style="height:50px"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m12 l8 card" style="margin: 0; padding: 0; height: calc(100vh - 160px);">
+                <div id="map_home"></div>
+            </div>
+        </div>
+    </div>

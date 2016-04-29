@@ -17,7 +17,7 @@
             <li><a href="#password" ng-click="vm.open_modal('password')">Password</a></li>
             <li><a href="" >View</a></li>
         </ul>
-        <ul id="dropdown" class="dropdown-content collection dropdown-notification">
+        <ul id="dropdown" class="dropdown-content collection dropdown-notification" ng-show="notification.length">
             <li class="collection-item avatar row" style="padding-left: 20px; margin: 0;" ng-repeat="noti in notification"  ng-click="vm.open_notification(noti, $index)">
                 <div class="col l2">
                     <i class="fa fa-2x" ng-class="{'fa-road': noti.type === 'fatigue', 'fa-hourglass-half': noti.type === 'idle', 'battery-half': noti.type === 'fuel', 'fa-sort-amount-desc': noti.type === 'harsh_breaking', 'fa-tachometer': noti.type === 'speed'}" style="color:{{noti.color}}"></i>

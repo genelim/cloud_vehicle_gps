@@ -25,12 +25,17 @@ function Auth($http, $q, API_Data) {
             var result = result.data.userid;
             if(result){
                 API_Data.user_getinfo(result).then(function(result2){
-                    var result2 = JSON.parse(result2.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
-                    if(result2.data.length){
-                        defer.resolve(result2)
+                    console.log(result2)
+                    if(result2.data !== 'Server Error'){
+                        var result2 = JSON.parse(result2.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                        if(result2.data.length){
+                            defer.resolve(result2)
+                        }else{
+                            defer.resolve(false)
+                        }
                     }else{
                         defer.resolve(false)
-                    }
+                    }                    
                 })          
             }else{
                 defer.resolve(false)

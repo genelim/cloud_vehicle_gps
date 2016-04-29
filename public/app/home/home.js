@@ -44,16 +44,16 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
         
         $http.post('/api/login', vm.user)
         .success(function(result){
-            console.log(result)
             if(result.response){
                 var result = JSON.parse(result.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                 API_Data.user_getinfo(result.data.userid).then(function(result2){
                     var result2 = JSON.parse(result2.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     if(result2.data.length){
                         $rootScope.user = result2.data[0];
-                        $state.go('dashboard');
-                        $('.dropdown-button').dropdown();
-                        $rootScope.user_check = 1
+                        $rootScope.user_check = 1;
+                        $('.dropdown-button').dropdown();                        
+                        window.location.href = 'http://localhost:90/dashboard/home/list';
+                        // $state.go('dashboard');
                     }else{
                         $rootScope.user = null;
                     }

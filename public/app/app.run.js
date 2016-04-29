@@ -17,7 +17,6 @@ function runBlock($rootScope, Auth, API_Data){
     var group = []
     var carid = []
     Auth.then(function(data){
-        console.log(data)
         if(data === false){
             $rootScope.user =false;
             $rootScope.user_check = 2;

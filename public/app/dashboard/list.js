@@ -196,6 +196,7 @@ function HomeListController($rootScope, $http, API_Data, $state){
                     
                 }
             }
+            console.log(vm.car_details_full)
         }
     }
     

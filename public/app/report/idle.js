@@ -175,7 +175,9 @@ function IdleController($rootScope, $http, API_Data){
                             if(map.status === 'ZERO_RESULTS'){
                                 vm.idle[i].address = '';
                             }else{
-                                vm.idle[i].address = map.results[0].formatted_address;
+                                if(map.results.length){
+                                    vm.idle[i].address = map.results[0].formatted_address;
+                                }
                             }
                             car_address(i+1)
                             if (requests == 0) vm.get_driver_details();

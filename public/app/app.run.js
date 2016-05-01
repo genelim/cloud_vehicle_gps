@@ -194,7 +194,7 @@ function runBlock($rootScope, Auth, API_Data){
                         }else{                            
                             if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
                                 if(res.data[0].speed !== 0){
-                                    if(res.data[0].speed > 100){
+                                    if(res.data[0].speed > 10){
                                         if(typeof current_speed[i].speedy !== 'undefined'){
                                             if(res.data[0].speed - current_speed[i].speedy > 10){
                                                 current_speed[i] = res.data[0]

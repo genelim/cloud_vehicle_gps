@@ -175,7 +175,8 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
                             if(map.status === 'ZERO_RESULTS'){
                                 res.data[i].address = '';
                             }else{
-                                if(typeof map !== 'undefined'){
+                                if(map.results.length){
+
                                     res.data[i].address = map.results[0].formatted_address;
                                 }
                             }

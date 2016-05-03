@@ -113,7 +113,7 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
                         "id": "g1",
                         "fillAlphas": 0.4,
                         "valueField": "visits",
-                        "balloonText": "<div style='margin:5px; font-size:19px;'>Visits:<b>[[value]]</b></div>"
+                        "balloonText": "<div style='margin:5px; font-size:19px;'>Speed:<b>[[value]]</b></div>"
                     }],
                     "chartScrollbar": {
                         "graph": "g1",
@@ -194,7 +194,7 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
 
             chartData.push({
                 date:newDate,
-                speed: vm.data[0][i]
+                visits: vm.data[0][i]
             });
         }
         return chartData;

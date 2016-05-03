@@ -167,3 +167,59 @@ exports.groups_tree = function(req, res){
         }
     })
 }
+
+exports.user_getall = function(req, res){
+    request.get({url : 'http://ctserver.dyndns.org:91/data.aspx?action=getalluser'}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+}
+exports.user_save = function(req, res){
+    var postData = {
+        'opaction': req.body.opaction,
+        'username': req.body.username,
+        'password': req.body.password,
+        'tel': req.body.tel,
+        'email': req.body.email,
+        'canmanagechild': req.body.canmanagechild
+    };
+    request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=user_save', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            if(body.msg !== 'save data error.'){
+                res.json({response:body});                
+            }else{
+                res.json({response:false})
+            }
+        }
+    })
+}
+
+exports.user_get = function(req, res){
+    request.get({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=user_get&username='+req.body.username}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+}
+
+exports.user_del = function(req, res){
+    var postData = {
+        'username': req.body.username
+    };
+    
+    request.get({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=user_del', formData: postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+}
+

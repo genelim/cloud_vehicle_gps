@@ -10,11 +10,15 @@ module.exports = function(app) {
 
     app.get('/api/user', user.get_users);
     app.post('/api/user_login', passport.authenticate('local-login'), user.login_user);
-    app.post('/api/user_register', user.save_user);
+    // app.post('/api/user_register', user.save_user);
     app.get('/api/loggedin', user.check_login);
     app.post('/api/logout', user.user_logout);
     app.put('/api/user_settings', user.update_setting);
     app.post('/api/get_user', user.get_user);
+    app.post('/api/user_save', user.user_save);
+    app.post('/api/user_getall', user.user_getall);
+    app.post('/api/user_get', user.user_get);
+    app.post('/api/user_del', user.user_del);
 
     app.get('/api/location', location.get);
     app.post('/api/location', location.add);

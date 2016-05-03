@@ -47,11 +47,15 @@ function VehicleMileageController(API_Data, $rootScope){
         vm.all_car.cars = []
         
         function get_car(i){
+            console.log(vm.carid)
             if( i < vm.carid.cars.length ){
                 requests++;
+                console.log(vm.date,vm.carid.cars[i].carID)
                 API_Data.gps_gethistorypos(vm.date, vm.carid.cars[i].carID)
                 .then(function(result){
                     requests--;
+                    console.log(result)
+                    
                     var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     for(var a = 0; a < res.data.length; a++){
                         res.data[a].gpsTime = new Date(res.data[a].gpsTime)

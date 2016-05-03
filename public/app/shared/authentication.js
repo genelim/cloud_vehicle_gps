@@ -22,6 +22,7 @@ function Auth($http, $q, API_Data) {
     API_Data.get_user_session().then(function(result){
         if(result.data !== '0'){
             var result = JSON.parse(result.data.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+            console.log(result)
             var result = result.data.userid;
             if(result){
                 API_Data.user_getinfo(result).then(function(result2){

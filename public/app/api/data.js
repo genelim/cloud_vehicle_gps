@@ -38,6 +38,18 @@ function API_Data($http) {
         },
         cars_list : function(groupid){
             return $http.post('/api/cars_list', {groupid : groupid})
+        },
+        user_save : function(data){
+            return $http.post('/api/user_save', data)
+        },
+        user_getall : function(){
+            return $http.post('/api/user_getall')
+        },
+        user_get : function(username){
+            return $http.post('/api/user_get', {username : username})
+        },
+        user_del : function(username){
+            return $http.post('/api/user_del', {username : username})
         }
     }
 }

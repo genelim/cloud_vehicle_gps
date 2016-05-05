@@ -50,6 +50,12 @@ function API_Data($http) {
         },
         user_del : function(username){
             return $http.post('/api/user_del', {username : username})
+        },
+        groups_save : function(data){
+            return $http.post('/api/groups_save', data)
+        },
+        groups_del : function(data){
+            return $http.post('/api/groups_del', data)
         }
     }
 }

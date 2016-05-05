@@ -3,6 +3,7 @@ var vehicle = require('./routes/vehicle'),
     reset_password = require('./routes/reset_password'),
     user = require('./routes/user'),
     refuel = require('./routes/refuel'),
+    group = require('./routes/group'),
     passport = require('passport');
 
 module.exports = function(app) {
@@ -42,7 +43,9 @@ module.exports = function(app) {
     app.post('/api/gps_gethistorypos', vehicle.gps_gethistorypos)
     app.post('/api/user_tree', user.user_tree)
     app.post('/api/get_user_session', user.get_user_session)
-    app.post('/api/groups_tree', user.groups_tree)
     app.post('/api/cars_list', vehicle.cars_list)
+    app.post('/api/groups_save', group.groups_save)
+    app.post('/api/groups_tree', group.groups_tree)
+    app.post('/api/groups_del', group.groups_del)
     
 }

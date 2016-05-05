@@ -6,14 +6,14 @@
                     <h5>User Accounts</h5>
                     <div class="btn-group right">
                         <a class="btn green lighten-1 z-depth-0 modal-trigger" ng-click="vm.add_modal()"><i class="fa fa-plus"></i></a>
-                        <a class="btn red lighten-1 z-depth-0"><i class="fa fa-trash"></i></a>
+                        <!--<a class="btn red lighten-1 z-depth-0"><i class="fa fa-trash"></i></a>-->
                     </div>
                 </div>
                 <div class="content">
                     <table class="highlight">
                         <thead>
                             <tr>
-                                <th data-field="">Select</th>
+                                <!--<th data-field="">Select</th>-->
                                 <th data-field="u_id">User ID</th>
                                 <th data-field="sku">Username</th>
                                 <th data-field="image">Email</th>
@@ -24,10 +24,10 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="user in vm.users.data">
-                                <th>
+                                <!--<th>
                                     <input type="checkbox" id="{{user.userID}}"/>
                                     <label for="{{user.userID}}"></label>
-                                </th>
+                                </th>-->
                                 <th>{{user.userID}}</th>
                                 <th>{{user.userName}}</th>
                                 <td>{{user.email}}</td>

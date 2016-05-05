@@ -158,16 +158,6 @@ exports.get_user_session = function(req, res){
     res.json(req.isAuthenticated() ? req.user : '0');
 }
 
-exports.groups_tree = function(req, res){
-    request.get({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=groups_tree'}, function(err,httpResponse,body){ 
-        if(err){
-            res.json({response: "Server Error"})
-        }else{
-            res.json({response:body})
-        }
-    })
-}
-
 exports.user_getall = function(req, res){
     request.get({url : 'http://ctserver.dyndns.org:91/data.aspx?action=getalluser'}, function(err,httpResponse,body){ 
         if(err){

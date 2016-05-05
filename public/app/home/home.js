@@ -73,15 +73,31 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
     
     function forget_password(username){
         vm.load = true;
-        if(username){
-            $http.post('/api/reset_password', {username : username })
-            .success(function(value){
-                if(value.response === 'Message sent!'){
-                    $('#resetpassword').closeModal();
-                }
-                Materialize.toast(value.response, 2000);
-                vm.load = false;
-            })
-        }
+        // if(username){
+        //     $http.post('/api/reset_password', {username : username })
+        //     .success(function(value){
+        //         if(value.response === 'Message sent!'){
+        //             $('#resetpassword').closeModal();
+        //         }
+        //         Materialize.toast(value.response, 2000);
+        //         vm.load = false;
+        //     })
+        // }
+        API_Data.user_get(username).then(function(result){
+            var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+            if(result.success){
+                $http.post('/api/reset_password', {email : result.data.email, password: result.data.password, username: result.data.userName})
+                .success(function(value){
+                    if(value.response === 'Message sent!'){
+                        $('#resetpassword').closeModal();
+                    }else{
+                        $('#resetpassword').closeModal();                        
+                    }
+                    Materialize.toast(value.response, 2000);
+                    vm.load = false;
+                    username = null
+                })
+            }
+        })
     }
 }

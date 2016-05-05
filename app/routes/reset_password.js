@@ -25,34 +25,48 @@ var token = function() {
 };
 
 exports.send = function (req, res) {
-    User.findOne({username : req.body.username})
-    .exec(function(err, user){
-        if(err){
-            res.json({response:'Server Error!'})
-        }else if(!user){
-            res.json({response:'User not found!'})
-        }else if(user){
-            var new_token = token();
-            var mailOptions = {
-                from: '"CloudTruck 👥" <test@cloudtruck.com.my>', 
-                to: user.email, 
-                subject: 'Reset CloudTruck Password ✔', 
-                text: 'Please follow this link to reset your password http:localhost:90/reset_password/'+new_token+' This link expires in 1 hour.',
-                html: 'Please follow this link to reset your password <a href="http:localhost:90/reset_password/'+new_token+'"> http:localhost:90/reset_password/'+new_token+'</a> <p> This link expires in 1 hour.</p>'
-            };
-            user.reset_password = {token : new_token, expiry_date : (Date.now() + 3600000)};
-            user.save(function(error, update_user){
-                transporter.sendMail(mailOptions, function(error, info){
-                    if(error){
-                        res.json({response:'Error in sending email. Contact your administrator.'})
-                    }else{
-                        res.json({response:'Message sent!'})
-                    }
-                });
-            })
-            
+    var mailOptions = {
+        from: '"CloudTruck 👥" <test@cloudtruck.com.my>', 
+        to: req.body.email, 
+        subject: 'Forget CloudTruck Password ✔', 
+        text: 'Your account: '+req.body.username+', password is '+req.body.password,
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            res.json({response:'Error in sending email. Contact your administrator.'})
+        }else{
+            res.json({response:'Message sent!'})
         }
-    })
+    });
+    // User.findOne({username : req.body.username})
+    // .exec(function(err, user){
+    //     if(err){
+    //         res.json({response:'Server Error!'})
+    //     }else if(!user){
+    //         res.json({response:'User not found!'})
+    //     }else if(user){
+    //         var new_token = token();
+    //         var mailOptions = {
+    //             from: '"CloudTruck 👥" <test@cloudtruck.com.my>', 
+    //             to: user.email, 
+    //             subject: 'Reset CloudTruck Password ✔', 
+    //             text: 'Please follow this link to reset your password http:localhost:90/reset_password/'+new_token+' This link expires in 1 hour.',
+    //             html: 'Please follow this link to reset your password <a href="http:localhost:90/reset_password/'+new_token+'"> http:localhost:90/reset_password/'+new_token+'</a> <p> This link expires in 1 hour.</p>'
+    //         };
+    //         user.reset_password = {token : new_token, expiry_date : (Date.now() + 3600000)};
+    //         user.save(function(error, update_user){
+    //             transporter.sendMail(mailOptions, function(error, info){
+    //                 if(error){
+    //                     res.json({response:'Error in sending email. Contact your administrator.'})
+    //                 }else{
+    //                     res.json({response:'Message sent!'})
+    //                 }
+    //             });
+    //         })
+            
+    //     }
+    // })
 }
 
 exports.check_token = function(req, res){

@@ -56,6 +56,15 @@ function API_Data($http) {
         },
         groups_del : function(data){
             return $http.post('/api/groups_del', data)
+        },
+        user_savegroups : function(data){
+            return $http.post('/api/user_savegroups', data)
+        },
+        user_getgroups : function(data){
+            return $http.post('/api/user_getgroups', data)
+        },
+        cars_save : function(data){
+            return $http.post('/api/cars_save', data)
         }
     }
 }

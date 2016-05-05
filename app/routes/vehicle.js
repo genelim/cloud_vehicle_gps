@@ -68,3 +68,27 @@ exports.cars_list = function (req, res) {
         }
     })
 };
+
+exports.cars_save = function (req, res) {
+    var postData = {
+        'opaction': req.body.opaction,
+        'groupid': req.body.groupid,//i
+        'carNO': req.body.carNO,
+        'simNO': req.body.simNO,
+        'machineNO': req.body.machineNO,
+        'protocol': req.body.protocol,//i
+        'installPlace': req.body.installPlace,//double
+        'driver': req.body.driver,
+        'driverTel': req.body.driverTel,
+        'driverAddress': req.body.groudriverAddresspid,
+        'driverRemark': req.body.driverRemark,
+        'overServiceTime': req.body.overServiceTime//date
+    };
+    request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=cars_save', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+};

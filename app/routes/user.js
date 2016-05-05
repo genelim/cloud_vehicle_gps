@@ -174,7 +174,7 @@ exports.user_save = function(req, res){
         'password': req.body.password,
         'tel': req.body.tel,
         'email': req.body.email,
-        'canmanagechild': req.body.canmanagechild
+        'f_username' : req.body.f_username
     };
     request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=user_save', formData : postData}, function(err,httpResponse,body){ 
         if(err){

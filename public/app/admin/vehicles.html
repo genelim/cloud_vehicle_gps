@@ -1,0 +1,149 @@
+<div style="padding: 1em 2em 0em 2em">
+	 <div class="row ">
+        <div class="col s12">
+            <div class="card">
+                <div class="title">
+                    <h5>User Accounts</h5>
+                    <div class="btn-group right">
+                        <a class="btn green lighten-1 z-depth-0 modal-trigger" ng-click="vm.add_modal()"><i class="fa fa-plus"></i></a>
+                        <!--<a class="btn red lighten-1 z-depth-0"><i class="fa fa-trash"></i></a>-->
+                    </div>
+                </div>
+                <div class="content">
+                    <table class="highlight">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="">Select</th>-->
+                                <th data-field="u_id">Car ID</th>
+                                <th data-field="sku">Plate Number</th>
+                                <th data-field="image">Group</th>
+                                <th data-field="">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="car in vm.car_details_full">
+                                <!--<th>
+                                    <input type="checkbox" id="{{user.userID}}"/>
+                                    <label for="{{user.userID}}"></label>
+                                </th>-->
+                                <th>{{car.data[0].carID}}</th>
+                                <th>{{car.data[0].carNO}}</th>
+                                <td>{{car.data[0].group}}</td>
+                                <td>
+                                    <a class="btn z-depth-0 blue lighten-1" ng-click="vm.car_modal(car)">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>                    
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Structure -->
+<div id="car_add" class="modal">
+    <div class="modal-content">
+        <div>
+            <div class="center">
+                <p class="flow-text">Create new Vehicle</p>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <select class="browser-default" ng-model="vm.car.groupid" ng-options="opt.group for opt in vm.groups">
+                    </select>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-carNO" type="text" ng-model="vm.car.carNO">
+                    <label for="new-your-carNO">Plate Number</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-simNO" type="text" ng-model="vm.car.simNO">
+                    <label for="new-simNO">Sim Number</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-machineNO" type="text" ng-model="vm.car.machineNO">
+                    <label for="new-your-machineNO">Machine Number</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-protocol" type="text" ng-model="vm.car.protocol">
+                    <label for="new-protocol">Protocol</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-installPlace" type="text" ng-model="vm.car.installPlace">
+                    <label for="new-your-installPlace">Install Place</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-driver" type="text" ng-model="vm.car.driver">
+                    <label for="new-driver">Driver Name</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-driverTel" type="text" ng-model="vm.car.driverTel">
+                    <label for="new-your-driverTel">Driver Contact</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-driverAddress" type="text" ng-model="vm.car.driverAddress">
+                    <label for="new-driverAddress">Driver Address</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-driverRemark" type="text" ng-model="vm.car.driverRemark">
+                    <label for="new-your-driverRemark">Driver Remark</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <p style="color: #9E9E9E;">Over Service Time</p>
+                    <input id="new-overServiceTime" type="date" ng-model="vm.car.overServiceTime">
+                </div>
+            </div>
+            <div class="row center">
+                <button class="btn" ng-click="vm.register_car()">Create Vehicle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="user_edit_modal" class="modal">
+    <div class="modal-content">
+        <div>
+            <div class="center">
+                <p class="flow-text">Edit account</p>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-username" type="text" disabled ng-model="vm.user_edit.userName">
+                    <label for="new-username" class="active">Your username</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-email" type="text" ng-model="vm.user_edit.email">
+                    <label for="new-your-email" class="active">Your email address</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l12 s12 input-field">
+                    <input id="new-your-password" type="password" ng-model="vm.user_edit.password">
+                    <label for="new-your-password" class="active">Pick a password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l12 s12 input-field">
+                    <input id="new-your-tel" type="text" ng-model="vm.user_edit.tel">
+                    <label for="new-your-tel" class="active">Your telephone number</label>
+                </div>
+            </div>
+            <div class="row center">
+                <button class="btn" ng-click="vm.register('edit')">Update Account</button>
+                <button class="btn" ng-click="vm.user_delete(vm.user_edit.userName)">Delete Account</button>
+            </div>
+        </div>
+    </div>
+</div>

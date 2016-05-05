@@ -43,7 +43,7 @@
                         <li ng-show="!disturb_off"><a class="dropdown-button blue-text dropdown-test" href="" data-activates="dropdown" data-beloworigin="true"><i class="fa fa-bell"></i><span class="new badge" ng-if="live_noti !== 0">{{live_noti}}</span></a></li> 
                         <li ng-click="vm.disturb()"><a class="blue-text" href=""><i class="fa" ng-class="disturb_off ? 'fa-toggle-off' : 'fa-toggle-on'"></i></a></li>
                         <li><a class="dropdown-button blue-text" style="font-weight:300;" data-activates="user_setting" data-beloworigin="true">{{user.userName}}<i class="fa fa-arrow-down right"></i></a></li>
-                        <li ng-if="!admin_page && user.canmanagechild < 3"><a href="/admin" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
+                        <li ng-show="!admin_page"><a href="/admin" ng-if="user.f_username === 'sa' || user.userName ==='sa'" class="blue-text">Admin Dashboard<i class="fa fa-arrow-right right"></i></a></li>
                         <li ng-if="admin_page"><a href="/" class="blue-text">Return Home<i class="fa fa-arrow-right right"></i></a></li>
                         <!--<li><a href="" class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Lock"><i class="fa fa-lock"></i></a></li>-->
                         <li><a class="blue-text tooltipped" data-position="right" data-delay="50" data-tooltip="Logout" ng-click="vm.logout()"><i class="fa fa-sign-out"></i></a></li>

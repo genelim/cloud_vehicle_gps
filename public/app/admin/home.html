@@ -2,6 +2,8 @@
     <ul id="slide-out" class="side-nav fixed admin_side_nav">
         <li><a ui-sref=".refuel">Refuel Cost</a></li>
         <li><a ui-sref=".users" ng-if="user.canmanagechild < 2">Users</a></li>
+        <li><a ui-sref=".groups" ng-if="user.canmanagechild < 2">Groups</a></li>
+        <li><a ui-sref=".vehicles" ng-if="user.canmanagechild < 2">Vehicles</a></li>
         <li><a ui-sref=".location">Location</a></li>
     </ul>
     <div ui-view></div>

@@ -167,31 +167,18 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
                         }
                     }
                 }
-                // console.log(vm.fuel_data_full)
-                
             }            
         })
     }
     
-
-
-// generate some random data, quite different range
     function generateChartData() {
         var chartData = [];
         var firstDate = new Date();
         firstDate.setDate(firstDate.getDate() - 5);
 
         for (var i = 0; i < vm.data[0].length; i++) {
-            // we create date objects here. In your data, you can have date strings
-            // and then set format of your dates using chart.dataDateFormat property,
-            // however when possible, use date objects, as this will speed up chart rendering.
             var newDate = new Date(vm.labels[i]);
             newDate.setMinutes(newDate.getMinutes());
-// 
-            // var visits = Math.round(Math.random() * (40 + i / 5)) + 20 + i;
-// vm.data[0].push(res.data[i].speed)
-//                     vm.data[1].push(res.data[i].fuel)
-
             chartData.push({
                 date:newDate,
                 visits: vm.data[0][i]
@@ -199,6 +186,7 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
         }
         return chartData;
     }
+    
     function checkFlag() {
         if($rootScope.user_check === 0 && !$rootScope.user) {
             window.setTimeout(checkFlag, 1000);

@@ -280,6 +280,18 @@ function Configuration($urlRouterProvider,$stateProvider,$locationProvider) {
         controller: 'AdminRefuelController',
         controllerAs: 'vm'
     })
+    .state('admin.groups', {
+        url:'/groups',
+        templateUrl: "app/admin/groups.html",
+        controller: 'AdminGroupsController',
+        controllerAs: 'vm'
+    })
+    .state('admin.vehicles', {
+        url:'/vehicles',
+        templateUrl: "app/admin/vehicles.html",
+        controller: 'AdminVehiclesController',
+        controllerAs: 'vm'
+    })
 
     $locationProvider.html5Mode({
         enabled: true

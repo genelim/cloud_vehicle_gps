@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('FuelConsumptionController', FuelConsumptionController);
 
-FuelConsumptionController.$inject = ['$rootScope', 'API_Data', '$scope'];
+FuelConsumptionController.$inject = ['$rootScope', 'API_Data', '$scope', '$timeout'];
 
-function FuelConsumptionController($rootScope, API_Data, $scope){ 
+function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){ 
     var vm = this;
     vm.loaded = false;
     vm.search_active = false;
@@ -17,6 +17,9 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
     vm.data = [];
     vm.labels = [];
     vm.series = ['Speed', 'Fuel'];
+    vm.group = []
+    vm.group_update = group_update
+    vm.plate_number_select = plate_number_select
     
     angular.element(document).ready(function () {
         vm.loaded = false;
@@ -27,45 +30,45 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
         vm.fuel_data_full = [];
         vm.search_active = true;
         vm.carid = null;
-        for(var i = 0; i < vm.cars.data.length; i++){
-            if(typeof vm.cars.data[i].cars !== 'undefined'){
-                for(var a = 0; a < vm.cars.data[i].cars.length; a++){
-                    if(vm.cars.data[i].cars[a].carNO === vm.plate_number){
-                        vm.carid = vm.cars.data[i].cars[a].carID;
-                    }
-                }  
-            }                      
-        }
-        if(vm.carid){
-            if(vm.date){
-                if(typeof vm.date.a !== 'undefined' && vm.date.a !== null){
-                    if(typeof vm.date.b !== 'undefined' && vm.date.b !== null){
-                        var hours = Math.abs(vm.date.b - vm.date.a) / 36e5;
-                        if(hours <= 24){
-                            get_car_history()
-                        }else{
-                           Materialize.toast('Only allows statistic within 1 day', 2000);
-                            vm.search_active = false; 
-                        }
-                    }else{
-                        Materialize.toast('Please Enter Date 2', 2000);
-                        vm.search_active = false;
-                    }
-                }else{
-                    Materialize.toast('Please Enter Date 1', 2000);                
-                    vm.search_active = false;
-                }       
+        if(vm.group_selected){
+            if(vm.plate_number){
+                for(var i = 0; i < vm.group_selected.cars.length; i++){
+                        if(vm.plate_number.carNO === vm.group_selected.cars[i].carNO){
+                            vm.carid = vm.group_selected.cars[i].carID;
+                        }               
+                }
             }else{
-                Materialize.toast('Please Enter Dates', 2000);                
-                vm.search_active = false;
+                Materialize.toast('Please enter valid Plate Number', 2000);
+            }  
+        }else if(!vm.plate_number){
+            if(vm.caridz){
+                vm.carid = vm.caridz;                
+            }else{
+                vm.carid = null;
             }
-        }else{
-            Materialize.toast('Invalid Plate Number', 2000);
-            vm.search_active = false;
+        }else if(!vm.carid){
+            //type ownself so need to get the id manually
+            for(var i = 0; i < vm.cars.data.length; i++){
+                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                    for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                        if(vm.cars.data[i].cars[a].carNO === vm.plate_number.carNO){
+                            vm.carid = vm.cars.data[i].cars[a].carID
+                        }
+                    }
+                }
+            }
+        }else if(vm.plate_number){
+            for(var i = 0; i < vm.cars.data.length; i++){
+                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                    for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                        if(vm.cars.data[i].cars[a].carNO === vm.plate_number.carNO){
+                            vm.carid = vm.cars.data[i].cars[a].carID
+                        }
+                    }
+                }
+            }
         }
-    }
-    
-    function get_car_history(){
+        
         vm.data = [];
         vm.labels = [];       
         API_Data.gps_gethistorypos(vm.date, vm.carid)
@@ -235,13 +238,35 @@ function FuelConsumptionController($rootScope, API_Data, $scope){
                     }
                     
                     function completed_loaded(){
-                        vm.cars = {data : vm.groups};
-                        vm.loaded = true;    
+                        API_Data.car_getall().then(function(result){
+                            var car_list = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                            vm.car_list_all = car_list;
+                            vm.cars = {data : vm.groups};
+                            for(var i = 0; i < vm.cars.data.length; i++){
+                                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                                    vm.group.push(vm.cars.data[i])
+                                }
+                            }
+                            vm.loaded = true; 
+                            $timeout(function() {
+                                $('.dropdown-button').dropdown();
+                            }, 100);
+                        })
+                           
                     }                  
                 })
             }else{
                 Materialize.toast('Not able to retrieve data. Refresh page to try again', 2000);            
             } 
         }
+    }  
+    
+    function plate_number_select(data){
+        vm.plate_number = angular.copy(data)
+    }
+    
+    function group_update(){
+        vm.plate_number = null;
+        vm.car_id = vm.group_selected.cars
     }
 }

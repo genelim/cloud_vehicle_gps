@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('IdleController', IdleController);
 
-IdleController.$inject = ['$rootScope', '$http', 'API_Data'];
+IdleController.$inject = ['$rootScope', '$http', 'API_Data', '$timeout'];
 
-function IdleController($rootScope, $http, API_Data){ 
+function IdleController($rootScope, $http, API_Data, $timeout){ 
     var vm = this;
     vm.get_idle = get_idle;
     vm.date = null;
@@ -17,6 +17,9 @@ function IdleController($rootScope, $http, API_Data){
     vm.export_data = export_data;
     vm.search_active = false;
     vm.loaded = false;
+    vm.group = []
+    vm.group_update = group_update
+    vm.plate_number_select = plate_number_select
     
     angular.element(document).ready(function () {
         vm.loaded = false;
@@ -71,14 +74,36 @@ function IdleController($rootScope, $http, API_Data){
                     }
                     
                     function completed_loaded(){
-                        vm.cars = {data : vm.groups};
-                        vm.loaded = true;    
+                        API_Data.car_getall().then(function(result){
+                            var car_list = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
+                            vm.car_list_all = car_list;
+                            vm.cars = {data : vm.groups};
+                            for(var i = 0; i < vm.cars.data.length; i++){
+                                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                                    vm.group.push(vm.cars.data[i])
+                                }
+                            }
+                            vm.loaded = true; 
+                            $timeout(function() {
+                                $('.dropdown-button').dropdown();
+                            }, 100);
+                        })
+                           
                     }                  
                 })
             }else{
                 Materialize.toast('Not able to retrieve data. Refresh page to try again', 2000);            
             } 
         }
+    }  
+    
+    function plate_number_select(data){
+        vm.plate_number = angular.copy(data)
+    }
+    
+    function group_update(){
+        vm.plate_number = null;
+        vm.car_id = vm.group_selected.cars
     }
     
     function export_data(){
@@ -97,43 +122,48 @@ function IdleController($rootScope, $http, API_Data){
     }
     
     function get_idle(){
-        vm.search_active = true;
         vm.idle = [];
+        vm.search_active = true;
         vm.carid = null;
-        for(var i = 0; i < vm.cars.data.length; i++){
-            if(typeof vm.cars.data[i].cars !== 'undefined'){
-                for(var a = 0; a < vm.cars.data[i].cars.length; a++){
-                    if(vm.cars.data[i].cars[a].carNO === vm.plate_number){
-                        vm.carid = vm.cars.data[i].cars[a].carID;
-                    }
-                }  
-            }                      
-        }
-        if(vm.carid){
-            if(vm.date){
-                console.log(vm.date)
-                if(typeof vm.date.a !== 'undefined' && vm.date.a !== null){
-                    if(typeof vm.date.b !== 'undefined' && vm.date.b !== null){
-                        get_car_history()
-                    }else{
-                        Materialize.toast('Please Enter Date 2', 2000);
-                        vm.search_active = false;
-                    }
-                }else{
-                    Materialize.toast('Please Enter Date 1', 2000);                
-                    vm.search_active = false;
-                }       
+        if(vm.group_selected){
+            if(vm.plate_number){
+                for(var i = 0; i < vm.group_selected.cars.length; i++){
+                        if(vm.plate_number.carNO === vm.group_selected.cars[i].carNO){
+                            vm.carid = vm.group_selected.cars[i].carID;
+                        }               
+                }
             }else{
-                Materialize.toast('Please Enter Dates', 2000);                
-                vm.search_active = false;
+                Materialize.toast('Please enter valid Plate Number', 2000);
+            }  
+        }else if(!vm.plate_number){
+            if(vm.caridz){
+                vm.carid = vm.caridz;                
+            }else{
+                vm.carid = null;
             }
-        }else{
-            Materialize.toast('Invalid Plate Number', 2000);
-            vm.search_active = false;
+        }else if(!vm.carid){
+            //type ownself so need to get the id manually
+            for(var i = 0; i < vm.cars.data.length; i++){
+                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                    for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                        if(vm.cars.data[i].cars[a].carNO === vm.plate_number.carNO){
+                            vm.carid = vm.cars.data[i].cars[a].carID
+                        }
+                    }
+                }
+            }
+        }else if(vm.plate_number){
+            for(var i = 0; i < vm.cars.data.length; i++){
+                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                    for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                        if(vm.cars.data[i].cars[a].carNO === vm.plate_number.carNO){
+                            vm.carid = vm.cars.data[i].cars[a].carID
+                        }
+                    }
+                }
+            }
         }
-    }
-    
-    function get_car_history(){
+        
         API_Data.gps_gethistorypos(vm.date, vm.carid)
         .then(function(result){
             var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
@@ -213,7 +243,7 @@ function IdleController($rootScope, $http, API_Data){
         for(var j = 0; j < vm.cars.data.length; j++){
             if(typeof vm.cars.data[j].cars !== 'undefined'){
                 for(var i = 0; i < vm.cars.data[j].cars.length; i++){
-                    if(vm.cars.data[j].cars[i].carNO === vm.plate_number){
+                    if(vm.cars.data[j].cars[i].carNO === vm.plate_number.carNO){
                         vm.carid = vm.cars.data[j].cars[i].carID;
                         vm.idle.driver = vm.cars.data[j].cars[i].driver;
                         vm.idle.driverTel = vm.cars.data[j].cars[i].driverTel;

@@ -3,7 +3,20 @@
     <div class="col s12 m12 l12" ng-if="vm.loaded">
         <div class="col s12 m12 l9">
             <div class="col s12 m12 l3">
-                <p>Fleet & Number Plate: <input type="text" id="platenumber" ng-model="vm.plate_number"></p>
+                <div class="col s12 m12 l12">
+                    <span>Vehicle Group: </span>
+                    <select class="browser-default" ng-model="vm.group_selected" ng-options="group.group for group in vm.group" ng-change="vm.group_update()">
+                    </select>
+                </div>
+                <div class="col l12">
+                    <span>Plate NO: </span>
+                    <div class="col s12 m12 l12">
+                        <input  class='dropdown-button' data-beloworigin="true" href='#' data-activates='dropdown1' ng-model="vm.plate_number.carNO">
+                    </div>
+                    <ul id='dropdown1' class='dropdown-content'>
+                        <li ng-repeat="car in vm.car_id | filter:vm.plate_number"  ng-click="vm.plate_number_select(car)"><a>{{car.carNO}}</a></li>
+                    </ul>
+                </div>
             </div>
 
             <div class="col s12 m12 l5">
@@ -33,7 +46,7 @@
     </div>
 
     <div class="col s12 m12 l12 menuseperator" ng-if="vm.fuel_data_full.plate_number">
-        <p class="col s12 m12 l3">Plate NO: <b>{{vm.fuel_data_full.plate_number}}</b></p>
+        <p class="col s12 m12 l3">Plate NO: <b>{{vm.fuel_data_full.plate_number.carNO}}</b></p>
         <p class="col s12 m12 l3">Total Milleage: 
             <b ng-if="vm.fuel_data_full.total_mileage">{{vm.fuel_data_full.total_mileage}}</b>
             <b ng-if="!vm.fuel_data_full.total_mileage">0</b>

@@ -50,33 +50,95 @@
                 <p class="flow-text">Create new Vehicle</p>
             </div>
             <div class="row">
-                <div class="col l6 s12 input-field">
+                <div class="col l12 s12 input-field">
+                    <p style="color: #9E9E9E;">*Group</p>                                        
                     <select class="browser-default" ng-model="vm.car.groupid" ng-options="opt.group for opt in vm.groups">
                     </select>
                 </div>
-                <div class="col l6 s12 input-field">
+                <div class="col l12 s12 input-field">
                     <input id="new-your-carNO" type="text" ng-model="vm.car.carNO">
-                    <label for="new-your-carNO">Plate Number</label>
+                    <label for="new-your-carNO">*Plate Number</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col l6 s12 input-field">
                     <input id="new-simNO" type="text" ng-model="vm.car.simNO">
-                    <label for="new-simNO">Sim Number</label>
+                    <label for="new-simNO">*Sim Number</label>
                 </div>
                 <div class="col l6 s12 input-field">
                     <input id="new-your-machineNO" type="text" ng-model="vm.car.machineNO">
-                    <label for="new-your-machineNO">Machine Number</label>
+                    <label for="new-your-machineNO">*Terminal ID</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col l6 s12 input-field">
-                    <input id="new-protocol" type="text" ng-model="vm.car.protocol">
-                    <label for="new-protocol">Protocol</label>
+                    <p style="color: #9E9E9E;">*Protocol</p>                    
+                    <select class="browser-default"  ng-model="vm.car.protocol">
+                        <option value='0'>QiChuan</option>
+                        <option value='1'>TianHe</option>
+                        <option value='2'>DaSanTong</option>
+                        <option value='3'>RedView1</option>
+                        <option value='4'>XXtk201</option>
+                        <option value='5'>RedView2</option>
+                        <option value='6'>TR6300</option>
+                        <option value='7'>TR918</option>
+                        <option value='8'>ASC</option>
+                        <option value='9'>AH</option>
+                    </select>
                 </div>
                 <div class="col l6 s12 input-field">
-                    <input id="new-your-installPlace" type="text" ng-model="vm.car.installPlace">
-                    <label for="new-your-installPlace">Install Place</label>
+                    <p style="color: #9E9E9E;">*TimeZone</p>                    
+                    <select class="browser-default"  ng-model="vm.car.installPlace">
+                        <option value='-12'>-12</option>
+                        <option value='-11.5'>-11.5</option>
+                        <option value='-11'>-11</option>
+                        <option value='-10.5'>-10.5</option>
+                        <option value='-10'>-10</option>
+                        <option value='-9.5'>-9.5</option>
+                        <option value='-9'>-9</option>
+                        <option value='-8.5'>-8.5</option>
+                        <option value='-8'>-8</option>
+                        <option value='-7.5'>-7.5</option>
+                        <option value='-7'>-7</option>
+                        <option value='-6.5'>-6.5</option>
+                        <option value='-6'>-6</option>
+                        <option value='-5.5'>-5.5</option>
+                        <option value='-5'>-5</option>
+                        <option value='-4.5'>-4.5</option>
+                        <option value='-4'>-4</option>
+                        <option value='-3.5'>-3.5</option>
+                        <option value='-3'>-3</option>
+                        <option value='-2.5'>-2.5</option>
+                        <option value='-2'>-2</option>
+                        <option value='-1.5'>-1.5</option>
+                        <option value='-1'>-1</option>
+                        <option value='-0.5'>-0.5</option>
+                        <option value='0'>0</option>
+                        <option value='0.5'>0.5</option>
+                        <option value='1'>1</option>
+                        <option value='1.5'>1.5</option>
+                        <option value='2'>2</option>
+                        <option value='2.5'>2.5</option>
+                        <option value='3'>3</option>
+                        <option value='3.5'>3.5</option>
+                        <option value='4'>4</option>
+                        <option value='4.5'>4.5</option>
+                        <option value='5'>5</option>
+                        <option value='5.5'>5.5</option>
+                        <option value='6'>6</option>
+                        <option value='6.5'>6.5</option>
+                        <option value='7'>7</option>
+                        <option value='7.5'>7.5</option>
+                        <option value='8'>8</option>
+                        <option value='8.5'>8.5</option>
+                        <option value='9'>9</option>
+                        <option value='9.5'>9.5</option>
+                        <option value='10'>10</option>
+                        <option value='10.5'>10.5</option>
+                        <option value='11'>11</option>
+                        <option value='11.5'>11.5</option>
+                        <option value='12'>12</option>
+                    </select>
                 </div>
             </div>
             <div class="row">

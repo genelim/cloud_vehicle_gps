@@ -17,19 +17,27 @@ function AdminVehiclesController($http, API_Data, $rootScope){
     vm.loaded = false;
     vm.groups = null; 
     vm.add_modal = add_modal; 
-    vm.add_car = add_car; 
     vm.register_car = register_car; 
     vm.car = null;
     
     function register_car(){
         vm.car.groupid = vm.car.groupid.id
+        vm.car.opaction = 'add'
+        API_Data.cars_save(vm.car).then(function(result){
+            var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));   
+            if(result.msg === 'save data success.'){
+                checkFlag();
+                Materialize.toast('Vehicle Saved', 2000);                            
+            }else if (result.msg === 'save data error. [Data duplication]'){
+                Materialize.toast('Vehicle Duplication Error', 2000);                            
+            }else{
+                Materialize.toast('Server Error', 2000);                                            
+            }      
+            $('#car_add').closeModal();
+        })
     }
     function add_modal(){
         $('#car_add').openModal();
-    }
-    
-    function add_car(car){
-        
     }
     
     function checkFlag() {
@@ -57,7 +65,6 @@ function AdminVehiclesController($http, API_Data, $rootScope){
                                 }
                             }
                         }
-                        console.log(vm.groups)
                         car_list(0);                           
                     }
                     

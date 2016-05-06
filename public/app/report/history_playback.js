@@ -37,6 +37,22 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
     vm.can_play = false;
     vm.play_count = 0;
     vm.marker = new google.maps.Marker();
+    vm.export_data = export_data;
+    
+    function export_data(){
+        vm.per_page = vm.play_full.length;
+        setTimeout(function() {
+            if(document.getElementById('exportable')){
+                var blob = new Blob([document.getElementById('exportable').innerHTML], {
+                    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+                });
+                saveAs(blob, 'HISTORY_PLAYBACK-'+new Date()+'.xls');
+            }else{
+                Materialize.toast('No data available', 2000);            
+            } 
+            vm.per_page = 5;
+        }, 100);        
+    }
     
     function loop_playback(i){
         var speed = 1000;

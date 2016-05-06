@@ -50,5 +50,6 @@ module.exports = function(app) {
     app.post('/api/user_savegroups', group.user_savegroups)
     app.post('/api/user_getgroups', group.user_getgroups)
     app.post('/api/cars_save', vehicle.cars_save)
-    
+    app.post('/api/cars_del', vehicle.cars_del)
+    app.post('/api/cars_movetogroup', vehicle.cars_movetogroup)    
 }

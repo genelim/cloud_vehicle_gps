@@ -1,6 +1,20 @@
 angular
     .module('app')
-    .controller('AdminVehiclesController', AdminVehiclesController);
+    .controller('AdminVehiclesController', AdminVehiclesController)
+    .directive('convertToNumber', function() {
+        return {
+                require: 'ngModel',
+                link: function(scope, element, attrs, ngModel) {
+                ngModel.$parsers.push(function(val) {
+                    return val ? parseInt(val, 10) : null;
+                });
+                ngModel.$formatters.push(function(val) {
+                    return val ? '' + val : null;
+                });
+                }
+            };
+        }
+    );
 
 AdminVehiclesController.$inject = ['$http', 'API_Data', '$rootScope'];
 
@@ -17,23 +31,83 @@ function AdminVehiclesController($http, API_Data, $rootScope){
     vm.loaded = false;
     vm.groups = null; 
     vm.add_modal = add_modal; 
+    vm.car_modal = car_modal; 
+    vm.car_delete = car_delete; 
+    vm.car_group = car_group; 
     vm.register_car = register_car; 
+    vm.group_car_change = group_car_change; 
     vm.car = null;
     
-    function register_car(){
+    function group_car_change(){
         vm.car.groupid = vm.car.groupid.id
-        vm.car.opaction = 'add'
+        API_Data.cars_movetogroup(vm.car).then(function(result){
+            var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));   
+            if(result.success){
+                Materialize.toast('Vehicle\'s Group Changed', 2000);   
+                checkFlag(); 
+            }
+            $('#car_group_modal').closeModal()
+        })
+    }
+    
+    function car_group(car){
+        vm.car = car
+        vm.car.overServiceTime = new Date(vm.car.overServiceTime)
+        $('#car_group_modal').openModal()
+    }
+    
+    function car_modal(car){
+        $('#car_edit_modal').openModal()
+        car.overServiceTime = new Date(car.overServiceTime)
+        vm.car = car
+    }
+    
+    function car_delete(id){
+        API_Data.cars_del({carid:id}).then(function(result){
+            var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));   
+            if(result.success)    
+                Materialize.toast('Vehicle Removed', 2000);   
+            else                         
+                Materialize.toast('Vehicle Failed to Remove', 2000);   
+            $('#car_edit_modal').closeModal();
+            checkFlag(); 
+            vm.car = null;           
+        })
+    }
+    
+    function register_car(opaction){
+        if(opaction ==='add'){
+            vm.car.groupid = vm.car.groupid.id
+            vm.car.opaction = 'add'
+        }else{
+            vm.car.opaction = 'edit'
+            if(!vm.car.driver)
+                vm.car.driver = undefined
+            if(!vm.car.driverTel)
+                vm.car.driverTel = undefined
+            if(!vm.car.driverAddress)
+                vm.car.driverAddress = undefined
+            if(!vm.car.driverRemark)
+                vm.car.driverRemark = undefined
+        }
+        
         API_Data.cars_save(vm.car).then(function(result){
             var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));   
             if(result.msg === 'save data success.'){
                 checkFlag();
-                Materialize.toast('Vehicle Saved', 2000);                            
+                if(opaction ==='add'){
+                    Materialize.toast('Vehicle Saved', 2000);    
+                }else{
+                    Materialize.toast('Vehicle Updated', 2000);                        
+                }
             }else if (result.msg === 'save data error. [Data duplication]'){
                 Materialize.toast('Vehicle Duplication Error', 2000);                            
             }else{
                 Materialize.toast('Server Error', 2000);                                            
             }      
             $('#car_add').closeModal();
+            $('#car_edit_modal').closeModal();
+            vm.car = null;                       
         })
     }
     function add_modal(){
@@ -134,30 +208,19 @@ function AdminVehiclesController($http, API_Data, $rootScope){
                         for(var j = 0; j < vm.car_details.length; j++){
                             if(vm.car_details[j].data[0].carID === result.data[i].carID){
                                 vm.car_details[j].data[0].carNO = result.data[i].carNO
+                                vm.car_details[j].data[0].installPlace = result.data[i].installPlace
+                                vm.car_details[j].data[0].machineNO = result.data[i].machineNO
+                                vm.car_details[j].data[0].overServiceTime = result.data[i].overServiceTime
+                                vm.car_details[j].data[0].simNO = result.data[i].simNO
+                                vm.car_details[j].data[0].protocol = result.data[i].protocol
+                                vm.car_details[j].data[0].driverTel = result.data[i].driverTel
+                                vm.car_details[j].data[0].driverAddress = result.data[i].driverAddress
+                                vm.car_details[j].data[0].driverRemark = result.data[i].driverRemark
                                 vm.car_details[j].data[0].driver = result.data[i].driver
                             }
                         }
                     }
-                    var requestss = 0;
-                    function car_address(i) {
-                        if( i < vm.car_details.length ) {
-                            requestss++;
-                            $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+vm.car_details[i].data[0].la+','+vm.car_details[i].data[0].lo+'&sensor=true')
-                            .success(function(map){
-                                requestss--;
-                                if(map.status === 'ZERO_RESULTS'){
-                                    vm.car_details[i].data[0].address = '';
-                                }else{
-                                    if(map.results.length){
-                                        vm.car_details[i].data[0].address = map.results[0].formatted_address;
-                                    }
-                                }
-                                car_address(i+1)
-                                if (requestss == 0) car_group_attribute();
-                            })
-                        }
-                    }
-                    car_address(0);                
+                   car_group_attribute()
                 });
             }            
         }
@@ -172,6 +235,7 @@ function AdminVehiclesController($http, API_Data, $rootScope){
                         for(var k = 0; k < vm.car_details.length; k++){
                             if(vm.car_details[k].data[0].carID === vm.groups[i].cars[a].carID){
                                 vm.car_details[k].data[0].group = vm.groups[i].group
+                                vm.car_details[k].data[0].groupid = vm.groups[i].id
                             }
                         }
                     }

@@ -37,7 +37,7 @@
             <a class="btn col s12 m6 l6" id="btnPlay" ng-click="vm.play_now()">Play</a>
             <a class="btn col s12 m6 l6" id="btnPlay" ng-click="vm.play_pause()">Pause</a>
             <a class="btn col s12 m6 l6" id="btnPlay" ng-click="vm.play_stop()">Stop</a>
-            <a class="btn col s12 m6 l6" id="btnPlay">Export</a>
+            <a class="btn col s12 m6 l6" id="btnPlay" ng-click="vm.export_data()">Export</a>
             <div class="row">
                 <div class="col s12 m12 l4">
                     <p><b>Playback : </b></p>
@@ -50,24 +50,25 @@
             </div>
         </div>
         <div class="divider"></div>
-
-        <div class="col s12 m12 l12 mainborder" style="border-top:none"  ng-if="vm.play_full.length">
-            <table>
-                <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Speed</th>
-                    <th>Address</th>
-                </tr>
-                </thead>
-                <tbody >
-                    <tr  dir-paginate="play in vm.play_full |itemsPerPage: vm.per_page">
-                        <td>{{play.gpsTime | date : 'HH:mm:ss'}}</td>
-                        <td>{{play.speed}}</td>
-                        <td>{{play.address}}</td>
+        <div id="exportable" >
+            <div class="col s12 m12 l12 mainborder" style="border-top:none"  ng-if="vm.play_full.length">
+                <table>
+                    <thead>
+                    <tr>
+                        <th bgcolor='#51BAF7'>Time</th>
+                        <th bgcolor='#51BAF7'>Speed</th>
+                        <th bgcolor='#51BAF7'>Address</th>
                     </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody >
+                        <tr  dir-paginate="play in vm.play_full |itemsPerPage: vm.per_page">
+                            <td>{{play.gpsTime | date : 'HH:mm:ss'}}</td>
+                            <td>{{play.speed}}</td>
+                            <td>{{play.address}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <p ng-if="!vm.play_full.length && vm.play_full.no" style="text-align:center">No Records</p>
         <div class="divider" ng-if="vm.play_full.length && vm.play_full.no"></div>

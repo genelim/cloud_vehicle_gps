@@ -14,6 +14,22 @@ function VariationController(API_Data, $rootScope, $state, $http){
     vm.get_variation = get_variation;
     vm.per_page = 10;
     vm.variation_full = [];
+    vm.export_data = export_data;
+    
+    function export_data(){
+        vm.per_page = vm.variation_full.data.length;
+        setTimeout(function() {
+            if(document.getElementById('exportable')){
+            var blob = new Blob([document.getElementById('exportable').innerHTML], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+            });
+            saveAs(blob, 'VARIATION_REFUEL-'+new Date()+'.xls');
+        }else{
+            Materialize.toast('No data available', 2000);            
+        } 
+        vm.per_page = 10;
+        }, 100);        
+    }
     
     function get_variation(){
         vm.variation_full = [];

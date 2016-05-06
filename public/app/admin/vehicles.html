@@ -1,5 +1,46 @@
-<div style="padding: 1em 2em 0em 2em">
-	 <div class="row ">
+<div style="padding: 1em 2em 0em 2em; text-align: center;">
+    <div class="preloader-wrapper medium active" ng-if="!vm.car_details_full">
+        <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+            <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+            </div><div class="circle-clipper right">
+            <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+	 <div class="row " ng-if="vm.car_details_full">
         <div class="col s12">
             <div class="card">
                 <div class="title">
@@ -17,21 +58,33 @@
                                 <th data-field="u_id">Car ID</th>
                                 <th data-field="sku">Plate Number</th>
                                 <th data-field="image">Group</th>
-                                <th data-field="">Action</th>
+                                <th data-field="image">Sim Card</th>
+                                <th data-field="image">Terminal ID</th>
+                                <th data-field="image">Driver Name</th>
+                                <th data-field="">Edit Vehicle</th>
+                                <th data-field="">Change Group</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="car in vm.car_details_full">
+                            <tr ng-repeat="car in vm.car_details_full | orderBy : 'carID'">
                                 <!--<th>
                                     <input type="checkbox" id="{{user.userID}}"/>
                                     <label for="{{user.userID}}"></label>
                                 </th>-->
                                 <th>{{car.data[0].carID}}</th>
                                 <th>{{car.data[0].carNO}}</th>
-                                <td>{{car.data[0].group}}</td>
+                                <th>{{car.data[0].group}}</th>
+                                <th>{{car.data[0].simNO}}</th>
+                                <th>{{car.data[0].machineNO}}</th>
+                                <td>{{car.data[0].driver}}</td>
                                 <td>
-                                    <a class="btn z-depth-0 blue lighten-1" ng-click="vm.car_modal(car)">
+                                    <a class="btn z-depth-0 blue lighten-1" ng-click="vm.car_modal(car.data[0])">
                                         <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn z-depth-0 blue lighten-1" ng-click="vm.car_group(car.data[0])">
+                                        <i class="fa fa-object-group"></i>
                                     </a>
                                 </td>
                             </tr>                    
@@ -168,43 +221,154 @@
                 </div>
             </div>
             <div class="row center">
-                <button class="btn" ng-click="vm.register_car()">Create Vehicle</button>
+                <button class="btn" ng-click="vm.register_car('add')">Create Vehicle</button>
             </div>
         </div>
     </div>
 </div>
 
-<div id="user_edit_modal" class="modal">
+<div id="car_edit_modal" class="modal">
     <div class="modal-content">
         <div>
             <div class="center">
-                <p class="flow-text">Edit account</p>
-            </div>
-            <div class="row">
-                <div class="col l6 s12 input-field">
-                    <input id="new-username" type="text" disabled ng-model="vm.user_edit.userName">
-                    <label for="new-username" class="active">Your username</label>
-                </div>
-                <div class="col l6 s12 input-field">
-                    <input id="new-your-email" type="text" ng-model="vm.user_edit.email">
-                    <label for="new-your-email" class="active">Your email address</label>
-                </div>
+                <p class="flow-text">Update Vehicle</p>
             </div>
             <div class="row">
                 <div class="col l12 s12 input-field">
-                    <input id="new-your-password" type="password" ng-model="vm.user_edit.password">
-                    <label for="new-your-password" class="active">Pick a password</label>
+                    <input id="new-your-carNO" type="text" ng-model="vm.car.carNO">
+                    <label for="new-your-carNO" class="active">*Plate Number</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col l12 s12 input-field">
-                    <input id="new-your-tel" type="text" ng-model="vm.user_edit.tel">
-                    <label for="new-your-tel" class="active">Your telephone number</label>
+                <div class="col l6 s12 input-field">
+                    <input id="new-simNO" type="text" ng-model="vm.car.simNO">
+                    <label for="new-simNO" class="active">*Sim Number</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-machineNO" type="text" ng-model="vm.car.machineNO">
+                    <label for="new-your-machineNO" class="active">*Terminal ID</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <p style="color: #9E9E9E;">*Protocol</p>                    
+                    <select class="browser-default"  ng-model="vm.car.protocol"  convert-to-number>
+                        <option value='0'>QiChuan</option>
+                        <option value='1'>TianHe</option>
+                        <option value='2'>DaSanTong</option>
+                        <option value='3'>RedView1</option>
+                        <option value='4'>XXtk201</option>
+                        <option value='5'>RedView2</option>
+                        <option value='6'>TR6300</option>
+                        <option value='7'>TR918</option>
+                        <option value='8'>ASC</option>
+                        <option value='9'>AH</option>
+                    </select>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <p style="color: #9E9E9E;">*TimeZone</p>                    
+                    <select class="browser-default"  ng-model="vm.car.installPlace">
+                        <option value='-12'>-12</option>
+                        <option value='-11.5'>-11.5</option>
+                        <option value='-11'>-11</option>
+                        <option value='-10.5'>-10.5</option>
+                        <option value='-10'>-10</option>
+                        <option value='-9.5'>-9.5</option>
+                        <option value='-9'>-9</option>
+                        <option value='-8.5'>-8.5</option>
+                        <option value='-8'>-8</option>
+                        <option value='-7.5'>-7.5</option>
+                        <option value='-7'>-7</option>
+                        <option value='-6.5'>-6.5</option>
+                        <option value='-6'>-6</option>
+                        <option value='-5.5'>-5.5</option>
+                        <option value='-5'>-5</option>
+                        <option value='-4.5'>-4.5</option>
+                        <option value='-4'>-4</option>
+                        <option value='-3.5'>-3.5</option>
+                        <option value='-3'>-3</option>
+                        <option value='-2.5'>-2.5</option>
+                        <option value='-2'>-2</option>
+                        <option value='-1.5'>-1.5</option>
+                        <option value='-1'>-1</option>
+                        <option value='-0.5'>-0.5</option>
+                        <option value='0'>0</option>
+                        <option value='0.5'>0.5</option>
+                        <option value='1'>1</option>
+                        <option value='1.5'>1.5</option>
+                        <option value='2'>2</option>
+                        <option value='2.5'>2.5</option>
+                        <option value='3'>3</option>
+                        <option value='3.5'>3.5</option>
+                        <option value='4'>4</option>
+                        <option value='4.5'>4.5</option>
+                        <option value='5'>5</option>
+                        <option value='5.5'>5.5</option>
+                        <option value='6'>6</option>
+                        <option value='6.5'>6.5</option>
+                        <option value='7'>7</option>
+                        <option value='7.5'>7.5</option>
+                        <option value='8'>8</option>
+                        <option value='8.5'>8.5</option>
+                        <option value='9'>9</option>
+                        <option value='9.5'>9.5</option>
+                        <option value='10'>10</option>
+                        <option value='10.5'>10.5</option>
+                        <option value='11'>11</option>
+                        <option value='11.5'>11.5</option>
+                        <option value='12'>12</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-driver" type="text" ng-model="vm.car.driver">
+                    <label for="new-driver" class="active">Driver Name</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-driverTel" type="text" ng-model="vm.car.driverTel">
+                    <label for="new-your-driverTel" class="active">Driver Contact</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <input id="new-driverAddress" type="text" ng-model="vm.car.driverAddress">
+                    <label for="new-driverAddress" class="active">Driver Address</label>
+                </div>
+                <div class="col l6 s12 input-field">
+                    <input id="new-your-driverRemark" type="text" ng-model="vm.car.driverRemark">
+                    <label for="new-your-driverRemark" class="active">Driver Remark</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col l6 s12 input-field">
+                    <p style="color: #9E9E9E;">Over Service Time</p>
+                    <input id="new-overServiceTime" type="date" ng-model="vm.car.overServiceTime">
                 </div>
             </div>
             <div class="row center">
-                <button class="btn" ng-click="vm.register('edit')">Update Account</button>
-                <button class="btn" ng-click="vm.user_delete(vm.user_edit.userName)">Delete Account</button>
+                <button class="btn" ng-click="vm.register_car('edit')">Update Vehicle</button>
+                <button class="btn" ng-click="vm.car_delete(vm.car.carID)">Delete Vehicle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="car_group_modal" class="modal">
+    <div class="modal-content">
+        <div>
+            <div class="center">
+                <p class="flow-text">Change Group Vehicle</p>
+            </div>
+            <div class="row">
+                <div class="col l12 s12 input-field">                                    
+                    <select class="browser-default" ng-model="vm.car.groupid" ng-options="opt.group for opt in vm.groups">
+                    </select>
+                </div>
+            </div>
+            <div class="row center">
+                <button class="btn" ng-click="vm.group_car_change()">Change Group</button>
             </div>
         </div>
     </div>

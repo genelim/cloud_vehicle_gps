@@ -16,6 +16,22 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
     vm.all_car_full = null;
     vm.per_page = 10;
     vm.car_list_all = null;
+    vm.export_data = export_data;
+    
+    function export_data(){
+        vm.per_page = vm.all_car_full.cars.length;
+        setTimeout(function() {
+            if(document.getElementById('exportable')){
+            var blob = new Blob([document.getElementById('exportable').innerHTML], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+            });
+            saveAs(blob, 'ALL_VEHICLE_SUMMARY-'+new Date()+'.xls');
+        }else{
+            Materialize.toast('No data available', 2000);            
+        } 
+        vm.per_page = 10;
+        }, 100);        
+    }
     
     function get_summary(){
         vm.vehicle_mileage_full = [];

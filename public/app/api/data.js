@@ -65,6 +65,12 @@ function API_Data($http) {
         },
         cars_save : function(data){
             return $http.post('/api/cars_save', data)
+        },
+        cars_del : function(data){
+            return $http.post('/api/cars_del', data)
+        },
+        cars_movetogroup : function(data){
+            return $http.post('/api/cars_movetogroup', data)
         }
     }
 }

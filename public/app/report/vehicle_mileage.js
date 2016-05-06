@@ -13,7 +13,23 @@ function VehicleMileageController(API_Data, $rootScope){
     vm.group_selected = null;
     vm.all_car = []
     vm.get_mileage = get_mileage;
+    vm.export_data = export_data;
     vm.per_page = 10;
+    
+    function export_data(){
+        vm.per_page = vm.all_car.cars.length;
+        setTimeout(function() {
+            if(document.getElementById('exportable')){
+            var blob = new Blob([document.getElementById('exportable').innerHTML], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+            });
+            saveAs(blob, 'VIHICLE_MILEAGE -'+new Date()+'.xls');
+        }else{
+            Materialize.toast('No data available', 2000);            
+        } 
+        vm.per_page = 10;
+        }, 100);        
+    }
     
     function get_mileage(){
         vm.vehicle_mileage_full = [];

@@ -35,44 +35,45 @@
         </div>-->
         <div class="col s12 m12 l2">
             <a class="btn" ng-click="vm.get_mileage()">Statistics</a>
-            <a class="btn buttonspace">Export</a>
+            <a class="btn buttonspace" ng-click="vm.export_data()">Export</a>
         </div>
     </div>    
-
-    <div class="col s12 m12 l12 menuseperator" ng-if="vm.all_car.cars.length">
-        <table>
-            <thead class="tablehead">
-            <tr>
-                <td>Group</td>
-                <td>Plate NO</td>
-                <td>Journey time</td>
-                <td>Total mileage(km)</td>
-                <td>Average speed(km/h)</td>
-                <td>Estimate fuel consumption(L)</td>
-                <td>Maximum Speed</td>
-            </tr>
-            </thead>
-            <tbody>
-                <tr dir-paginate="mileage  in vm.all_car.cars | itemsPerPage: vm.per_page">
-                    <td>{{mileage.group}}</td>
-                    <td>{{mileage.plate_number}}</td>
-                    <td>{{mileage.journey_time | number:2}} hours</td>
-                    <td>
-                        <span ng-if="mileage.total_mileage">{{mileage.total_mileage}}</span>
-                        <span ng-if="!mileage.total_mileage">0</span>
-                    </td>
-                    <td>
-                        <span ng-if="mileage.average_speed">{{mileage.average_speed | number:2}}</span>
-                        <span ng-if="!mileage.average_speed">0</span>
-                    </td>
-                    <td>{{mileage.total_fuel}}</td>
-                    <td>
-                        <span ng-if="mileage.max_speed">{{mileage.max_speed}}</span>
-                        <span ng-if="!mileage.max_speed">0</span>                        
-                    </td>
+    <div id="exportable">
+        <div class="col s12 m12 l12 menuseperator" ng-if="vm.all_car.cars.length">
+            <table>
+                <thead class="tablehead">
+                <tr>
+                    <td bgcolor='#51BAF7'>Group</td>
+                    <td bgcolor='#51BAF7'>Plate NO</td>
+                    <td bgcolor='#51BAF7'>Journey time</td>
+                    <td bgcolor='#51BAF7'>Total mileage(km)</td>
+                    <td bgcolor='#51BAF7'>Average speed(km/h)</td>
+                    <td bgcolor='#51BAF7'>Estimate fuel consumption(L)</td>
+                    <td bgcolor='#51BAF7'>Maximum Speed</td>
                 </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="mileage  in vm.all_car.cars | itemsPerPage: vm.per_page">
+                        <td>{{mileage.group}}</td>
+                        <td>{{mileage.plate_number}}</td>
+                        <td>{{mileage.journey_time | number:2}} hours</td>
+                        <td>
+                            <span ng-if="mileage.total_mileage">{{mileage.total_mileage}}</span>
+                            <span ng-if="!mileage.total_mileage">0</span>
+                        </td>
+                        <td>
+                            <span ng-if="mileage.average_speed">{{mileage.average_speed | number:2}}</span>
+                            <span ng-if="!mileage.average_speed">0</span>
+                        </td>
+                        <td>{{mileage.total_fuel}}</td>
+                        <td>
+                            <span ng-if="mileage.max_speed">{{mileage.max_speed}}</span>
+                            <span ng-if="!mileage.max_speed">0</span>                        
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="divider"></div>
     <div class="row"  ng-if="vm.all_car.cars.length">

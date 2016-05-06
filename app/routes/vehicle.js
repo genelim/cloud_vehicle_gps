@@ -73,6 +73,7 @@ exports.cars_save = function (req, res) {
     var postData = {
         'opaction': req.body.opaction,
         'groupid': req.body.groupid,//i
+        'carID': req.body.carID,
         'carNO': req.body.carNO,
         'simNO': req.body.simNO,
         'machineNO': req.body.machineNO,
@@ -85,7 +86,6 @@ exports.cars_save = function (req, res) {
         'overServiceTime': req.body.overServiceTime,//date
         'alarmemail' : 0
     };
-    console.log(postData)
     request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=cars_save', formData : postData}, function(err,httpResponse,body){ 
         if(err){
             res.json({response: "Server Error"})
@@ -94,3 +94,32 @@ exports.cars_save = function (req, res) {
         }
     })
 };
+
+exports.cars_del = function (req, res) {
+    var postData = {
+        'carid': req.body.carid,
+    };
+    request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=cars_del', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+};
+
+exports.cars_movetogroup = function (req, res) {
+    var postData = {
+        'carids': req.body.carID,
+        'groupid': req.body.groupid
+    };
+    console.log(postData)
+    request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=cars_movetogroup', formData : postData}, function(err,httpResponse,body){ 
+        if(err){
+            res.json({response: "Server Error"})
+        }else{
+            res.json({response:body})
+        }
+    })
+};
+

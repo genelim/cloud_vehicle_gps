@@ -67,12 +67,12 @@
                 <table>
                     <thead class="tablehead">
                     <tr>
-                        <td>START DATE TIME</td>
-                        <td>END DATE TIME</td>
-                        <td>DURATION OF IDLE</td>
-                        <td>IDLING(LITRE)</td>
-                        <td>POI ADDRESS</td>
-                        <td>LOCATION</td>
+                        <td bgcolor='#51BAF7'>START DATE TIME</td>
+                        <td bgcolor='#51BAF7'>END DATE TIME</td>
+                        <td bgcolor='#51BAF7'>DURATION OF IDLE</td>
+                        <td bgcolor='#51BAF7'>IDLING(LITRE)</td>
+                        <td bgcolor='#51BAF7'>POI ADDRESS</td>
+                        <td bgcolor='#51BAF7'>LOCATION</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -91,7 +91,7 @@
     </div>
     <p ng-if="!vm.idle[0] && vm.idle.carNO">No Records</p>
     <div class="divider"></div>
-    <div class="row"  ng-if="vm.all_car.cars.length">
+    <div class="row"  ng-if="vm.idle.carNO.length">
         <dir-pagination-controls class="pagination" style="margin: 0 auto;    text-align: center;"
                                     max-size="7"
                                     direction-links="true"

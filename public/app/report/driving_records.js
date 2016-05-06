@@ -25,18 +25,19 @@ function DrivingRecordsController($rootScope, API_Data, $http){
     });
     
     function export_data(){
-        vm.per_page = 999999999999;        
-        if(document.getElementById('exportable')){            
+        vm.per_page = vm.driving_records_full.data.length;
+        setTimeout(function() {
+            if(document.getElementById('exportable')){
             var blob = new Blob([document.getElementById('exportable').innerHTML], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
             });
-            saveAs(blob, "Driving_Records.xls");
+            saveAs(blob, 'DRIVING RECORD-'+new Date()+'.xls');
         }else{
             Materialize.toast('No data available', 2000);            
         } 
         vm.per_page = 10;
-    }    
-    
+        }, 100);        
+    }
     function get_statistics(){
         vm.driving_records_full = [];
         vm.search_active = true;

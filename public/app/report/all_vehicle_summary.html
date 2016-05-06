@@ -32,43 +32,44 @@
             <a class="btn buttonspace" ng-click="vm.export_data()">Export</a>
         </div>
     </div>
-
-    <div class="col l12" ng-if="vm.all_car_full.cars.length">
-        <table>
-            <thead>
-                <tr>
-                    <td>Username</td>
-                    <td>Plate No</td>
-                    <td>Fuel</td>
-                    <td>Fuel Cost</td>
-                    <td>KM - L</td>
-                    <td>Refuel</td>
-                    <td>Refuel Cost</td>
-                    <td>Idling Time</td>
-                    <td>Idling Fuel</td>
-                    <td>Total Idling Cost</td>
-                    <td>Travelling Time</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr dir-paginate="summary  in vm.all_car_full.cars | itemsPerPage: vm.per_page">
-                    <td>
-                        <span ng-if="summary.driver">{{summary.driver}}</span>
-                        <span ng-if="!summary.driver">No Name</span>                        
-                    </td>
-                    <td>{{summary.plate_number}}</td>
-                    <td>{{summary.fuel_used}}</td>
-                    <td>RM {{milsummaryeage.fuel_total_cost | number:2}}</td>
-                    <td>{{summary.kl_l | number:3}}Km</td>
-                    <td>{{summary.refuel}}</td>
-                    <td>{{summary.refuel_cost | number:2}}</td>
-                    <td>{{summary.total_idle_hours | number:2}}</td>
-                    <td>{{summary.total_idle_fuel}}</td>
-                    <td>RM {{summary.total_idle_cost | number:2}}</td>
-                    <td>{{summary.total_travel | number:2}}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div id="exportable">
+        <div class="col l12" ng-if="vm.all_car_full.cars.length">
+            <table>
+                <thead>
+                    <tr>
+                        <td bgcolor='#51BAF7'>Username</td>
+                        <td bgcolor='#51BAF7'>Plate No</td>
+                        <td bgcolor='#51BAF7'>Fuel</td>
+                        <td bgcolor='#51BAF7'>Fuel Cost</td>
+                        <td bgcolor='#51BAF7'>KM - L</td>
+                        <td bgcolor='#51BAF7'>Refuel</td>
+                        <td bgcolor='#51BAF7'>Refuel Cost</td>
+                        <td bgcolor='#51BAF7'>Idling Time</td>
+                        <td bgcolor='#51BAF7'>Idling Fuel</td>
+                        <td bgcolor='#51BAF7'>Total Idling Cost</td>
+                        <td bgcolor='#51BAF7'>Travelling Time</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="summary  in vm.all_car_full.cars | itemsPerPage: vm.per_page">
+                        <td>
+                            <span ng-if="summary.driver">{{summary.driver}}</span>
+                            <span ng-if="!summary.driver">No Name</span>                        
+                        </td>
+                        <td>{{summary.plate_number}}</td>
+                        <td>{{summary.fuel_used}}</td>
+                        <td>RM {{milsummaryeage.fuel_total_cost | number:2}}</td>
+                        <td>{{summary.kl_l | number:3}}Km</td>
+                        <td>{{summary.refuel}}</td>
+                        <td>{{summary.refuel_cost | number:2}}</td>
+                        <td>{{summary.total_idle_hours | number:2}}</td>
+                        <td>{{summary.total_idle_fuel}}</td>
+                        <td>RM {{summary.total_idle_cost | number:2}}</td>
+                        <td>{{summary.total_travel | number:2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="divider"></div>
     <div class="row"  ng-if="vm.all_car_full.cars.length">

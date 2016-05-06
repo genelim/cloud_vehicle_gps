@@ -13,6 +13,7 @@ function IdleController($rootScope, $http, API_Data){
     vm.carid = null;
     vm.get_driver_details = get_driver_details;
     vm.cars = null;
+    vm.per_page =10;
     vm.export_data = export_data;
     vm.search_active = false;
     vm.loaded = false;
@@ -79,16 +80,20 @@ function IdleController($rootScope, $http, API_Data){
             } 
         }
     }
-        
+    
     function export_data(){
-        if(document.getElementById('exportable')){
+        vm.per_page = vm.idle.length;
+        setTimeout(function() {
+            if(document.getElementById('exportable')){
             var blob = new Blob([document.getElementById('exportable').innerHTML], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
             });
-            saveAs(blob, "Report.xls");
+            saveAs(blob, 'IDLE-'+new Date()+'.xls');
         }else{
             Materialize.toast('No data available', 2000);            
         } 
+        vm.per_page = 10;
+        }, 100);        
     }
     
     function get_idle(){

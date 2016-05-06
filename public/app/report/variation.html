@@ -1,4 +1,4 @@
-<p class="headerrow">Variation Fuel</p>
+<p class="headerrow">Variation Refuel</p>
 <div class="row" ng-if="vm.loaded">
     <div class="col s12 m12 l12">
         <div class="col s12 m12 l3">
@@ -30,26 +30,27 @@
             <a class="btn buttonspace" ng-click="vm.export_data()">Export</a>
         </div>
     </div>
-
-    <div class="col l12" ng-if="vm.variation_full.data.length">
-        <table>
-            <thead>
-                <tr>
-                    <td>Date Time</td>
-                    <td>Refuel (L) Software generated data</td>
-                    <td>Refuel Update (L) Client data</td>
-                    <td>Location</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr dir-paginate="variation in vm.variation_full.data | itemsPerPage: vm.per_page">
-                    <td>{{variation.gpsTime | date : 'medium'}}</td>
-                    <td>{{variation.refuel}}</td>
-                    <td>0</td>
-                    <td>{{variation.address}}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div id="exportable">
+        <div class="col l12" ng-if="vm.variation_full.data.length">
+            <table>
+                <thead>
+                    <tr>
+                        <td bgcolor='#51BAF7'>Date Time</td>
+                        <td bgcolor='#51BAF7'>Refuel (L) Software generated data</td>
+                        <td bgcolor='#51BAF7'>Refuel Update (L) Client data</td>
+                        <td bgcolor='#51BAF7'>Location</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="variation in vm.variation_full.data | itemsPerPage: vm.per_page">
+                        <td>{{variation.gpsTime | date : 'medium'}}</td>
+                        <td>{{variation.refuel}}</td>
+                        <td>0</td>
+                        <td>{{variation.address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <p ng-if="!vm.variation_full.data.length && vm.variation_full.plate_number">No Records</p>
 </div>

@@ -43,7 +43,7 @@ function DrivingRecordsController($rootScope, API_Data, $http, $timeout){
     }
     function get_statistics(){
         vm.driving_records_full = [];
-            vm.search_active = true;
+        vm.search_active = true;
         vm.carid = null;
         if(vm.group_selected){
             if(vm.plate_number){

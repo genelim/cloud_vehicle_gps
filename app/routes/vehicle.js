@@ -113,7 +113,6 @@ exports.cars_movetogroup = function (req, res) {
         'carids': req.body.carID,
         'groupid': req.body.groupid
     };
-    console.log(postData)
     request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=cars_movetogroup', formData : postData}, function(err,httpResponse,body){ 
         if(err){
             res.json({response: "Server Error"})

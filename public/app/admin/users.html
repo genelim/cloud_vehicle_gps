@@ -1,5 +1,5 @@
 <div style="padding: 1em 2em 0em 2em; text-align:center">
-        <div class="preloader-wrapper medium active" ng-if="!vm.users.length">
+        <div class="preloader-wrapper medium active" ng-if="!vm.loaded">
         <div class="spinner-layer spinner-blue">
             <div class="circle-clipper left">
             <div class="circle"></div>
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-	 <div class="row " ng-if="vm.users.length">
+	 <div class="row " ng-if="vm.loaded">
         <div class="col s12">
             <div class="card">
                 <div class="title">

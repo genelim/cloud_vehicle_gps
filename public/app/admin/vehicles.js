@@ -143,6 +143,7 @@ function AdminVehiclesController($http, API_Data, $rootScope){
                     }
                     
                     function car_list(i) {
+                        console.log(vm.groups.length)
                         if( i < vm.groups.length ) {
                             requestsss++;
                             API_Data.cars_list(vm.groups[i].id).then(function(result){
@@ -159,6 +160,8 @@ function AdminVehiclesController($http, API_Data, $rootScope){
                                 if (requestsss == 0) completed_loaded();
                                 
                             })
+                        }else{
+                            vm.loaded = true
                         }
                     }
                     

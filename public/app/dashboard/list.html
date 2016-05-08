@@ -1,5 +1,5 @@
 <div id="carlist" style="margin-top:1em; text-align: center; margin-top: -20px;">
-    <table class="highlight" ng-if="vm.car_details_full">
+    <table class="highlight" ng-if="vm.loaded">
         <thead class="tablehead">
             <tr>
                 <td>PLATE NO</td>
@@ -51,7 +51,8 @@
             </tr>
         </tbody>
     </table>
-    <div class="preloader-wrapper medium active" ng-if="!vm.car_details_full">
+            <p ng-if="vm.no_data && vm.loaded">No Data. Contact your creator on giving you at least ONE vehicle group to use this platform.</ptr>
+    <div class="preloader-wrapper medium active" ng-if="!vm.loaded">
         <div class="spinner-layer spinner-blue">
             <div class="circle-clipper left">
             <div class="circle"></div>

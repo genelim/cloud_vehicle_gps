@@ -9,6 +9,7 @@ function AdminUserController($http, User, $rootScope, $state, API_Data){
     vm.user = null;
     vm.register = register;
     vm.add_modal = add_modal;
+    vm.loaded = false
     vm.users = [];
     vm.user_edit = null;
     vm.user_view_modal = user_view_modal;
@@ -96,6 +97,7 @@ function AdminUserController($http, User, $rootScope, $state, API_Data){
         API_Data.user_tree().then(function(result){
             var result = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));            
             vm.users = [];
+            console.log(result)
             looping_user(result.data)
             function looping_user(data){
                 for(var i = 0; i < data.length; i++){
@@ -121,11 +123,16 @@ function AdminUserController($http, User, $rootScope, $state, API_Data){
                     })
                 }
             }
-            user_grouping(0)
+            if(vm.users.length){
+                user_grouping(0);
+            }else{
+                vm.loaded = true
+            }
         })
     }
 
     function grouping_completed(){
+        vm.loaded = true
         console.log(vm.user_group)
         //loaded everything
     }
@@ -174,7 +181,6 @@ function AdminUserController($http, User, $rootScope, $state, API_Data){
                     }
                 }
             }
-            console.log
             $('#usergroup_edit_modal').openModal();    
         })     
     }

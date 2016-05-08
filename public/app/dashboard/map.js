@@ -25,15 +25,18 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
     angular.element(document).ready(function () {
         vm.loaded = false;
         checkFlag();
-        var geoSuccess = function(position) {
-            startPos = position;
-            vm.lat = startPos.coords.latitude;
-            vm.lng = startPos.coords.longitude;
-            var latlng = new google.maps.LatLng(vm.lat,vm.lng)
-            vm.map.setZoom(16);
-            vm.map.setCenter(latlng);
-        };
-        navigator.geolocation.getCurrentPosition(geoSuccess);
+        // var geoSuccess = function(position) {
+        //     startPos = position;
+        //     vm.lat = startPos.coords.latitude;
+        //     vm.lng = startPos.coords.longitude;
+        //     var latlng = new google.maps.LatLng(44.540, -78.546)
+        //     vm.map.setZoom(16);
+        //     vm.map.setCenter(latlng);
+        // };
+        // navigator.geolocation.getCurrentPosition(geoSuccess);
+        var latlng = new google.maps.LatLng(44.540, -78.546)
+        vm.map.setZoom(16);
+        vm.map.setCenter(latlng);
                 $('.dropdown-button').dropdown();
 
     });
@@ -144,7 +147,7 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
     
     function map_initialize(){
         vm.timer = setInterval(function(){ 
-            get_map();
+                get_map();
         }, 15000);
     }
     

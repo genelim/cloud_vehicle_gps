@@ -22,6 +22,7 @@ function HomeListController($rootScope, $http, API_Data, $state){
     vm.index = 0;
     vm.loaded = false;
     vm.groups = null;  
+    vm.no_data = false;  
     
     angular.element(document).ready(function () {
         vm.loaded = false;
@@ -66,8 +67,11 @@ function HomeListController($rootScope, $http, API_Data, $state){
                                 }
                             }
                         }
-                        
-                        car_list(0);                           
+                        if(vm.groups.length){
+                            car_list(0);                           
+                        }else{
+                            completed_loaded();
+                        }
                     }
                     
                     function car_list(i) {
@@ -91,17 +95,23 @@ function HomeListController($rootScope, $http, API_Data, $state){
                     }
                     
                     function completed_loaded(){
-                        vm.cars = {data : vm.groups};
-                        //special requests
-                        for(var i = 0; i < vm.cars.data.length; i++){
-                            if(typeof vm.cars.data[i].cars !== 'undefined'){
-                                for(var a = 0; a < vm.cars.data[i].cars.length; a++){
-                                    vm.total_user_vehicle.push(vm.cars.data[i].cars[a])
-                                }
-                            }                            
+                        console.log(vm.groups.length)
+                        if(vm.groups.length){
+                            vm.cars = {data : vm.groups};
+                            //special requests
+                            for(var i = 0; i < vm.cars.data.length; i++){
+                                if(typeof vm.cars.data[i].cars !== 'undefined'){
+                                    for(var a = 0; a < vm.cars.data[i].cars.length; a++){
+                                        vm.total_user_vehicle.push(vm.cars.data[i].cars[a])
+                                    }
+                                }                            
+                            }
+                            vm.loaded = true;
+                            full_car_details($rootScope.user.userName);   
+                        }else{
+                            vm.loaded = true;
+                            vm.no_data = true;
                         }
-                        vm.loaded = true;
-                        full_car_details($rootScope.user.userName);   
                     }                  
                 })
             }else{
@@ -126,6 +136,7 @@ function HomeListController($rootScope, $http, API_Data, $state){
     }
     
     function full_car_details(username){
+        console.log('s')
         if(vm.total_user_vehicle.length){
             //get cars basic details
             var requests = 0;
@@ -140,6 +151,7 @@ function HomeListController($rootScope, $http, API_Data, $state){
                 });
             }
         }else{
+            vm.loaded = true;
             // vm.car_details_full = []
         }
         

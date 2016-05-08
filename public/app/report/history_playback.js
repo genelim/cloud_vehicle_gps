@@ -303,15 +303,18 @@ function HistoryPlaybackController(API_Data, $rootScope, Refuel_Cost, $state, $s
     
     angular.element(document).ready(function () {
         checkFlag();
-        var geoSuccess = function(position) {
-            startPos = position;
-            vm.lat = startPos.coords.latitude;
-            vm.lng = startPos.coords.longitude;
-            var latlng = new google.maps.LatLng(vm.lat,vm.lng)
-            map.setZoom(16);
-            map.setCenter(latlng);
-        };
+        var latlng = new google.maps.LatLng(44.540, -78.546)
+        map.setZoom(16);
+        map.setCenter(latlng);
+        // var geoSuccess = function(position) {
+        //     startPos = position;
+        //     vm.lat = startPos.coords.latitude;
+        //     vm.lng = startPos.coords.longitude;
+        //     var latlng = new google.maps.LatLng(vm.lat,vm.lng)
+        //     map.setZoom(16);
+        //     map.setCenter(latlng);
+        // };
         $('.dropdown-button').dropdown();
-        navigator.geolocation.getCurrentPosition(geoSuccess);
+        // navigator.geolocation.getCurrentPosition(geoSuccess);
     });
 }

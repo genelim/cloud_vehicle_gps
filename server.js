@@ -7,8 +7,16 @@ var express = require('express'),
     port = process.env.PORT || 90;
 
 require('./app/config/passport')(passport);
-    
-app.use(bodyParser.json()); 
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.use(session({secret: 'this is cloudtruck', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session()); 

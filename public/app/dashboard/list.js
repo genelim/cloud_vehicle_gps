@@ -136,7 +136,6 @@ function HomeListController($rootScope, $http, API_Data, $state){
     }
     
     function full_car_details(username){
-        console.log('s')
         if(vm.total_user_vehicle.length){
             //get cars basic details
             var requests = 0;
@@ -144,6 +143,8 @@ function HomeListController($rootScope, $http, API_Data, $state){
                 requests++;
                 API_Data.gps_getpos(vm.total_user_vehicle[i].carID).then(function(result){
                     requests--;
+                    var a = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"))
+                    console.log(a)
                     if(vm.car_details.length < vm.total_user_vehicle.length){
                         vm.car_details.push(JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1")))      
                     }

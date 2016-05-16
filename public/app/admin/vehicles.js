@@ -40,8 +40,27 @@ function AdminVehiclesController($http, API_Data, $rootScope){
     vm.fuel_modal = fuel_modal
     vm.car = null;
     
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    
     function fuel_car_change(){
-        console.log(vm.car)
+        // alert(isNumeric(vm.car.max_resistance))
+        if(typeof vm.car.max_resistance === 'undefined' || isNumeric(vm.car.max_resistance) === false || isNumeric(vm.car.tank_volume) === false){
+            Materialize.toast('Invalid Field', 2000);                                                            
+            return;
+        }
+        $http.post('/api/fuel_management', vm.car)
+        .success(function(result){
+            if(result.response === true){
+                Materialize.toast('Fuel management updated', 2000);                                            
+            }else if(result.response !== 'Server Error'){
+                Materialize.toast('Fuel management saved', 2000);                                                            
+            }else{
+                Materialize.toast('Server Error', 2000);                                                            
+            }
+            $('#car_fuel_modal').closeModal();        
+        })
     }
     
     function group_car_change(){
@@ -118,9 +137,16 @@ function AdminVehiclesController($http, API_Data, $rootScope){
     }
     
     function fuel_modal(car){
-        $('#car_fuel_modal').openModal();        
-        vm.car = car
-        vm.car.overServiceTime = new Date(vm.car.overServiceTime)
+        $http.get('/api/fuel_management/'+car.carID)
+        .success(function(result){
+            $('#car_fuel_modal').openModal();        
+            vm.car = car;
+            vm.car.overServiceTime = new Date(vm.car.overServiceTime)
+            if(result.response){
+                vm.car.tank_volume = result.response.tank_volume
+                vm.car.max_resistance = result.response.max_resistance
+            }            
+        })
     }
     
     function add_modal(){

@@ -63,7 +63,7 @@
                                 <th data-field="image">Driver Name</th>
                                 <th data-field="">Edit Vehicle</th>
                                 <th data-field="">Change Group</th>
-                                <th data-field="">Update Fuel</th>
+                                <th data-field="">Manage Fuel</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -384,20 +384,20 @@
     <div class="modal-content">
         <div>
             <div class="center">
-                <p class="flow-text">Update Fuel Vehicle</p>
+                <p class="flow-text">Manage Fuel Vehicle</p>
             </div>
             <div class="row">
                 <div class="col l12 s12 input-field">                                    
-                    <input id="new-fuel-resistance" type="text" ng-model="vm.car.resistance">
+                    <input id="new-fuel-resistance" type="text" ng-model="vm.car.max_resistance">
                     <label for="new-fuel-resistance" class="active">Maximum Resistance</label>
                 </div>
                 <div class="col l12 s12 input-field">                                    
-                    <input id="new-fuel-volume" type="text" ng-model="vm.car.volume">
+                    <input id="new-fuel-volume" type="text" ng-model="vm.car.tank_volume">
                     <label for="new-fuel-volume" class="active">Tank Volume</label>
                 </div>
             </div>
             <div class="row center">
-                <button class="btn" ng-click="vm.fuel_car_change()">Change Group</button>
+                <button class="btn" ng-click="vm.fuel_car_change()">Save Fuel</button>
             </div>
         </div>
     </div>

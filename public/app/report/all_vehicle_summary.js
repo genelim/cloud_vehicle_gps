@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('AllVehicleSummaryController', AllVehicleSummaryController);
 
-AllVehicleSummaryController.$inject = ['API_Data', '$rootScope', 'Refuel_Cost', '$state'];
+AllVehicleSummaryController.$inject = ['API_Data', '$rootScope', 'Refuel_Cost', '$state', '$http'];
 
-function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){ 
+function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state, $http){ 
     var vm = this;
     vm.loaded = false;
     vm.search_active = false;
@@ -17,6 +17,7 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
     vm.per_page = 10;
     vm.car_list_all = null;
     vm.export_data = export_data;
+    vm.fuel_manage = null;
     
     function export_data(){
         vm.per_page = vm.all_car_full.cars.length;
@@ -73,6 +74,13 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                     var res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                     for(var a = 0; a < res.data.length; a++){
                         res.data[a].gpsTime = new Date(res.data[a].gpsTime)
+                        if(vm.fuel_manage){
+                            for(var l = 0; l < vm.fuel_manage.length; l++){
+                                if(vm.fuel_manage[l].carID.toString() === res.data[a].carID.toString()){
+                                    res.data[a].fuel_cal = vm.fuel_manage[l].tank_volume/vm.fuel_manage[l].max_resistance
+                                }
+                            }
+                        }  
                     }   
                     vm.all_car.cars[i] = []
                     vm.all_car.cars[i].data = []
@@ -101,8 +109,10 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                 var start = true;
                 var card_record_length =  vm.all_car.cars[i].data.length;
                 var idle_record = []
+                var fuel_cal = 0
                 var total_travel = 0;
                 for(var a = 0; a < card_record_length; a++){
+                    fuel_cal = vm.all_car.cars[i].data[a].fuel_cal
                     if(a === 0){
                         
                     }else  if(vm.all_car.cars[i].data[a].fuel > base_fuel){
@@ -163,12 +173,12 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                         }
                     }                
                 }
-                vm.all_car.cars[i].fuel_used = fuel;
+                vm.all_car.cars[i].fuel_used = fuel*fuel_cal;
                 vm.all_car.cars[i].total_travel = total_travel;
                 if(vm.all_car.cars[i].data.length){
                     vm.all_car.cars[i].carid = vm.all_car.cars[i].data[0].carID;
                 }
-                vm.all_car.cars[i].refuel = refuel;
+                vm.all_car.cars[i].refuel = refuel*fuel_cal;
                 vm.all_car.cars[i].idle_record = idle_record;
                 if(fuel !== 0){
                     console.log(vm.all_car.cars[i].data[card_record_length - 1].mileage - vm.all_car.cars[i].data[0].mileage)
@@ -378,6 +388,10 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
     }   
     
     angular.element(document).ready(function () {
+        $http.get('/api/fuel_managements')
+        .success(function(result){
+            vm.fuel_manage = result.response
+        })
         checkFlag();
     });
 }

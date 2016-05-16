@@ -35,7 +35,8 @@ module.exports = function(app) {
     
     //Fuel management
     app.post('/api/fuel_management', fuel_management.save_update);    
-    app.get('/api/fuel_management', fuel_management.get);    
+    app.get('/api/fuel_management/:id', fuel_management.get);    
+    app.get('/api/fuel_managements', fuel_management.gets);    
     
     //Server's API
     app.post('/api/gps_getpos', vehicle.gps_getpos)

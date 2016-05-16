@@ -20,9 +20,13 @@ function IdleController($rootScope, $http, API_Data, $timeout){
     vm.group = []
     vm.group_update = group_update
     vm.plate_number_select = plate_number_select
-    
+    vm.fuel_manage = null;
     angular.element(document).ready(function () {
         vm.loaded = false;
+        $http.get('/api/fuel_managements')
+        .success(function(result){
+            vm.fuel_manage = result.response
+        })
         checkFlag();
     });
     
@@ -110,14 +114,14 @@ function IdleController($rootScope, $http, API_Data, $timeout){
         vm.per_page = vm.idle.length;
         setTimeout(function() {
             if(document.getElementById('exportable')){
-            var blob = new Blob([document.getElementById('exportable').innerHTML], {
-                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
-            });
-            saveAs(blob, 'IDLE-'+new Date()+'.xls');
-        }else{
-            Materialize.toast('No data available', 2000);            
-        } 
-        vm.per_page = 10;
+                var blob = new Blob([document.getElementById('exportable').innerHTML], {
+                    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+                });
+                saveAs(blob, 'IDLE-'+new Date()+'.xls');
+            }else{
+                Materialize.toast('No data available', 2000);            
+            } 
+            vm.per_page = 10;
         }, 100);        
     }
     
@@ -170,6 +174,13 @@ function IdleController($rootScope, $http, API_Data, $timeout){
             if(res.data.length){
                 for(var i = 0; i < res.data.length; i++){
                     res.data[i].gpsTime = new Date(res.data[i].gpsTime)
+                    if(vm.fuel_manage){
+                        for(var l = 0; l < vm.fuel_manage.length; l++){
+                            if(vm.fuel_manage[l].carID.toString() === res.data[i].carID.toString()){
+                                res.data[i].fuel_cal = vm.fuel_manage[l].tank_volume/vm.fuel_manage[l].max_resistance;
+                            }
+                        }
+                    }
                 }
                 
                 //start is to get the starting point of not moving

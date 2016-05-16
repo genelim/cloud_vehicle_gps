@@ -6,7 +6,7 @@
                 <td>DRIVER NAME</td>
                 <td>GROUP NAME</td>
                 <td>SPEED</td>
-                <td>FUEL</td>
+                <td>FUEL (L)</td>
                 <td>MILLEAGE</td>
                 <td>IGNITION</td>
                 <td>LOCATION</td>
@@ -23,19 +23,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="car_detail in vm.car_details_full" ng-click="vm.view_specific_vehicle(car_detail.data[0].carID)">
-                <td>{{car_detail.data[0].carNO}}</td>
-                <td ng-if="car_detail.data[0].driver">{{car_detail.data[0].driver}}</td>
-                <td ng-if="!car_detail.data[0].driver">No Name</td>
-                <td>{{car_detail.data[0].group}}</td>
-                <td>{{car_detail.data[0].speed}}</td>
-                <td ng-if="car_detail.data[0].fuel">{{car_detail.data[0].fuel}}</td>
-                <td ng-if="!car_detail.data[0].fuel">0</td>
-                <td>{{car_detail.data[0].mileage | number: 3}}km</td>
-                <td ng-if='car_detail.data[0].status.indexOf("ACC off") > -1'>OFF</td>
-                <td ng-if="car_detail.data[0].status.indexOf('ACC off') === -1">ON</td>                
-                <td ng-if="car_detail.data[0].address">{{car_detail.data[0].address}}</td>
-                <td ng-if="!car_detail.data[0].address">No Address</td>
+            <tr ng-repeat="car_detail in vm.car_details_full" ng-click="vm.view_specific_vehicle(car_detail.data[0].carID)" style="cursor:pointer;">
+                    <td>{{car_detail.data[0].carNO}}</td>
+                    <td ng-if="car_detail.data[0].driver">{{car_detail.data[0].driver}}</td>
+                    <td ng-if="!car_detail.data[0].driver">No Name</td>
+                    <td>{{car_detail.data[0].group}}</td>
+                    <td>{{car_detail.data[0].speed}}</td>
+                    <td ng-if="car_detail.data[0].fuel && car_detail.data[0].fuel_cal">{{car_detail.data[0].fuel*car_detail.data[0].fuel_cal | number: 2}}</td>
+                    <td ng-if="car_detail.data[0].fuel && !car_detail.data[0].fuel_cal">{{car_detail.data[0].fuel | number: 2}}</td>
+                    <td ng-if="!car_detail.data[0].fuel">0.00</td>
+                    <td>{{car_detail.data[0].mileage | number: 3}}km</td>
+                    <td ng-if='car_detail.data[0].status.indexOf("ACC off") > -1'>OFF</td>
+                    <td ng-if="car_detail.data[0].status.indexOf('ACC off') === -1">ON</td>                
+                    <td ng-if="car_detail.data[0].address">{{car_detail.data[0].address}}</td>
+                    <td ng-if="!car_detail.data[0].address">No Address</td>
                 <!--<td></td>-->
                 <!--<td ng-if="user.response.settings.plate_number">{{car_detail.data[0].carNO}}</td>
                 <td ng-if="user.response.settings.driver_name && car_detail.data[0].driver">{{car_detail.data[0].driver}}</td>

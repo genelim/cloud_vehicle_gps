@@ -22,9 +22,14 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
     vm.car_details_full = null  
     vm.timer = null;
     vm.clear = clear;
-    
+    vm.fuel_manage = null;
+
     angular.element(document).ready(function () {
         vm.loaded = false;
+        $http.get('/api/fuel_managements')
+        .success(function(result){
+            vm.fuel_manage = result.response
+        })
         checkFlag();
         // var geoSuccess = function(position) {
         //     startPos = position;
@@ -121,6 +126,13 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
                                     if(vm.cars.data[i].cars[a].carNO === vm.car_details.data[0].carNO){
                                         vm.car_details.data[0].group = vm.cars.data[i].group
                                     }
+                                }
+                            }
+                        }
+                        if(vm.fuel_manage){
+                            for(var l = 0; l < vm.fuel_manage.length; l++){
+                                if(vm.fuel_manage[l].carID.toString() === vm.car_details.data[0].carID.toString()){
+                                    vm.car_details.data[0].fuel_cal = vm.fuel_manage[l].tank_volume/vm.fuel_manage[l].max_resistance
                                 }
                             }
                         }

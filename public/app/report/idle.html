@@ -91,7 +91,9 @@
                         <td>{{idle.gpsTime  | date:'medium'}}</td>
                         <td>{{idle.end_date | date:'medium'}}</td>
                         <td>{{idle.total_hours | number : 0}} mins</td>
-                        <td>{{idle.idle_litre}}</td>
+                        <td ng-if="idle.idle_litre && idle.fuel_cal">{{idle.idle_litre*idle.fuel_cal | number: 2}}</td>
+                        <td ng-if="idle.idle_litre && !idle.fuel_cal">{{idle].fuel | number: 2}}</td>
+                        <td ng-if="!idle.idle_litre">0.00</td>
                         <!--<td>{{idle.lo}} , {{idle.la}}</td>-->
                         <td>{{idle.address}}</td>
                     </tr>

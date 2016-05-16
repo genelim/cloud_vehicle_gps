@@ -78,7 +78,9 @@
                     <tr dir-paginate="records in vm.driving_records_full.data |itemsPerPage: vm.per_page">
                         <td>{{records.gpsTime  | date : 'longDate'}}</td>
                         <td>{{records.gpsTime | date : 'HH:mm:ss'}}</td>
-                        <td>{{records.fuel}}</td>
+                        <td ng-if="records.fuel && records.fuel_cal">{{records.fuel*records.fuel_cal | number: 2}}</td>
+                        <td ng-if="records.fuel && !records.fuel_cal">{{records.fuel | number: 2}}</td>
+                        <td ng-if="!records.fuel">0.00</td>
                         <!--<td>{{records.temperature}}</td>-->
                         <td>{{records.speed}}</td>
                         <td ng-if='records.status.indexOf("ACC off") > -1'>OFF</td>

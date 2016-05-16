@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('FuelConsumptionController', FuelConsumptionController);
 
-FuelConsumptionController.$inject = ['$rootScope', 'API_Data', '$scope', '$timeout'];
+FuelConsumptionController.$inject = ['$rootScope', 'API_Data', '$scope', '$timeout', '$http'];
 
-function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){ 
+function FuelConsumptionController($rootScope, API_Data, $scope, $timeout, $http){ 
     var vm = this;
     vm.loaded = false;
     vm.search_active = false;
@@ -20,9 +20,14 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){
     vm.group = []
     vm.group_update = group_update
     vm.plate_number_select = plate_number_select
+    vm.fuel_manage = null;
     
     angular.element(document).ready(function () {
         vm.loaded = false;
+        $http.get('/api/fuel_managements')
+        .success(function(result){
+            vm.fuel_manage = result.response
+        })
         checkFlag();
     });
         
@@ -77,11 +82,19 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){
             if(res.data.length){
                 for(var i = 0; i < res.data.length; i++){
                     res.data[i].gpsTime = new Date(res.data[i].gpsTime)
+                    if(vm.fuel_manage){
+                        for(var l = 0; l < vm.fuel_manage.length; l++){
+                            if(vm.fuel_manage[l].carID.toString() === res.data[i].carID.toString()){
+                                res.data[i].fuel_cal = vm.fuel_manage[l].tank_volume/vm.fuel_manage[l].max_resistance
+                            }
+                        }
+                    }   
                 }
                 vm.data[0] = [];
                 vm.data[1] = [];
                 var base_fuel = 0;
                 var fuel_consumption = 0;
+                var fuel_cal = 0;
                 
                 for(var i = 0; i < res.data.length; i++){
                     // var hours = res.data[i].gpsTime.getHours()
@@ -90,10 +103,11 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){
                     // vm.labels.push(hours + ' ' + minutes + ':' +seconds)
                     vm.labels.push(res.data[i].gpsTime)
                     vm.data[0].push(res.data[i].speed)
-                    vm.data[1].push(res.data[i].fuel)
+                    vm.data[1].push((res.data[i].fuel*res.data[i].fuel_cal).toFixed(2))
                     if(base_fuel > res.data[i].fuel && i !== 0){
                         fuel_consumption += base_fuel - res.data[i].fuel
                     }
+                    fuel_cal = res.data[i].fuel_cal
                     base_fuel = res.data[i].fuel;
                 }
                 var chartData = generateChartData();
@@ -149,6 +163,7 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){
                     // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
                         chart.zoomToIndexes(chartData.length - 250, chartData.length - 100);
                 }
+                vm.fuel_data_full.fuel_cal = fuel_cal;
                 vm.fuel_data_full.plate_number = vm.plate_number;
                 vm.fuel_data_full.fuel_consumption = fuel_consumption;
                 vm.fuel_data_full.total_mileage = res.data[res.data.length - 1].mileage - res.data[0].mileage;

@@ -21,9 +21,14 @@ function DrivingRecordsController($rootScope, API_Data, $http, $timeout){
     vm.group = []
     vm.group_update = group_update
     vm.plate_number_select = plate_number_select
+    vm.fuel_manage = null;
     
     angular.element(document).ready(function () {
         vm.loaded = false;
+        $http.get('/api/fuel_managements')
+        .success(function(result){
+            vm.fuel_manage = result.response
+        })
         checkFlag();
     });
     
@@ -187,10 +192,17 @@ function DrivingRecordsController($rootScope, API_Data, $http, $timeout){
                             if(vm.cars.data[a].cars[j].carID === vm.driving_records.data[i].carID){
                                 vm.driving_records_full.plate_number = vm.cars.data[a].cars[j].carNO
                             }
-                        }
+                        }     
                     }
                 }
             }
+            if(vm.fuel_manage){
+                for(var l = 0; l < vm.fuel_manage.length; l++){
+                    if(vm.fuel_manage[l].carID.toString() === vm.driving_records.data[i].carID.toString()){
+                        vm.driving_records_full.data[i].fuel_cal = vm.fuel_manage[l].tank_volume/vm.fuel_manage[l].max_resistance
+                    }
+                }
+            }       
         }
         
         //set platenumber with or without data

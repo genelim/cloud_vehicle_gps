@@ -18,6 +18,7 @@ function VariationController(API_Data, $rootScope, $state, $http, $timeout){
     vm.group = []
     vm.group_update = group_update
     vm.plate_number_select = plate_number_select
+    vm.fuel_manage = null;
     
     function export_data(){
         vm.per_page = vm.variation_full.data.length;
@@ -138,6 +139,14 @@ function VariationController(API_Data, $rootScope, $state, $http, $timeout){
         for(var i = 0; i < res.data.length; i++){
             if(typeof res.data[i].refuel !== 'undefined'){
                 vm.variation_full.data.push(res.data[i])
+                if(vm.fuel_manage){
+                    for(var l = 0; l < vm.fuel_manage.length; l++){
+                        if(vm.fuel_manage[l].carID.toString() === res.data[i].carID.toString()){
+                            console.log('in')
+                            res.data[i].fuel_cal = vm.fuel_manage[l].tank_volume/vm.fuel_manage[l].max_resistance
+                        }
+                    }
+                }   
             }
         }
         vm.variation_full.plate_number = vm.plate_number
@@ -225,6 +234,10 @@ function VariationController(API_Data, $rootScope, $state, $http, $timeout){
     }
     
     angular.element(document).ready(function () {
+        $http.get('/api/fuel_managements')
+        .success(function(result){
+            vm.fuel_manage = result.response
+        })
         checkFlag();
     });
 }

@@ -46,19 +46,19 @@
     </div>
 
     <div class="col s12 m12 l12 menuseperator" ng-if="vm.fuel_data_full.plate_number">
-        <p class="col s12 m12 l3">Plate NO: <b>{{vm.fuel_data_full.plate_number.carNO}}</b></p>
-        <p class="col s12 m12 l3">Total Milleage: 
+        <p class="col s12 m12 l4">Plate NO: <b>{{vm.fuel_data_full.plate_number.carNO}}</b></p>
+        <p class="col s12 m12 l4">Total Milleage: 
             <b ng-if="vm.fuel_data_full.total_mileage">{{vm.fuel_data_full.total_mileage | number: 3}}</b>
             <b ng-if="!vm.fuel_data_full.total_mileage">0</b>
         </p>
-        <p class="col s12 m12 l3">Total Consumption: 
-            <b ng-if="vm.fuel_data_full.fuel_consumption">{{vm.fuel_data_full.fuel_consumption}}</b>
+        <p class="col s12 m12 l4">Total Consumption: 
+            <b ng-if="vm.fuel_data_full.fuel_consumption">{{vm.fuel_data_full.fuel_consumption*vm.fuel_data_full.fuel_cal}}</b>
             <b ng-if="!vm.fuel_data_full.fuel_consumption">0</b>
         </p>
-        <p class="col s12 m12 l3">Average fuel consumption(L/100Km): 
-            <b ng-if="vm.fuel_data_full.fuel_consumption">{{vm.fuel_data_full.fuel_consumption / 100}}</b>
+        <!--<p class="col s12 m12 l3">Average fuel consumption(L/100Km): 
+            <b ng-if="vm.fuel_data_full.fuel_consumption">{{vm.fuel_data_full.fuel_consumption*vm.fuel_data_full.fuel_cal / 100}}</b>
             <b ng-if="!vm.fuel_data_full.fuel_consumption">0</b>
-        </p>
+        </p>-->
     </div>
     <div class="row" style="text-align:center; padding-top:10em;">
         <div class="preloader-wrapper medium active" ng-if="vm.search_active || !vm.loaded">

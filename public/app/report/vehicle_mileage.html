@@ -65,7 +65,9 @@
                             <span ng-if="mileage.average_speed">{{mileage.average_speed | number:2}}</span>
                             <span ng-if="!mileage.average_speed">0</span>
                         </td>
-                        <td>{{mileage.total_fuel}}</td>
+                        <td ng-if="mileage.total_fuel && mileage.fuel_cal">{{mileage.total_fuel*mileage.fuel_cal | number: 2}}</td>
+                        <td ng-if="mileage.total_fuel && !mileage.fuel_cal">{{mileage.total_fuel}}</td>
+                        <td ng-if="!mileage.total_fuel">0.00</td>
                         <td>
                             <span ng-if="mileage.max_speed">{{mileage.max_speed}}</span>
                             <span ng-if="!mileage.max_speed">0</span>                        

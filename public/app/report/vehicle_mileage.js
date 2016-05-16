@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('VehicleMileageController', VehicleMileageController);
 
-VehicleMileageController.$inject = ['API_Data', '$rootScope'];
+VehicleMileageController.$inject = ['API_Data', '$rootScope', '$http'];
 
-function VehicleMileageController(API_Data, $rootScope){ 
+function VehicleMileageController(API_Data, $rootScope, $http){ 
     var vm = this;
     vm.loaded = false;
     vm.search_active = false;
@@ -15,6 +15,7 @@ function VehicleMileageController(API_Data, $rootScope){
     vm.get_mileage = get_mileage;
     vm.export_data = export_data;
     vm.per_page = 10;
+    vm.fuel_manage=null
     
     function export_data(){
         vm.per_page = vm.all_car.cars.length;
@@ -80,6 +81,7 @@ function VehicleMileageController(API_Data, $rootScope){
                     vm.all_car.cars[i].data = []
                     vm.all_car.cars[i].data = res.data
                     vm.all_car.cars[i].plate_number = vm.carid.cars[i].carNO
+                    vm.all_car.cars[i].carID = vm.carid.cars[i].carID
                     vm.all_car.cars[i].group = vm.group_selected.group
                     get_car(i+1)
                     if (requests == 0) full_details();
@@ -123,11 +125,19 @@ function VehicleMileageController(API_Data, $rootScope){
                     journey_time += Math.floor((diff/1000)/60);                    
                 }
             }
+            if(vm.fuel_manage){
+                for(var l = 0; l < vm.fuel_manage.length; l++){
+                    if(vm.fuel_manage[l].carID.toString() === vm.all_car.cars[i].carID.toString()){
+                       vm.all_car.cars[i].fuel_cal = vm.fuel_manage[l].tank_volume/vm.fuel_manage[l].max_resistance;
+                    }
+                }
+            }
             if(typeof data.data[0] !== 'undefined'){
                 vm.all_car.cars[i].total_mileage = last_array_mileage - data.data[0].mileage;
             } 
             vm.all_car.cars[i].average_speed = total_speed_add / array_length;
             vm.all_car.cars[i].total_fuel = total_fuel_add;
+            vm.all_car.cars[i].fuel_cal = vm.all_car.cars[i].fuel_cal;
             vm.all_car.cars[i].max_speed = max_speed;
             vm.all_car.cars[i].journey_time = journey_time;     
             vm.search_active = false      
@@ -198,6 +208,10 @@ function VehicleMileageController(API_Data, $rootScope){
     }   
     
     angular.element(document).ready(function () {
+        $http.get('/api/fuel_managements')
+        .success(function(result){
+            vm.fuel_manage = result.response
+        })
         checkFlag();
     });
 }

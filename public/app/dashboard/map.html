@@ -95,8 +95,14 @@
                         <div class="col s3">Fuel</div>
                         <div class="col s1">:</div>
                         <div class="col s8">
-                            <b>
+                            <b ng-if="vm.car_details_full.data[0].fuel && vm.car_details_full.data[0].fuel_cal">
+                                {{vm.car_details_full.data[0].fuel * vm.car_details_full.data[0].fuel_cal}} 
+                            </b>
+                            <b ng-if="vm.car_details_full.data[0].fuel && !vm.car_details_full.data[0].fuel_cal">
                                 {{vm.car_details_full.data[0].fuel}} 
+                            </b>
+                            <b ng-if="!vm.car_details_full.data[0].fuel">
+                                Not Indicated
                             </b>
                         </div>
                     </div>

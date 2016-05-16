@@ -4,7 +4,7 @@ module.exports = function (connection) {
         Schema      = mongoose.Schema;
 
   	var fuel_management = new mongoose.Schema({
-        carid           : String,
+        carID           : String,
 		max_resistance 	: Number,
 		tank_volume  	: Number,
 		created_date  	: { type : Date, default: Date.now }

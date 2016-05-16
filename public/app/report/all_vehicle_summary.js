@@ -138,7 +138,8 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state, 
                     } 
                     if(vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
                         if(a !== 0){
-                            total_travel += Math.abs(vm.all_car.cars[i].data[a].gpsTime - vm.all_car.cars[i].data[a-1].gpsTime) / 36e5;
+                            var diff= Math.abs(vm.all_car.cars[i].data[a].gpsTime - vm.all_car.cars[i].data[a-1].gpsTime)
+                            total_travel += Math.floor((diff/1000)/60);
                         }
                     }                
                     // if(a === 0){
@@ -185,8 +186,7 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state, 
                 vm.all_car.cars[i].refuel = refuel*fuel_cal;                   
                 vm.all_car.cars[i].idle_record = idle_record;
                 if(fuel !== 0){
-                    console.log((vm.all_car.cars[i].data[card_record_length - 1].mileage - vm.all_car.cars[i].data[0].mileage)/fuel)
-                    vm.all_car.cars[i].kl_l = (vm.all_car.cars[i].data[card_record_length - 1].mileage - vm.all_car.cars[i].data[0].mileage)/fuel*fuel_cal;
+                    vm.all_car.cars[i].kl_l = (vm.all_car.cars[i].data[card_record_length - 1].mileage - vm.all_car.cars[i].data[0].mileage)/vm.all_car.cars[i].fuel_used;
                 }else{
                     vm.all_car.cars[i].kl_l = 0;
                 }

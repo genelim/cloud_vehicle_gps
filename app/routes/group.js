@@ -53,7 +53,6 @@ exports.user_savegroups = function (req, res){
         'can_car_edit'  : req.body.can_car_edit,
         'can_car_del'   : req.body.can_car_del
     };
-    console.log(postData)
     request.post({url : 'http://ctserver.dyndns.org:91/datalist.aspx?action=user_savegroups', formData : postData}, function(err,httpResponse,body){ 
         if(err){
             res.json({response: "Server Error"})

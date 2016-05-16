@@ -3,11 +3,12 @@ module.exports = function (connection) {
   	var mongoose    = require('mongoose'),
         Schema      = mongoose.Schema;
 
-  	var refuel = new mongoose.Schema({
-		cost 	: Number,
-		user  	: String,
+  	var fuel_management = new mongoose.Schema({
+        carid           : String,
+		max_resistance 	: Number,
+		tank_volume  	: Number,
 		created_date  	: { type : Date, default: Date.now }
 	});
     
-  	return connection.model('Refuel', refuel);
+  	return connection.model('Fuel_Management', fuel_management);
 }

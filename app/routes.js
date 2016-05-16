@@ -4,6 +4,7 @@ var vehicle = require('./routes/vehicle'),
     user = require('./routes/user'),
     refuel = require('./routes/refuel'),
     group = require('./routes/group'),
+    fuel_management = require('./routes/fuel_management'),
     passport = require('passport');
 
 module.exports = function(app) {
@@ -30,7 +31,11 @@ module.exports = function(app) {
     
     //Refuel Cost
     app.post('/api/refuel', refuel.save);    
-    app.get('/api/refuel', refuel.get);    
+    app.get('/api/refuel', refuel.get);  
+    
+    //Fuel management
+    app.post('/api/fuel_management', fuel_management.save_update);    
+    app.get('/api/fuel_management', fuel_management.get);    
     
     //Server's API
     app.post('/api/gps_getpos', vehicle.gps_getpos)

@@ -36,7 +36,13 @@ function AdminVehiclesController($http, API_Data, $rootScope){
     vm.car_group = car_group; 
     vm.register_car = register_car; 
     vm.group_car_change = group_car_change; 
+    vm.fuel_car_change = fuel_car_change;
+    vm.fuel_modal = fuel_modal
     vm.car = null;
+    
+    function fuel_car_change(){
+        console.log(vm.car)
+    }
     
     function group_car_change(){
         vm.car.groupid = vm.car.groupid.id
@@ -110,6 +116,13 @@ function AdminVehiclesController($http, API_Data, $rootScope){
             vm.car = null;                       
         })
     }
+    
+    function fuel_modal(car){
+        $('#car_fuel_modal').openModal();        
+        vm.car = car
+        vm.car.overServiceTime = new Date(vm.car.overServiceTime)
+    }
+    
     function add_modal(){
         vm.car = null;
         $('#car_add').openModal();
@@ -144,7 +157,6 @@ function AdminVehiclesController($http, API_Data, $rootScope){
                     }
                     
                     function car_list(i) {
-                        console.log(vm.groups.length)
                         if( i < vm.groups.length ) {
                             requestsss++;
                             API_Data.cars_list(vm.groups[i].id).then(function(result){
@@ -246,7 +258,6 @@ function AdminVehiclesController($http, API_Data, $rootScope){
                     
                 }
             }
-            console.log(vm.car_details_full)
         }
     }
 }

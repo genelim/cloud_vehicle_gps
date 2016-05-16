@@ -95,7 +95,6 @@ function HomeListController($rootScope, $http, API_Data, $state){
                     }
                     
                     function completed_loaded(){
-                        console.log(vm.groups.length)
                         if(vm.groups.length){
                             vm.cars = {data : vm.groups};
                             //special requests
@@ -144,7 +143,6 @@ function HomeListController($rootScope, $http, API_Data, $state){
                 API_Data.gps_getpos(vm.total_user_vehicle[i].carID).then(function(result){
                     requests--;
                     var a = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"))
-                    console.log(a)
                     if(vm.car_details.length < vm.total_user_vehicle.length){
                         vm.car_details.push(JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1")))      
                     }
@@ -209,7 +207,6 @@ function HomeListController($rootScope, $http, API_Data, $state){
                     
                 }
             }
-            console.log(vm.car_details_full)
         }
     }
     

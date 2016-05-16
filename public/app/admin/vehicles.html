@@ -89,7 +89,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="btn z-depth-0 blue lighten-1" ng-click="vm.user_view_modal(user)">
+                                    <a class="btn z-depth-0 blue lighten-1" ng-click="vm.fuel_modal(car.data[0])">
                                         <i class="fa fa-battery-full"></i>
                                     </a>
                                 </td>
@@ -375,6 +375,29 @@
             </div>
             <div class="row center">
                 <button class="btn" ng-click="vm.group_car_change()">Change Group</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="car_fuel_modal" class="modal">
+    <div class="modal-content">
+        <div>
+            <div class="center">
+                <p class="flow-text">Update Fuel Vehicle</p>
+            </div>
+            <div class="row">
+                <div class="col l12 s12 input-field">                                    
+                    <input id="new-fuel-resistance" type="text" ng-model="vm.car.resistance">
+                    <label for="new-fuel-resistance" class="active">Maximum Resistance</label>
+                </div>
+                <div class="col l12 s12 input-field">                                    
+                    <input id="new-fuel-volume" type="text" ng-model="vm.car.volume">
+                    <label for="new-fuel-volume" class="active">Tank Volume</label>
+                </div>
+            </div>
+            <div class="row center">
+                <button class="btn" ng-click="vm.fuel_car_change()">Change Group</button>
             </div>
         </div>
     </div>

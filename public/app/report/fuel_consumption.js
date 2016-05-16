@@ -96,7 +96,10 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){
                     }else{
                         if(base_fuel !== res.data[i].fuel){
                             if(base_fuel > res.data[i].fuel){
+                                console.log(base_fuel, res.data[i].fuel)
+                                console.log(base_fuel - res.data[i].fuel)
                                 fuel_consumption += base_fuel - res.data[i].fuel
+                                base_fuel = res.data[i].fuel;
                             }
                         }
                     }
@@ -109,14 +112,14 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){
                     "dataProvider": chartData,
                     "valueAxes": [{
                         "position": "left",
-                        "title": "Speed"
+                        "title": "Fuel"
                     }],
                     "mouseWheelZoomEnabled": true,
                     "graphs": [{
                         "id": "g1",
                         "fillAlphas": 0.4,
                         "valueField": "visits",
-                        "balloonText": "<div style='margin:5px; font-size:19px;'>Speed:<b>[[value]]</b></div>"
+                        "balloonText": "<div style='margin:5px; font-size:19px;'>Fuel:<b>[[value]]</b></div>"
                     }],
                     "chartScrollbar": {
                         "graph": "g1",
@@ -178,13 +181,14 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){
         var chartData = [];
         var firstDate = new Date();
         firstDate.setDate(firstDate.getDate() - 5);
-
-        for (var i = 0; i < vm.data[0].length; i++) {
+        console.log(vm.data)
+        for (var i = 0; i < vm.data[1].length; i++) {
+            console.log(vm.data[1][i])
             var newDate = new Date(vm.labels[i]);
             newDate.setMinutes(newDate.getMinutes());
             chartData.push({
                 date:newDate,
-                visits: vm.data[0][i]
+                visits: vm.data[1][i]
             });
         }
         return chartData;

@@ -81,8 +81,10 @@
                         <td>{{records.fuel}}</td>
                         <td>{{records.temperature}}</td>
                         <td>{{records.speed}}</td>
-                        <td>{{records.status}}</td>
-                        <td>{{records.mileage}}</td>
+                        <td ng-if='records.status.indexOf("ACC off") > -1'>OFF</td>
+                        <td ng-if="records.status.indexOf('ACC off') === -1">ON</td> 
+                        <!--<td>{{records.status}}</td>-->
+                        <td>{{records.mileage | number: 2}}</td>
                         <td>{{records.address}}</td>
                     </tr>
                 </tbody>

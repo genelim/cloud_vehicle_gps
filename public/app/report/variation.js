@@ -125,7 +125,8 @@ function VariationController(API_Data, $rootScope, $state, $http, $timeout){
         var base_fuel = 0;
         var refuel = 0;
         for(var i = 0; i < res.data.length; i++){
-            if(res.data[i].fuel > base_fuel){
+            if(i === 0){
+            }else if(res.data[i].fuel > base_fuel){
                 refuel += res.data[i].fuel - base_fuel;
             }else if(refuel > 0){
                 res.data[i].refuel = refuel;
@@ -134,8 +135,7 @@ function VariationController(API_Data, $rootScope, $state, $http, $timeout){
             base_fuel = res.data[i].fuel
         }
         vm.variation_full.data = [];
-        console.log(res)
-        for(var i = 0; i > res.data.length; i++){
+        for(var i = 0; i < res.data.length; i++){
             if(typeof res.data[i].refuel !== 'undefined'){
                 vm.variation_full.data.push(res.data[i])
             }

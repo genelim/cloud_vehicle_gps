@@ -2,9 +2,9 @@ angular
     .module('app')
     .run(runBlock);
 
-runBlock.$inject = ['$rootScope', 'Auth', 'API_Data'];
+runBlock.$inject = ['$rootScope', 'Auth', 'API_Data', '$state'];
 
-function runBlock($rootScope, Auth, API_Data){ 
+function runBlock($rootScope, Auth, API_Data, $state){ 
     $rootScope.user = null; 
     $rootScope.user_type = 0;
     $rootScope.admin_page = false;
@@ -42,13 +42,13 @@ function runBlock($rootScope, Auth, API_Data){
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         
                         if(isEmpty(current_idle[i])){
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 if(res.data[0].speed === 0){
                                     current_idle[i] = res.data[0]
                                 }
                             }
                         }else{                            
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 if(res.data[0].speed === 0){
                                     var minute = res.data[0].gpsTime - current_idle[i].gpsTime;
                                     minute = Math.round(((minute % 86400000) % 3600000) / 60000)
@@ -96,11 +96,11 @@ function runBlock($rootScope, Auth, API_Data){
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         
                         if(isEmpty(breaking[i])){
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 breaking[i] = res.data[0]
                             }
                         }else{                         
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 difspeed = res.data[0].speed - breaking[i].speed
                                 var minute = res.data[0].gpsTime - breaking[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
@@ -143,11 +143,11 @@ function runBlock($rootScope, Auth, API_Data){
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         
                         if(isEmpty(fuel_check[i])){
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 fuel_check[i] = res.data[0]
                             }
                         }else{                         
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 difspeed = res.data[0].fuel - fuel_check[i].fuel
                                 var minute = res.data[0].gpsTime - fuel_check[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
@@ -186,13 +186,13 @@ function runBlock($rootScope, Auth, API_Data){
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
                         
                         if(isEmpty(current_speed[i])){
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 if(res.data[0].speed !== 0){
                                     current_speed[i] = res.data[0]
                                 }
                             }
                         }else{                            
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 if(res.data[0].speed !== 0){
                                     if(res.data[0].speed > 100){
                                         if(typeof current_speed[i].speedy !== 'undefined'){
@@ -245,12 +245,12 @@ function runBlock($rootScope, Auth, API_Data){
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)                        
                         if(isEmpty(fatigue_check[i])){
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 fatigue_check[i] = res.data[0]
                                 fatigue_check[i].fatigue = 0;
                             }
                         }else{                      
-                            if(res.data[0].status !== 'ACC off' && res.data[0].status !== null){
+                            if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 difspeed = res.data[0].speed - fuel_check[i].speed                          
                                 var minute = res.data[0].gpsTime - fatigue_check[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)

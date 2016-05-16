@@ -48,7 +48,7 @@
     <div class="col s12 m12 l12 menuseperator" ng-if="vm.fuel_data_full.plate_number">
         <p class="col s12 m12 l3">Plate NO: <b>{{vm.fuel_data_full.plate_number.carNO}}</b></p>
         <p class="col s12 m12 l3">Total Milleage: 
-            <b ng-if="vm.fuel_data_full.total_mileage">{{vm.fuel_data_full.total_mileage}}</b>
+            <b ng-if="vm.fuel_data_full.total_mileage">{{vm.fuel_data_full.total_mileage | number: 3}}</b>
             <b ng-if="!vm.fuel_data_full.total_mileage">0</b>
         </p>
         <p class="col s12 m12 l3">Total Consumption: 

@@ -177,7 +177,7 @@ function IdleController($rootScope, $http, API_Data, $timeout){
                 //false is first move, so from the true to false is the hours of idle when the status is ON
                 var start = true;
                 for(var i = 0; i < res.data.length; i++){
-                    if(res.data[i].speed === 0 && res.data[i].status !== 'ACC off'){
+                    if(res.data[i].speed === 0 && res.data[i].status.indexOf("ACC off") < 0){
                         if(start == true){
                             vm.idle.push(res.data[i])   
                             start = false;
@@ -193,10 +193,12 @@ function IdleController($rootScope, $http, API_Data, $timeout){
                     if(isOdd(i)){
                         vm.idle[i-1].end_date = vm.idle[i].gpsTime
                         vm.idle[i-1].total_hours =  Math.abs(vm.idle[i].gpsTime - vm.idle[i-1].gpsTime) / 36e5;
+                        vm.idle[i-1].idle_litre =  vm.idle[i-1].fuel - vm.idle[i].fuel
                     }else if(i === (vm.idle.length - 1)){
                         if(!isOdd(i)){
                             vm.idle[i].end_date = new Date()
                             vm.idle[i].total_hours =  Math.abs(vm.idle[i].end_date - vm.idle[i].gpsTime) / 36e5;
+                            vm.idle[i].idle_litre =  vm.idle[i-1].fuel - vm.idle[i].fuel
                         }
                     }
                 }    

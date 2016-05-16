@@ -58,7 +58,7 @@
                         <td>{{mileage.plate_number}}</td>
                         <td>{{mileage.journey_time | number:2}} hours</td>
                         <td>
-                            <span ng-if="mileage.total_mileage">{{mileage.total_mileage}}</span>
+                            <span ng-if="mileage.total_mileage">{{mileage.total_mileage | number: 2}}</span>
                             <span ng-if="!mileage.total_mileage">0</span>
                         </td>
                         <td>

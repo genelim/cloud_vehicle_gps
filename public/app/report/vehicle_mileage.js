@@ -90,11 +90,11 @@ function VehicleMileageController(API_Data, $rootScope){
     }
     
     function full_details(){
-        console.log(vm.all_car)
         for(var i = 0; i < vm.all_car.cars.length; i++){
             var data = vm.all_car.cars[i];
             var last_array_mileage = 0;
             var total_speed_add = 0;
+            var current_fuel = null;
             var total_fuel_add = 0;
             var array_length = data.data.length;
             var max_speed = null
@@ -104,11 +104,19 @@ function VehicleMileageController(API_Data, $rootScope){
                     last_array_mileage = data.data[a].mileage
                 }      
                 total_speed_add += data.data[a].speed;            
-                total_fuel_add += data.data[a].fuel;  
                 if(max_speed === null){
                     max_speed = data.data[a].speed
                 }else if(data.data[a].speed > max_speed){
                     max_speed = data.data[a].speed;
+                } 
+                if(current_fuel === null){
+                    current_fuel = data.data[a].fuel
+                }else if(data.data[a].fuel < current_fuel){
+                    console.log(current_fuel - data.data[a].fuel)
+                    total_fuel_add += (current_fuel - data.data[a].fuel);  
+                    current_fuel = data.data[a].fuel
+                }else{
+                    current_fuel = data.data[a].fuel
                 }          
                 if(data.data[a].status !== 'ACC off' && a !== 0){
                     journey_time += Math.abs(data.data[a].gpsTime - data.data[a-1].gpsTime) / 36e5;

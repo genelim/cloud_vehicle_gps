@@ -147,25 +147,25 @@ function DrivingRecordsController($rootScope, API_Data, $http, $timeout){
                     if((Math.abs(vm.driving_records.data[i].gpsTime - dif_minutes_data) / 36e5*60) > vm.interval){
                         dif_minutes_data = vm.driving_records.data[i].gpsTime
                         if(vm.status){
-                            if(vm.driving_records.data[i].status !== 'ACC off'){
+                            if(vm.driving_records.data[i].status.indexOf("ACC off") < 0){
                                 vm.driving_records_full.data.push(vm.driving_records.data[i])
                             }
                         }else{
                             //
                                 vm.driving_records_full.data.push(vm.driving_records.data[i])
-                            if(vm.driving_records.data[i].status === 'ACC off'){
+                            if(vm.driving_records.data[i].status.indexOf("ACC off") > -1){
                             }
                         } 
                     }
                 }
             }else if(vm.status){
-                if(vm.driving_records.data[i].status !== 'ACC off'){
+                if(vm.driving_records.data[i].status.indexOf("ACC off") < 0){
                     vm.driving_records_full.data.push(vm.driving_records.data[i])
                 }
             }else{
                 //
                     vm.driving_records_full.data.push(vm.driving_records.data[i])
-                if(vm.driving_records.data[i].status === 'ACC off'){
+                if(vm.driving_records.data[i].status.indexOf("ACC off") > -1){
                 }
             } 
         }

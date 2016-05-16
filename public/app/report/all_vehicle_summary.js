@@ -104,43 +104,50 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                 var total_travel = 0;
                 for(var a = 0; a < card_record_length; a++){
                     if(a === 0){
-                        base_refuel = false;
-                        base_fuel = vm.all_car.cars[i].data[a].fuel 
+                        
+                    }else  if(vm.all_car.cars[i].data[a].fuel > base_fuel){
+                        refuel += vm.all_car.cars[i].data[a].fuel - base_fuel
                     }else if(vm.all_car.cars[i].data[a].fuel < base_fuel){
-                        base_refuel = false;
-                        fuel += base_fuel - vm.all_car.cars[i].data[a].fuel;
-                        base_fuel = vm.all_car.cars[i].data[a].fuel;                    
-                    }else if(vm.all_car.cars[i].data[a].fuel > base_fuel){
-                        if(!base_refuel){
-                            refuel += 1
-                        }
-                        base_refuel = true;
-                        base_fuel = vm.all_car.cars[i].data[a].fuel;  
-                    }
-                    if(vm.all_car.cars[i].data[a].fuel < base_fuel){
-                        fuel += base_fuel - vm.all_car.cars[i].data[a].fuel;
+                        fuel += vm.all_car.cars[i].data[a].fuel                        
                     }
                     base_fuel = vm.all_car.cars[i].data[a].fuel;  
-                    if(vm.all_car.cars[i].data[a].speed === 0 && vm.all_car.cars[i].data[a].status !== 'ACC off'){
-                        if(start == true){
-                            idle_record.push(vm.all_car.cars[i].data[a])   
-                            start = false;
-                        }
-                    }else{
-                        if(start === false){
-                            idle_record.push(vm.all_car.cars[i].data[a])  
-                            start = true;
-                        }
-                    } 
-                    if(vm.all_car.cars[i].data[a].status !== 'ACC off'){
-                        if(a !== 0){
-                            total_travel += Math.abs(vm.all_car.cars[i].data[a].gpsTime - vm.all_car.cars[i].data[a-1].gpsTime) / 36e5;
-                        }
-                    }                
+                    // if(a === 0){
+                    //     base_refuel = false;
+                    //     base_fuel = vm.all_car.cars[i].data[a].fuel 
+                    // }else if(vm.all_car.cars[i].data[a].fuel < base_fuel){
+                    //     base_refuel = false;
+                    //     fuel += base_fuel - vm.all_car.cars[i].data[a].fuel;
+                    //     base_fuel = vm.all_car.cars[i].data[a].fuel;                    
+                    // }else if(vm.all_car.cars[i].data[a].fuel > base_fuel){
+                    //     if(!base_refuel){
+                    //         refuel += vm.all_car.cars[i].data[a].fuel - base_fuel;
+                    //     }
+                    //     base_refuel = true;
+                    //     base_fuel = vm.all_car.cars[i].data[a].fuel;  
+                    // }
+                    // if(vm.all_car.cars[i].data[a].fuel < base_fuel){
+                    //     fuel += base_fuel - vm.all_car.cars[i].data[a].fuel;
+                    // }
+                    // base_fuel = vm.all_car.cars[i].data[a].fuel;  
+                    // if(vm.all_car.cars[i].data[a].speed === 0 && vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
+                    //     if(start == true){
+                    //         idle_record.push(vm.all_car.cars[i].data[a])   
+                    //         start = false;
+                    //     }
+                    // }else{
+                    //     if(start === false){
+                    //         idle_record.push(vm.all_car.cars[i].data[a])  
+                    //         start = true;
+                    //     }
+                    // } 
+                    // if(vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
+                    //     if(a !== 0){
+                    //         total_travel += Math.abs(vm.all_car.cars[i].data[a].gpsTime - vm.all_car.cars[i].data[a-1].gpsTime) / 36e5;
+                    //     }
+                    // }                
                 }
                 vm.all_car.cars[i].fuel_used = fuel;
                 vm.all_car.cars[i].total_travel = total_travel;
-                console.log()
                 if(vm.all_car.cars[i].data.length){
                     vm.all_car.cars[i].carid = vm.all_car.cars[i].data[0].carID;
                 }

@@ -46,7 +46,7 @@
     <div id="exportable">
         <div class="col l12" ng-if="vm.variation_full.data.length">
             <table>
-                <thead>
+                <thead class="tablehead">
                     <tr>
                         <td bgcolor='#51BAF7'>Date Time</td>
                         <td bgcolor='#51BAF7'>Refuel (L) Software generated data</td>
@@ -68,6 +68,13 @@
     <p ng-if="!vm.variation_full.data.length && vm.variation_full.plate_number" style="text-align: center; font-weight:bold">No Records</p>
 </div>
     <div class="divider"></div>
+    <div class="row"  ng-if="vm.variation_full.data.length">
+        <dir-pagination-controls class="pagination" style="margin: 0 auto;    text-align: center;"
+            max-size="7"
+            direction-links="true"
+            boundary-links="true" >
+            </dir-pagination-controls>
+    </div>
     <div class="row" style="text-align:center; padding-top:10em;">
         <div class="preloader-wrapper medium active" ng-if="vm.search_active || !vm.loaded">
             <div class="spinner-layer spinner-blue">

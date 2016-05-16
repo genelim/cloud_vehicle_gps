@@ -2,9 +2,9 @@ angular
     .module('app')
     .run(runBlock);
 
-runBlock.$inject = ['$rootScope', 'Auth', 'API_Data', '$state'];
+runBlock.$inject = ['$rootScope', 'Auth', 'API_Data', '$state', '$http'];
 
-function runBlock($rootScope, Auth, API_Data, $state){ 
+function runBlock($rootScope, Auth, API_Data, $state, $http){ 
     $rootScope.user = null; 
     $rootScope.user_type = 0;
     $rootScope.admin_page = false;
@@ -16,6 +16,12 @@ function runBlock($rootScope, Auth, API_Data, $state){
     var  cars = [];
     var group = []
     var carid = []
+    var fuel_manage = null;
+    
+    $http.get('/api/fuel_managements')
+    .success(function(result){
+         fuel_manage = result.response
+    })
     Auth.then(function(data){
         if(data === false){
             $rootScope.user =false;
@@ -141,18 +147,26 @@ function runBlock($rootScope, Auth, API_Data, $state){
                     //     requests--;
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
-                        
+                            console.log(fuel_manage)
+                        if(fuel_manage){
+                            for(var l = 0; l < fuel_manage.length; l++){
+                                if(fuel_manage[l].carID.toString() === res.data[0].carID.toString()){
+                                     res.data[0].fuel_cal = fuel_manage[l].tank_volume/fuel_manage[l].max_resistance
+                                }
+                            }
+                        }  
                         if(isEmpty(fuel_check[i])){
                             if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
                                 fuel_check[i] = res.data[0]
                             }
                         }else{                         
                             if(res.data[0].status.indexOf("ACC off") < 0 && res.data[0].status !== null){
-                                difspeed = res.data[0].fuel - fuel_check[i].fuel
+                                diffuel = res.data[0].fuel*res.data[0].fuel_cal - fuel_check[i].fuel*res.data[0].fuel_cal
+                                console.log(diffuel)
                                 var minute = res.data[0].gpsTime - fuel_check[i].gpsTime;
                                 minute = Math.round(((minute % 86400000) % 3600000) / 60000)
                                 if(minute > 1){
-                                    if(difspeed > 100){
+                                    if(diffuel > 100){
                                         fuel_check[i] = res.data[0]
                                         var car_plate = null;
                                         for(var i = 0; i < group.length; i++){

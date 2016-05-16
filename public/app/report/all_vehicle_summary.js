@@ -107,10 +107,26 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                         
                     }else  if(vm.all_car.cars[i].data[a].fuel > base_fuel){
                         refuel += vm.all_car.cars[i].data[a].fuel - base_fuel
-                    }else if(vm.all_car.cars[i].data[a].fuel < base_fuel){
-                        fuel += vm.all_car.cars[i].data[a].fuel                        
+                    }else if(base_fuel > vm.all_car.cars[i].data[a].fuel){
+                        fuel += base_fuel - vm.all_car.cars[i].data[a].fuel
                     }
                     base_fuel = vm.all_car.cars[i].data[a].fuel;  
+                    if(vm.all_car.cars[i].data[a].speed === 0 && vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
+                        if(start == true){
+                            idle_record.push(vm.all_car.cars[i].data[a])   
+                            start = false;
+                        }
+                    }else{
+                        if(start === false){
+                            idle_record.push(vm.all_car.cars[i].data[a])  
+                            start = true;
+                        }
+                    } 
+                    if(vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
+                        if(a !== 0){
+                            total_travel += Math.abs(vm.all_car.cars[i].data[a].gpsTime - vm.all_car.cars[i].data[a-1].gpsTime) / 36e5;
+                        }
+                    }                
                     // if(a === 0){
                     //     base_refuel = false;
                     //     base_fuel = vm.all_car.cars[i].data[a].fuel 
@@ -129,22 +145,23 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                     //     fuel += base_fuel - vm.all_car.cars[i].data[a].fuel;
                     // }
                     // base_fuel = vm.all_car.cars[i].data[a].fuel;  
-                    // if(vm.all_car.cars[i].data[a].speed === 0 && vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
-                    //     if(start == true){
-                    //         idle_record.push(vm.all_car.cars[i].data[a])   
-                    //         start = false;
-                    //     }
-                    // }else{
-                    //     if(start === false){
-                    //         idle_record.push(vm.all_car.cars[i].data[a])  
-                    //         start = true;
-                    //     }
-                    // } 
-                    // if(vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
-                    //     if(a !== 0){
-                    //         total_travel += Math.abs(vm.all_car.cars[i].data[a].gpsTime - vm.all_car.cars[i].data[a-1].gpsTime) / 36e5;
-                    //     }
-                    // }                
+                    if(vm.all_car.cars[i].data[a].speed === 0 && vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
+                        if(start == true){
+                            idle_record.push(vm.all_car.cars[i].data[a])   
+                            start = false;
+                        }
+                    }else{
+                        if(start === false){
+                            idle_record.push(vm.all_car.cars[i].data[a])  
+                            start = true;
+                        }
+                    } 
+                    if(vm.all_car.cars[i].data[a].status.indexOf("ACC off") < 0){
+                        if(a !== 0){
+                            var diff = Math.abs(vm.all_car.cars[i].data[a].gpsTime - vm.all_car.cars[i].data[a-1].gpsTime)
+                            total_travel += Math.floor((diff/1000)/60);
+                        }
+                    }                
                 }
                 vm.all_car.cars[i].fuel_used = fuel;
                 vm.all_car.cars[i].total_travel = total_travel;
@@ -154,6 +171,7 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                 vm.all_car.cars[i].refuel = refuel;
                 vm.all_car.cars[i].idle_record = idle_record;
                 if(fuel !== 0){
+                    console.log(vm.all_car.cars[i].data[card_record_length - 1].mileage - vm.all_car.cars[i].data[0].mileage)
                     vm.all_car.cars[i].kl_l = (vm.all_car.cars[i].data[card_record_length - 1].mileage - vm.all_car.cars[i].data[0].mileage)/fuel;
                 }else{
                     vm.all_car.cars[i].kl_l = 0;
@@ -164,7 +182,12 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                 for(var a = 0; a < vm.all_car.cars[i].data.length; a++){
                     for(var j = 0; j < vm.all_cost.length; j++){
                         var cur_date = new Date(vm.all_cost[j].created_date)
-                        if(cur_date > vm.all_car.cars[i].data.gpsTime){
+                        var dating = new Date(vm.all_car.cars[i].data.gpsTime)
+                        
+                        if(j === vm.all_cost.length-1){
+                            fuel_cost = vm.all_cost[j].cost;
+                            break;
+                        }else if(cur_date > dating){ 
                             if(j === 0){
                                 fuel_cost = vm.all_cost[j].cost;                                             
                             }else{
@@ -211,22 +234,27 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                     if(typeof vm.all_car.cars[i].idle_record !== 'undefined'){
                         for(var a = 0; a < vm.all_car.cars[i].idle_record.length; a++){
                             if(isOdd(a)){
-                                vm.all_car.cars[i].idle_record[a-1].end_date = vm.all_car.cars[i].idle_record[a].gpsTime;
-                                vm.all_car.cars[i].total_idle_fuel += vm.all_car.cars[i].idle_record[a-1].fuel - vm.all_car.cars[i].idle_record[a].fuel; 
-                                vm.all_car.cars[i].total_idle_hours +=  Math.abs(vm.all_car.cars[i].idle_record[a].gpsTime - vm.all_car.cars[i].idle_record[a-1].gpsTime) / 36e5;
-                                var idle_cost = 0
-                                for(var j = 0; j < vm.all_cost.length; j++){
-                                    var cur_date = new Date(vm.all_cost[j].created_date)
-                                    if(cur_date > vm.all_car.cars[i].idle_record[a].gpsTime){
-                                        if(j === 0){
-                                            idle_cost = vm.all_cost[j].cost;                                                
-                                        }else{
-                                            idle_cost = vm.all_cost[j - 1].cost;
+                                if(vm.all_car.cars[i].idle_record[a-1].fuel  > vm.all_car.cars[i].idle_record[a].fuel){
+                                    vm.all_car.cars[i].idle_record[a-1].end_date = vm.all_car.cars[i].idle_record[a].gpsTime;
+                                    vm.all_car.cars[i].total_idle_fuel += vm.all_car.cars[i].idle_record[a-1].fuel - vm.all_car.cars[i].idle_record[a].fuel; 
+                                    vm.all_car.cars[i].total_idle_hours +=  Math.abs(vm.all_car.cars[i].idle_record[a].gpsTime - vm.all_car.cars[i].idle_record[a-1].gpsTime) / 36e5;
+                                    var idle_cost = 0
+                                    for(var j = 0; j < vm.all_cost.length; j++){
+                                        var cur_date = new Date(vm.all_cost[j].created_date)
+                                        if(j === vm.all_cost.length-1){
+                                            idle_cost = vm.all_cost[j].cost;     
+                                            break;
+                                        }else if(cur_date > vm.all_car.cars[i].idle_record[a].gpsTime){
+                                            if(j === 0){
+                                                idle_cost = vm.all_cost[j].cost;                                                
+                                            }else{
+                                                idle_cost = vm.all_cost[j - 1].cost;
+                                            }
+                                            break;
                                         }
-                                        break;
                                     }
-                                }
-                                vm.all_car.cars[i].total_idle_cost += idle_cost*(vm.all_car.cars[i].idle_record[a-1].fuel - vm.all_car.cars[i].idle_record[a].fuel);
+                                    vm.all_car.cars[i].total_idle_cost += idle_cost*(vm.all_car.cars[i].idle_record[a-1].fuel - vm.all_car.cars[i].idle_record[a].fuel);
+                                }                                
                             }
                             if(a === (vm.all_car.cars[i].idle_record.length - 1)){
                                 if(!isOdd(a)){
@@ -234,14 +262,19 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                                     vm.all_car.cars[i].idle_record[a].end_date = new Date()
                                     for(var z = 0; z < current_update[0].data.length; z++){
                                         if(current_update[0].data[z].carID === vm.all_car.cars[i].carid){
-                                            vm.all_car.cars[i].total_idle_fuel += vm.all_car.cars[i].idle_record[a].fuel - current_update[0].data[z].fuel 
-                                            cur_fuel_used = vm.all_car.cars[i].idle_record[a].fuel - current_update[0].data[z].fuel 
+                                            if(vm.all_car.cars[i].idle_record[a].fuel > current_update[0].data[z].fuel ){
+                                                vm.all_car.cars[i].total_idle_fuel += vm.all_car.cars[i].idle_record[a].fuel - current_update[0].data[z].fuel 
+                                                cur_fuel_used = vm.all_car.cars[i].idle_record[a].fuel - current_update[0].data[z].fuel 
+                                            }                                            
                                         }
                                     }
                                     var idle_cost = 0
                                     for(var j = 0; j < vm.all_cost.length; j++){
                                         var cur_date = new Date(vm.all_cost[j].created_date)
-                                        if(cur_date > vm.all_car.cars[i].idle_record[a].gpsTime){
+                                        if(j === vm.all_cost.length-1){
+                                            idle_cost = vm.all_cost[j].cost;     
+                                            break;
+                                        }else if(cur_date > vm.all_car.cars[i].idle_record[a].gpsTime){
                                             if(j === 0){
                                                 idle_cost = vm.all_cost[j].cost;                                                
                                             }else{

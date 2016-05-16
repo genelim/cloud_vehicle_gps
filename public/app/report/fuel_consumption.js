@@ -91,18 +91,10 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout){
                     vm.labels.push(res.data[i].gpsTime)
                     vm.data[0].push(res.data[i].speed)
                     vm.data[1].push(res.data[i].fuel)
-                    if(i === 0){
-                        base_fuel = res.data[i].fuel;
-                    }else{
-                        if(base_fuel !== res.data[i].fuel){
-                            if(base_fuel > res.data[i].fuel){
-                                console.log(base_fuel, res.data[i].fuel)
-                                console.log(base_fuel - res.data[i].fuel)
-                                fuel_consumption += base_fuel - res.data[i].fuel
-                                base_fuel = res.data[i].fuel;
-                            }
-                        }
+                    if(base_fuel > res.data[i].fuel && i !== 0){
+                        fuel_consumption += base_fuel - res.data[i].fuel
                     }
+                    base_fuel = res.data[i].fuel;
                 }
                 var chartData = generateChartData();
                 var chart = AmCharts.makeChart("chartdiv", {

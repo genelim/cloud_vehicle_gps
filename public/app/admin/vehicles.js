@@ -111,6 +111,7 @@ function AdminVehiclesController($http, API_Data, $rootScope){
         })
     }
     function add_modal(){
+        vm.car = null;
         $('#car_add').openModal();
     }
     

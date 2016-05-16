@@ -45,12 +45,12 @@
                     </div>
                 </div>
                 <div class="row"  ng-if="vm.loaded">
-                    <div class="col s12 m12 l5">
+                    <div class="col s12 m12 l6">
                         <span>Vehicle Group: </span>
                         <select class="browser-default" ng-model="vm.group_selected" ng-options="group.group for group in vm.group" ng-change="vm.group_update()">
                         </select>
                     </div>
-                    <div class="col s10 10 l5">
+                    <div class="col s12 m12 l6">
                         <span>Plate NO: </span>
                         <div class="col s12 m12 l12">
                             <input  class='dropdown-button' data-beloworigin="true" href='#' data-activates='dropdown1' ng-model="vm.plate_number.carNO">
@@ -59,8 +59,8 @@
                             <li ng-repeat="car in vm.car_id | filter:vm.plate_number"  ng-click="vm.plate_number_select(car)"><a>{{car.carNO}}</a></li>
                         </ul>
                     </div>
-                    <div class="col s2"><button ng-click="vm.clear()" class="col l12 btn"><i class='fa fa-ban'></i></button></div>                    
-                    <div class="col <s></s>12">
+                    <div class="col s2 l2"><button ng-click="vm.clear()" class="col l12 btn"><i class='fa fa-ban'></i></button></div>                    
+                    <div class="col s10 l10">
                         <button class="btn col l12" ng-click="vm.get_map()">Search</button>
                     </div>
                 </div>

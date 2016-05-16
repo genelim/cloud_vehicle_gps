@@ -21,6 +21,7 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
     vm.marker = new google.maps.Marker(); 
     vm.car_details_full = null  
     vm.timer = null;
+    vm.clear = clear;
     
     angular.element(document).ready(function () {
         vm.loaded = false;
@@ -48,6 +49,10 @@ function HomeMapController($rootScope, $http, API_Data, $state, $timeout, $state
     function group_update(){
         vm.plate_number = null;
         vm.car_id = vm.group_selected.cars
+    }
+    
+    function clear(){
+        vm.plate_number = null;
     }
     
     function get_map(){  

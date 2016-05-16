@@ -67,7 +67,7 @@
                     <td  bgcolor='#51BAF7'>Date</td>
                     <td bgcolor='#51BAF7'>Time</td>
                     <td bgcolor='#51BAF7'>Fuel(L)</td>
-                    <td bgcolor='#51BAF7'>Temperature(℃)</td>
+                    <!--<td bgcolor='#51BAF7'>Temperature(℃)</td>-->
                     <td bgcolor='#51BAF7'>Speed</td>
                     <td bgcolor='#51BAF7'>ACC</td>
                     <td bgcolor='#51BAF7'>Mileage(Km)</td>
@@ -79,7 +79,7 @@
                         <td>{{records.gpsTime  | date : 'longDate'}}</td>
                         <td>{{records.gpsTime | date : 'HH:mm:ss'}}</td>
                         <td>{{records.fuel}}</td>
-                        <td>{{records.temperature}}</td>
+                        <!--<td>{{records.temperature}}</td>-->
                         <td>{{records.speed}}</td>
                         <td ng-if='records.status.indexOf("ACC off") > -1'>OFF</td>
                         <td ng-if="records.status.indexOf('ACC off') === -1">ON</td> 

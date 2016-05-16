@@ -45,7 +45,7 @@
                 <tr>
                     <td bgcolor='#51BAF7'>Group</td>
                     <td bgcolor='#51BAF7'>Plate NO</td>
-                    <td bgcolor='#51BAF7'>Journey time</td>
+                    <td bgcolor='#51BAF7'>Travelling time</td>
                     <td bgcolor='#51BAF7'>Total mileage(km)</td>
                     <td bgcolor='#51BAF7'>Average speed(km/h)</td>
                     <td bgcolor='#51BAF7'>Estimate fuel consumption(L)</td>
@@ -56,7 +56,7 @@
                     <tr dir-paginate="mileage  in vm.all_car.cars | itemsPerPage: vm.per_page">
                         <td>{{mileage.group}}</td>
                         <td>{{mileage.plate_number}}</td>
-                        <td>{{mileage.journey_time | number:2}} hours</td>
+                        <td>{{mileage.journey_time | number:0}} mins</td>
                         <td>
                             <span ng-if="mileage.total_mileage">{{mileage.total_mileage | number: 2}}</span>
                             <span ng-if="!mileage.total_mileage">0</span>

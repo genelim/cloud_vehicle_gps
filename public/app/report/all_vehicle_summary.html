@@ -35,7 +35,7 @@
     <div id="exportable">
         <div class="col l12" ng-if="vm.all_car_full.cars.length">
             <table>
-                <thead>
+                <thead class="tablehead">
                     <tr>
                         <td bgcolor='#51BAF7'>Username</td>
                         <td bgcolor='#51BAF7'>Plate No</td>
@@ -62,10 +62,10 @@
                         <td>{{summary.kl_l | number:3}}Km</td>
                         <td>{{summary.refuel}}</td>
                         <td>{{summary.refuel_cost | number:2}}</td>
-                        <td>{{summary.total_idle_hours | number:2}}</td>
+                        <td>{{summary.total_idle_hours | number:0}} mins</td>
                         <td>{{summary.total_idle_fuel}}</td>
                         <td>RM {{summary.total_idle_cost | number:2}}</td>
-                        <td>{{summary.total_travel | number:2}}</td>
+                        <td>{{summary.total_travel | number:0}} mins</td>
                     </tr>
                 </tbody>
             </table>

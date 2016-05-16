@@ -237,7 +237,8 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                                 if(vm.all_car.cars[i].idle_record[a-1].fuel  > vm.all_car.cars[i].idle_record[a].fuel){
                                     vm.all_car.cars[i].idle_record[a-1].end_date = vm.all_car.cars[i].idle_record[a].gpsTime;
                                     vm.all_car.cars[i].total_idle_fuel += vm.all_car.cars[i].idle_record[a-1].fuel - vm.all_car.cars[i].idle_record[a].fuel; 
-                                    vm.all_car.cars[i].total_idle_hours +=  Math.abs(vm.all_car.cars[i].idle_record[a].gpsTime - vm.all_car.cars[i].idle_record[a-1].gpsTime) / 36e5;
+                                    var diff=  Math.abs(vm.all_car.cars[i].idle_record[a].gpsTime - vm.all_car.cars[i].idle_record[a-1].gpsTime);
+                                    vm.all_car.cars[i].total_idle_hours += Math.floor((diff/1000)/60);
                                     var idle_cost = 0
                                     for(var j = 0; j < vm.all_cost.length; j++){
                                         var cur_date = new Date(vm.all_cost[j].created_date)
@@ -284,7 +285,8 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state){
                                         }
                                     }
                                     vm.all_car.cars[i].total_idle_cost += idle_cost*cur_fuel_used;
-                                    vm.all_car.cars[i].total_idle_hours +=  Math.abs(vm.all_car.cars[i].idle_record[a].end_date - vm.all_car.cars[i].idle_record[a].gpsTime) / 36e5;
+                                    var diff=  Math.abs(vm.all_car.cars[i].idle_record[a].gpsTime - vm.all_car.cars[i].idle_record[a-1].gpsTime);
+                                    vm.all_car.cars[i].total_idle_hours += Math.floor((diff/1000)/60);
                                 }
                             }
                         } 

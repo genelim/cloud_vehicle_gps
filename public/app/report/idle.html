@@ -90,7 +90,7 @@
                     <tr dir-paginate="idle in vm.idle | itemsPerPage: vm.per_page">
                         <td>{{idle.gpsTime  | date:'medium'}}</td>
                         <td>{{idle.end_date | date:'medium'}}</td>
-                        <td>{{idle.total_hours | number : 2}} hours</td>
+                        <td>{{idle.total_hours | number : 0}} mins</td>
                         <td>{{idle.idle_litre}}</td>
                         <!--<td>{{idle.lo}} , {{idle.la}}</td>-->
                         <td>{{idle.address}}</td>

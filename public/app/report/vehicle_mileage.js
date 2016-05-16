@@ -118,9 +118,9 @@ function VehicleMileageController(API_Data, $rootScope){
                 }else{
                     current_fuel = data.data[a].fuel
                 }          
-                if(data.data[a].status !== 'ACC off' && a !== 0){
-                    journey_time += Math.abs(data.data[a].gpsTime - data.data[a-1].gpsTime) / 36e5;
-                    
+                if(data.data[a].status.indexOf("ACC off") < 0 && a !== 0){
+                    var diff=  Math.abs(data.data[a].gpsTime - data.data[a-1].gpsTime)
+                    journey_time += Math.floor((diff/1000)/60);                    
                 }
             }
             if(typeof data.data[0] !== 'undefined'){

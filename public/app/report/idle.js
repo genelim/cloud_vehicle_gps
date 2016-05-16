@@ -192,12 +192,14 @@ function IdleController($rootScope, $http, API_Data, $timeout){
                 for(var i = 0; i < vm.idle.length; i++){
                     if(isOdd(i)){
                         vm.idle[i-1].end_date = vm.idle[i].gpsTime
-                        vm.idle[i-1].total_hours =  Math.abs(vm.idle[i].gpsTime - vm.idle[i-1].gpsTime) / 36e5;
+                        var diff=  Math.abs(vm.idle[i].gpsTime - vm.idle[i-1].gpsTime)
+                        vm.idle[i-1].total_hours = Math.floor((diff/1000)/60);
                         vm.idle[i-1].idle_litre =  vm.idle[i-1].fuel - vm.idle[i].fuel
                     }else if(i === (vm.idle.length - 1)){
                         if(!isOdd(i)){
                             vm.idle[i].end_date = new Date()
-                            vm.idle[i].total_hours =  Math.abs(vm.idle[i].end_date - vm.idle[i].gpsTime) / 36e5;
+                            var diff=  Math.abs(vm.idle[i].gpsTime - vm.idle[i-1].gpsTime)
+                            vm.idle[i-1].total_hours = Math.floor((diff/1000)/60);
                             vm.idle[i].idle_litre =  vm.idle[i-1].fuel - vm.idle[i].fuel
                         }
                     }

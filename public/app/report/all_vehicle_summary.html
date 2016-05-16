@@ -57,13 +57,13 @@
                             <span ng-if="!summary.driver">No Name</span>                        
                         </td>
                         <td>{{summary.plate_number}}</td>
-                        <td>{{summary.fuel_used}}</td>
+                        <td>{{summary.fuel_used | number: 2}}</td>
                         <td>RM {{summary.fuel_total_cost | number:2}}</td>
                         <td>{{summary.kl_l | number:3}}Km</td>
-                        <td>{{summary.refuel}}</td>
-                        <td>{{summary.refuel_cost | number:2}}</td>
+                        <td>{{summary.refuel | number:2}}</td>
+                        <td>RM {{summary.refuel_cost | number:2}}</td>
                         <td>{{summary.total_idle_hours | number:0}} mins</td>
-                        <td>{{summary.total_idle_fuel}}</td>
+                        <td>{{summary.total_idle_fuel | number: 2}}</td>
                         <td>RM {{summary.total_idle_cost | number:2}}</td>
                         <td>{{summary.total_travel | number:0}} mins</td>
                     </tr>

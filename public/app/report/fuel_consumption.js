@@ -103,7 +103,11 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout, $http
                     // vm.labels.push(hours + ' ' + minutes + ':' +seconds)
                     vm.labels.push(res.data[i].gpsTime)
                     vm.data[0].push(res.data[i].speed)
-                    vm.data[1].push((res.data[i].fuel*res.data[i].fuel_cal).toFixed(2))
+                    if(res.data[i].fuel_cal){
+                        vm.data[1].push((res.data[i].fuel*res.data[i].fuel_cal).toFixed(2))
+                    }else{
+                        vm.data[1].push((res.data[i].fuel).toFixed(2))
+                    }
                     if(base_fuel > res.data[i].fuel && i !== 0){
                         fuel_consumption += base_fuel - res.data[i].fuel
                     }

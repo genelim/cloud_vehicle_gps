@@ -52,7 +52,7 @@ function HomeController($http, $state, $rootScope, Auth, API_Data){
                         $rootScope.user = result2.data[0];
                         $rootScope.user_check = 1;
                         $('.dropdown-button').dropdown();                        
-                        window.location.href = 'http://localhost:90';
+                        window.location.href = 'http://cloudtruck.xyz';
                         // $state.go('dashboard');
                     }else{
                         $rootScope.user = null;

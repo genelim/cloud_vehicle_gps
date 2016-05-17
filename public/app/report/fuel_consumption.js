@@ -94,7 +94,7 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout, $http
                 vm.data[1] = [];
                 var base_fuel = 0;
                 var fuel_consumption = 0;
-                var fuel_cal = 0;
+                var fuel_cal = 1;
                 
                 for(var i = 0; i < res.data.length; i++){
                     // var hours = res.data[i].gpsTime.getHours()
@@ -188,9 +188,7 @@ function FuelConsumptionController($rootScope, API_Data, $scope, $timeout, $http
         var chartData = [];
         var firstDate = new Date();
         firstDate.setDate(firstDate.getDate() - 5);
-        console.log(vm.data)
         for (var i = 0; i < vm.data[1].length; i++) {
-            console.log(vm.data[1][i])
             var newDate = new Date(vm.labels[i]);
             newDate.setMinutes(newDate.getMinutes());
             chartData.push({

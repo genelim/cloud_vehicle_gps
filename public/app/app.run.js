@@ -144,10 +144,8 @@ function runBlock($rootScope, Auth, API_Data, $state, $http){
                 if( i < carid.length ) {
                     requests++;
                     API_Data.gps_getpos(carid[i].carID).then(function(result){
-                    //     requests--;
                         res = JSON.parse(result.data.response.replace(/new UtcDate\(([0-9]+)\)/gi, "$1"));
                         res.data[0].gpsTime = new Date(res.data[0].gpsTime_str)
-                            console.log(fuel_manage)
                         if(fuel_manage){
                             for(var l = 0; l < fuel_manage.length; l++){
                                 if(fuel_manage[l].carID.toString() === res.data[0].carID.toString()){

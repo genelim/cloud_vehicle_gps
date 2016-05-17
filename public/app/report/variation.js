@@ -142,7 +142,6 @@ function VariationController(API_Data, $rootScope, $state, $http, $timeout){
                 if(vm.fuel_manage){
                     for(var l = 0; l < vm.fuel_manage.length; l++){
                         if(vm.fuel_manage[l].carID.toString() === res.data[i].carID.toString()){
-                            console.log('in')
                             res.data[i].fuel_cal = vm.fuel_manage[l].tank_volume/vm.fuel_manage[l].max_resistance
                         }
                     }

@@ -64,7 +64,7 @@
                         <td>RM {{summary.refuel_cost | number:2}}</td>
                         <td>{{summary.total_idle_hours | number:0}} mins</td>
                         <td>{{summary.total_idle_fuel | number: 2}}</td>
-                        <td>RM {{summary.total_idle_cost | number:2}}</td>
+                        <td>RM {{summary.total_idle_fuel * summary.fuel_cost | number:2}}</td>
                         <td>{{summary.total_travel | number:0}} mins</td>
                     </tr>
                 </tbody>

@@ -114,7 +114,6 @@ function VehicleMileageController(API_Data, $rootScope, $http){
                 if(current_fuel === null){
                     current_fuel = data.data[a].fuel
                 }else if(data.data[a].fuel < current_fuel){
-                    console.log(current_fuel - data.data[a].fuel)
                     total_fuel_add += (current_fuel - data.data[a].fuel);  
                     current_fuel = data.data[a].fuel
                 }else{

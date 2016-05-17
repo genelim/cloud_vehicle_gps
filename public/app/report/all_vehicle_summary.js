@@ -194,20 +194,22 @@ function AllVehicleSummaryController(API_Data, $rootScope, Refuel_Cost, $state, 
             for(var i = 0; i < vm.all_car.cars.length; i++){
                 var fuel_cost = 0;
                 for(var a = 0; a < vm.all_car.cars[i].data.length; a++){
+                    var set = 0;
                     for(var j = 0; j < vm.all_cost.length; j++){
                         var cur_date = new Date(vm.all_cost[j].created_date)
-                        var dating = new Date(vm.all_car.cars[i].data.gpsTime)
-                        
-                        if(j === vm.all_cost.length-1){
-                            fuel_cost = vm.all_cost[j].cost;
-                            break;
-                        }else if(cur_date > dating){ 
-                            if(j === 0){
-                                fuel_cost = vm.all_cost[j].cost;                                             
+                        if(j !== vm.all_cost.length-1)
+                            var cur_date2 = new Date(vm.all_cost[j+1].created_date)
+                        var dating = new Date(vm.all_car.cars[i].data[a].gpsTime)
+                        if(cur_date < dating){ 
+                            if(j !== vm.all_cost.length-1){
+                                if(cur_date2 > dating){
+                                    fuel_cost = vm.all_cost[j].cost;  
+                                    break;                                                                                                                                               
+                                }
                             }else{
-                                fuel_cost = vm.all_cost[j - 1].cost;
+                                fuel_cost = vm.all_cost[j].cost;  
+                                break;
                             }
-                            break;
                         }
                     }
                 }
